@@ -1,0 +1,74 @@
+#!/bin/bash
+
+COLORS="$1"
+echo "${COLORS}"
+
+# remove file if exists ad link color file to Xresources file, reload Xresources
+# import variables from themes file
+setup()
+{
+	rm -f ~/.config/squash/generic/colors
+	ln ~/.config/squash/themes/${COLORS} ~/.config/squash/generic/colors
+	xrdb ~/.Xresources
+	. ~/.config/squash/config/${COLORS}.config
+}
+
+# get primary color from color config file
+#FOCUSED="$(xrdb -query | grep ${BACKGROUND} | cut -d ":" -f 2)"
+#FOCUSED_SHORT="$(echo -e "${FOCUSED}" | tr -d '[:space:]')"
+read_colors()
+{
+	FOCUSED_SHORT="$(xrdb -query | grep ${BACKGROUND} | cut -d ":" -f 2 | tr -d '[:space:]')"
+	echo "${FOCUSED_SHORT}"
+
+	NORMAL_SHORT="$(xrdb -query | grep ${ALTERNATE} | cut -d ":" -f 2 | tr -d '[:space:]')"
+	echo "${NORMAL_SHORT}"
+}
+
+# set bspwm border colors
+set_bspwm() 
+{
+	bspc config focused_border_color "${FOCUSED_SHORT}"
+	bspc config normal_border_color "${NORMAL_SHORT}"
+}
+
+# set openbox colors and reload
+set_openbox()
+{
+	writeob ${COLORS}
+	openbox --reconfigure
+}
+
+#easier to kill polybar here than in bspwmrc
+reload_polybar()
+{
+	pkill -x polybar
+}
+
+# don't write error outputs of bspwmrc to terminal
+reload_bspwmrc()
+{
+	bspwmrc > /dev/null 2>/dev/null &
+}
+
+# set background
+set_background() 
+{
+	nitrogen --set-tiled ~/wallpapers/${WALLPAPER}
+}
+
+
+main ()
+{
+	setup
+	set_colors
+	set_bspwm
+	set_openbox
+	reload_polybar
+	reload_bspwmrc
+	set_background
+
+
+}
+
+main "$@"
