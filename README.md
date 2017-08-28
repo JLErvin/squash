@@ -1,7 +1,7 @@
 # squash
 
 squash is a theme manager for unix systems. 
-It is desinged to manage and apply user-created themes on a variety of window managers and applications
+It is desinged to manage and apply user-created themes on a variety of window managers and applications.
 squash is not intended to be an automatic themer like `wal` - 
 instead it is desinged to save and quickly apply user-created themes. 
 
