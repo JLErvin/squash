@@ -17,5 +17,9 @@ if [ ! -d ~/.config/squash/generic ]; then
 	mkdir ~/.config/squash/generic
 fi
 
+if [ ! -d ~/.local/share/themes/generic/openbox-3 ]; then
+	mkdir ~/.local/share/themes/generic/openbox-3
+fi
+
 cp ~/squash/themes/* ~/.config/squash/themes/
 cp ~/squash/config/* ~/.config/squash/config/
