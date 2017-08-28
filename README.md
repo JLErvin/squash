@@ -5,6 +5,8 @@ It is desinged to manage and apply user-created themes on a variety of window ma
 squash is not intended to be an automatic themer like `wal` - 
 instead it is desinged to save and quickly apply user-created themes. 
 
+![Screenshot](http://i.imgur.com/GULkGbv.jpg)
+
 ## Install 
 
 `squash` can be installed using the following commands:
