@@ -67,6 +67,17 @@ To use with terminals such as rxvt-unicode, add the following to your .Xresource
 *color14:     bcyn  
 *color7:      wht  
 *color15:     bwht 
+
+! ------------------------------------------------------------------------------
+! ROFI Color theme
+! ------------------------------------------------------------------------------
+rofi.color-enabled: true
+rofi.color-window: bblk, bblk, bblk 
+rofi.color-normal: bblk, fg, bblk, fg, bblk 
+rofi.color-active: #fdf6e3, #268bd2, #eee8d5, #268bd2, #fdf6e3
+rofi.color-urgent: #fdf6e3, #dc322f, #eee8d5, #dc322f, #fdf6e3
+rofi.width: 10 
+rofi.font: UW ttyp0 12
 ```
 
 As you can see, both URXVT and rofi will read from this file and create colorschemes accordingly.

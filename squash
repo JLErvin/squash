@@ -60,15 +60,16 @@ set_background()
 
 main ()
 {
-	setup
+	rm -f ~/.config/squash/generic/colors
+	ln ~/.config/squash/themes/${COLORS} ~/.config/squash/generic/colors
+	xrdb ~/.Xresources
+	. ~/.config/squash/config/${COLORS}.config
 	set_colors
 	set_bspwm
 	set_openbox
 	reload_polybar
 	reload_bspwmrc
 	set_background
-
-
 }
 
 main "$@"
