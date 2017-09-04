@@ -3,73 +3,159 @@
 COLORS="$1"
 echo "${COLORS}"
 
-# remove file if exists ad link color file to Xresources file, reload Xresources
-# import variables from themes file
-setup()
+# Remove all previous colors
+
+cleanup()
 {
 	rm -f ~/.config/squash/generic/colors
-	ln ~/.config/squash/themes/${COLORS} ~/.config/squash/generic/colors
-	xrdb ~/.Xresources
-	. ~/.config/squash/config/${COLORS}.config
 }
 
-# get primary color from color config file
-#FOCUSED="$(xrdb -query | grep ${BACKGROUND} | cut -d ":" -f 2)"
-#FOCUSED_SHORT="$(echo -e "${FOCUSED}" | tr -d '[:space:]')"
 read_colors()
 {
-	FOCUSED_SHORT="$(xrdb -query | grep ${BACKGROUND} | cut -d ":" -f 2 | tr -d '[:space:]')"
-	echo "${FOCUSED_SHORT}"
-
-	NORMAL_SHORT="$(xrdb -query | grep ${ALTERNATE} | cut -d ":" -f 2 | tr -d '[:space:]')"
-	echo "${NORMAL_SHORT}"
+	BagKGROUND=asdf
 }
 
-# set bspwm border colors
-set_bspwm() 
+reload_x()
 {
-	bspc config focused_border_color "${FOCUSED_SHORT}"
-	bspc config normal_border_color "${NORMAL_SHORT}"
+	write_xcolors
+	xrdb ~/.Xresources
 }
 
-# set openbox colors and reload
-set_openbox()
+write_xcolors()
 {
-	sqob ${COLORS}
+cat > ~/.config/squash/generic/colors << EOL
+#define bg ${main_bg}
+#define fg ${fg}
+#define blk ${blk}
+#define bblk ${bblk}
+#define red ${red}
+#define grn ${grn}
+#define ylw ${ylw}
+#define blu ${blu}
+#define mag ${mag}
+#define cyn ${cyn}
+#define wht ${wht}
+#define bred ${bred}
+#define bgrn ${bgrn}
+#define bylw ${bylw}
+#define bblu ${bblu}
+#define bmag ${bmag}
+#define bcyn ${bcyn}
+#define bwht ${bwht}
+EOL
+
+cat ~/.config/squash/generic/colors
+}
+
+write_ob()
+{
+# define menu colors
+MENU_A_bg=${main_bg}
+MENU_A_TEXT=${alt_bg_bright}
+MENU_bg=${main_bg}
+MENU_BORDER=${main_bg}
+MENU_SEPERATOR=${main_bg}
+MENU_TITLE_bg=${main_bg}
+MENU_TITLE_TEXT=#eee
+
+# define osd colors
+OSD_bg=${main_bg}
+OSD_TEXT=${main_bg}
+
+# define active window colors
+WINDOW_A_bg=${alt_bg_bright}
+WINDOW_A_bg_BUTTON=${alt_bg_bright}
+WINDOW_A_H_BUTTON=${main_bg}
+WINDOW_A_P_BUTTON=${main_bg}
+WINDOW_A_T_BUTTON=${main_bg}
+WINDOW_A_U_BUTTON=${main_bg}
+
+# devine inactive window colors
+WINDOW_I_bg=${main_bg}
+WINDOW_I_bg_BUTTON=${main_bg}
+WINDOW_I_H_BUTTON=${alt_bg_bright}
+WINDOW_I_T_BUTTON=${main_bg}
+WINDOW_I_U_BUTTON=${main_bg}
+
+cat > ~/.local/share/themes/generic/openbox-3/themerc << EOL
+# titlebars
+border.width: 0
+padding.height: 10
+padding.width: 7
+
+# menu
+menu.items.active.bg: Solid Flat
+menu.items.active.bg.color: ${MENU_A_bg}
+menu.items.active.text.color: ${MENU_A_TEXT}
+menu.items.bg: Flat Solid
+menu.items.bg.color: ${MENU_bg}
+menu.items.disabled.text.color: #666
+menu.items.text.color: #eee
+menu.border.width: 15
+menu.border.color: ${MENU_BORDER}
+menu.separator.color: ${MENU_SEPERATOR}
+menu.title.bg: Solid Flat
+menu.title.bg.color: ${MENU_TITLE_bg} 
+menu.title.text.color: #eee
+menu.title.text.justify: Center
+
+# osd
+osd.bg: Solid Flat
+osd.bg.color: ${OSD_bg}
+osd.label.text.color: ${OSD_TEXT}
+ 
+# windows
+window.client.padding.width: 0
+window.handle.width: 0
+ 
+# active window
+window.active.*.bg: Solid Flat
+window.active.*.bg.color: ${WINDOW_A_bg} 
+window.active.button.*.bg.color: ${WINDOW_A_bg_BUTTON}
+window.active.button.hover.image.color: ${WINDOW_A_H_BUTTON}
+window.active.button.pressed.image.color: ${WINDOW_A_P_BUTTON}
+window.active.button.toggled.image.color: ${WINDOW_A_T_BUTTON}
+window.active.button.unpressed.image.color: ${WINDOW_A_U_BUTTON}
+ 
+# inactive window
+window.inactive.*.bg: Solid Flat
+window.inactive.*.bg.color: ${WINDOW_I_bg}
+window.inactive.button.*.bg.color: ${WINDOW_I_bg_BUTTON}
+window.inactive.button.hover.image.color: ${WINDOW_I_H_BUTTON}
+window.inactive.button.toggled.image.color: ${WINDOW_I_T_BUTTON}
+window.inactive.button.unpressed.image.color: ${WINDOW_I_U_BUTTON}
+EOL
+
+cat ~/.local/share/themes/generic/openbox-3/themerc
+}
+
+reload_ob()
+{
+	write_ob
 	openbox --reconfigure
 }
 
-#easier to kill polybar here than in bspwmrc
-reload_polybar()
+reload_pbar()
 {
 	pkill -x polybar
+	polybar base &
 }
 
-# don't write error outputs of bspwmrc to terminal
-reload_bspwmrc()
+set_wallpaper()
 {
-	bspwmrc > /dev/null 2>/dev/null &
+	pkill -x nitrogen
+	nitrogen --set-zoom-fill ${wallpaper}
 }
 
-# set background
-set_background() 
+main()
 {
-	nitrogen --set-tiled ~/wallpapers/${WALLPAPER}
-}
-
-
-main ()
-{
-	rm -f ~/.config/squash/generic/colors
-	ln ~/.config/squash/themes/${COLORS} ~/.config/squash/generic/colors
-	xrdb ~/.Xresources
-	. ~/.config/squash/config/${COLORS}.config
-	set_colors
-	set_bspwm
-	set_openbox
-	reload_polybar
-	reload_bspwmrc
-	set_background
+	cleanup
+	. ~/.config/squash/themes/${COLORS}
+	write_xcolors
+	reload_x
+	reload_ob
+	reload_pbar
+	set_wallpaper
 }
 
 main "$@"
