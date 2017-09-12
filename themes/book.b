@@ -1,4 +1,6 @@
-#!/bin/bash
+! -- Author:  dkeg 
+! -- Title:   book 
+! -- Created: 2016
 
 bg=#2b2b28
 blk=#2c2c29
@@ -18,8 +20,3 @@ bblu=#415265
 bmag=#885458
 bcyn=#646666
 bwht=#c4c3c0
-
-main_bg=${bg}
-alt_bg=${bg}
-alt_bg_bright=${blu}
-main_fg=${fg}

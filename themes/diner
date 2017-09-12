@@ -1,22 +1,25 @@
-! -- Author:  dkeg
-! -- Title:   diner
-! -- Created: 2016
+bg=#2e3738
+fg=#aba599
+blk=#343c3c
+bblk=#485152
+red=#9c7f5d
+grn=#8e958f
+ylw=#b8af97
+blu=#828882
+mag=#bb9a7f
+cyn=#9daba2
+wht=#aba599
+bred=#9c7f5d
+bgrn=#8e958f
+bylw=#b8af97
+bblu=#828882
+bmag=#bb9a7f
+bcyn=#9daba2
+bwht=#aba599
 
-#define bg      #2e3738
-#define fg      #aba599
-#define blk     #343c3c
-#define bblk    #485152
-#define red     #9c7f5d
-#define grn     #8e958f
-#define ylw     #b8af97
-#define blu     #828882
-#define mag     #bb9a7f
-#define cyn     #9daba2
-#define wht     #aba599
-#define bred    #9c7f5d
-#define bgrn    #8e958f
-#define bylw    #b8af97
-#define bblu    #828882
-#define bmag    #bb9a7f
-#define bcyn    #9daba2
-#define bwht    #aba599
+main_bg=${bg}
+alt_bg=${bg}
+alt_bg_bright=${blu}
+main_fg=${fg}
+wallpaper=~/wallpapers/nasa-89127.jpg
+

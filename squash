@@ -71,8 +71,8 @@ WINDOW_A_T_BUTTON=${main_bg}
 WINDOW_A_U_BUTTON=${main_bg}
 
 # devine inactive window colors
-WINDOW_I_bg=${main_bg}
-WINDOW_I_bg_BUTTON=${main_bg}
+WINDOW_I_bg=${alt_bg}
+WINDOW_I_bg_BUTTON=${alt_bg}
 WINDOW_I_H_BUTTON=${alt_bg_bright}
 WINDOW_I_T_BUTTON=${main_bg}
 WINDOW_I_U_BUTTON=${main_bg}
@@ -109,13 +109,32 @@ window.client.padding.width: 0
 window.handle.width: 0
  
 # active window
-window.active.*.bg: Solid Flat
-window.active.*.bg.color: ${WINDOW_A_bg} 
-window.active.button.*.bg.color: ${WINDOW_A_bg_BUTTON}
-window.active.button.hover.image.color: ${WINDOW_A_H_BUTTON}
-window.active.button.pressed.image.color: ${WINDOW_A_P_BUTTON}
-window.active.button.toggled.image.color: ${WINDOW_A_T_BUTTON}
-window.active.button.unpressed.image.color: ${WINDOW_A_U_BUTTON}
+window.active.button.disabled.bg: Solid Flat
+window.active.button.disabled.bg.color: ${WINDOW_A_bg}
+window.active.button.disabled.image.color: ?
+window.active.button.hover.bg: Solid Flat
+window.active.button.hover.bg.color: ${WINDOW_I_bg}
+window.active.button.hover.image.color: ?
+window.active.button.pressed.bg: Solid Flat
+window.active.button.pressed.bg.color: ${WINDOW_A_bg}
+window.active.button.pressed.image.color: ?
+window.active.button.toggled.bg: Solid Flat
+window.active.button.toggled.bg.color: ${WINDOW_A_bg}
+window.active.button.toggled.image.color: #ffffff
+window.active.button.unpressed.bg: Solid Flat
+window.active.button.unpressed.bg.color: ${WINDOW_A_bg}
+window.active.button.unpressed.image.color: #ffffff
+window.active.client.color: ${WINDOW_A_bg}
+window.active.grip.bg: Solid flat
+window.active.grip.bg.color: ${WINDOW_A_bg}
+window.active.handle.bg: Solid Flat
+window.active.handle.bg.color: ${WINDOW_A_bg}
+window.active.label.bg: Parentrelative
+window.active.label.text.color: ${WINDOW_I_bg}
+window.active.label.text.font: shadow=n
+window.active.title.bg: Solid Flat
+window.active.title.bg.color: ${WINDOW_A_bg}
+
  
 # inactive window
 window.inactive.*.bg: Solid Flat
