@@ -10,11 +10,6 @@ cleanup()
 	rm -f ~/.config/squash/generic/colors
 }
 
-read_colors()
-{
-	BagKGROUND=asdf
-}
-
 reload_x()
 {
 	write_xcolors
