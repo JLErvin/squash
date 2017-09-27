@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 COLORS="$1"
 echo "${COLORS}"
@@ -7,7 +7,7 @@ echo "${COLORS}"
 
 cleanup()
 {
-	rm -f ~/.config/squash/generic/colors
+	rm -f ~/.cache/squash/colors
 }
 
 reload_x()
@@ -16,9 +16,80 @@ reload_x()
 	xrdb ~/.Xresources
 }
 
+write_css()
+{
+cat > ~/.cache/squash/colors.css << EOL
+:root {
+	--background: ${main_bg};
+	--foreground: ${fg};
+
+	--color0: ${blk};
+	--color1: ${red};
+	--color2: ${grn};
+	--color3: ${ylw};
+	--color4: ${blu};
+	--color5: ${mag};
+	--color6: ${cyn};
+	--color7: ${wht};
+	--color8: ${bblk};
+	--color9: ${bred};
+	--color10: ${bgrn};
+	--color11: ${bylw};
+	--color12: ${bblu};
+	--color13: ${bmag};
+	--color14: ${bcyn};
+	--color15: ${bwht};
+}
+EOL
+
+cat ~/.cache/squash/colors.css
+}
+
+write_lemonbar_colors()
+{
+cat > ~/.cache/squash/colors.sh << EOL
+#!/usr/bin/env bash
+
+#colors
+#text="#fff"
+text=${fg}
+warning="#e17878"
+background="${bg}"
+
+#other stuff
+trs="%{F#00000000}"
+bg="%{B$bg}"
+txt="%{F$fg}"
+wrn="%{F$warning}"
+
+# accents
+acc0="${acc0}"
+acc1="${acc1}"
+acc2="${acc2}"
+acc3="${acc2}"
+acc4="${acc3}"
+
+a0="%{B$acc0}"
+a1="%{B$acc1}"
+a2="%{B$acc2}"
+a3="%{B$acc3}"
+a4="%{B$acc4}"
+
+af0="%{F$acc0}"
+af1="%{F$acc1}"
+af2="%{F$fg}"
+
+bgt="%{B$fg}"
+bgf="%{F$bg}"
+EOL
+
+cat ~/.cache/squash/colors.sh
+	
+}
+
 write_xcolors()
 {
-cat > ~/.config/squash/generic/colors << EOL
+cat > ~/.cache/squash/colors << EOL
 #define bg ${main_bg}
 #define fg ${fg}
 #define blk ${blk}
@@ -39,14 +110,14 @@ cat > ~/.config/squash/generic/colors << EOL
 #define bwht ${bwht}
 EOL
 
-cat ~/.config/squash/generic/colors
+cat ~/.cache/squash/colors
 }
 
 write_ob()
 {
 # define menu colors
 MENU_A_bg=${main_bg}
-MENU_A_TEXT=${alt_bg_bright}
+MENU_A_TEXT=${acc0}
 MENU_bg=${main_bg}
 MENU_BORDER=${main_bg}
 MENU_SEPERATOR=${main_bg}
@@ -58,19 +129,19 @@ OSD_bg=${main_bg}
 OSD_TEXT=${main_bg}
 
 # define active window colors
-WINDOW_A_bg=${alt_bg_bright}
-WINDOW_A_bg_BUTTON=${alt_bg_bright}
-WINDOW_A_H_BUTTON=${main_bg}
-WINDOW_A_P_BUTTON=${main_bg}
-WINDOW_A_T_BUTTON=${main_bg}
-WINDOW_A_U_BUTTON=${main_bg}
+WINDOW_A_bg=${acc0}
+WINDOW_A_bg_BUTTON=${acc0}
+WINDOW_A_H_BUTTON=${acc0}
+WINDOW_A_P_BUTTON=${acc0}
+WINDOW_A_T_BUTTON=${acc0}
+WINDOW_A_U_BUTTON=${acc0}
 
 # devine inactive window colors
-WINDOW_I_bg=${alt_bg}
-WINDOW_I_bg_BUTTON=${alt_bg}
-WINDOW_I_H_BUTTON=${alt_bg_bright}
-WINDOW_I_T_BUTTON=${main_bg}
-WINDOW_I_U_BUTTON=${main_bg}
+WINDOW_I_bg=${acc4}
+WINDOW_I_bg_BUTTON=${acc4}
+WINDOW_I_H_BUTTON=${acc4}
+WINDOW_I_T_BUTTON=${acc4}
+WINDOW_I_U_BUTTON=${acc4}
 
 cat > ~/.local/share/themes/generic/openbox-3/themerc << EOL
 # titlebars
@@ -85,13 +156,13 @@ menu.items.active.text.color: ${MENU_A_TEXT}
 menu.items.bg: Flat Solid
 menu.items.bg.color: ${MENU_bg}
 menu.items.disabled.text.color: #666
-menu.items.text.color: #eee
+menu.items.text.color: ${fg}
 menu.border.width: 15
 menu.border.color: ${MENU_BORDER}
 menu.separator.color: ${MENU_SEPERATOR}
 menu.title.bg: Solid Flat
 menu.title.bg.color: ${MENU_TITLE_bg} 
-menu.title.text.color: #eee
+menu.title.text.color: ${fg} 
 menu.title.text.justify: Center
 
 # osd
@@ -155,6 +226,12 @@ reload_pbar()
 	polybar base &
 }
 
+reload_lemonbar()
+{
+	killall -9 lemonbar
+	bar &
+}
+
 set_wallpaper()
 {
 	pkill -x nitrogen
@@ -166,9 +243,12 @@ main()
 	cleanup
 	. ~/.config/squash/themes/${COLORS}
 	write_xcolors
+	write_css
 	reload_x
 	reload_ob
-	reload_pbar
+	reload_lemonbar
+	#reload_pbar
+	write_lemonbar_colors
 	set_wallpaper
 }
 
