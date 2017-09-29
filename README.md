@@ -19,7 +19,7 @@ cd squash
 
 For ease of use, add squash to your path. That will most likely look like this in your bashrc:
 
-`PATH=~/squsah:$PATH'
+`PATH=~/squsah:$PATH`
 
 Finally, make `squash` executable:
 
@@ -33,10 +33,6 @@ Assuming the install worked correctly, you should now have a `squash` folder in 
 
 Inside the `themes` direcotry you will find some colorschemes created by `crayolo`. You can add as many themes as you want here. I have also added some of my favorite themes such as
 `solarized light` `solarized dark` and `oceanic next`.
-
-
-To use with terminals such as rxvt-unicode, add the following to your .Xresources:
-
 
 ### Xresources
 
