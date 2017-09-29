@@ -82,7 +82,9 @@ source "/home/jlervin/.cache/squash/colors.sh"
 
 loop() {
 	while :; do
-		echo "%{l}%{A1:popup.sh "term" "ncmpcpp" "60x20+760+40" &:}%{A3:mpc toggle &:}$a0$p$(desktops)$p$a1$(window)$bg%{c}$p$(clock)$p%{r}$a2$p$(network)$p$a1$p$(sound)$p$a0$p$(battery)$p$bg"
+		echo "%{l}%{A1:popup.sh "term" "ncmpcpp" "60x20+760+40" &:}%{A3:mpc toggle &:}$a0$p$(desktops)$p$a1$(window)$bg%\
+		{c}$p$(clock)$p%\
+		{r}$a2$p$(network)$p$a1$p$(sound)$p$a0$p$(battery)$p$bg"
 		sleep ".2s"
 	done |\
 
