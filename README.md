@@ -36,6 +36,8 @@ Inside the `themes` direcotry you will find some colorschemes created by `crayol
 
 ### Xresources
 
+To apply squash to `.Xresources`, use the following template.
+
 ``` ini
 #include </home/jlervin/.cache/squash/colors>
 
@@ -73,35 +75,30 @@ rofi.font: UW ttyp0 12
 
 ### Lemonbar
 
+Place the following lines in your `bar.sh` script. In addition, you will need to
+add variable names to your different bar components.
+
 ``` bash
 source "/home/jlervin/.cache/squash/colors.sh"
-
-loop() {
-	while :; do
-		echo "%{l}%{A1:popup.sh "term" "ncmpcpp" "60x20+760+40" &:}%{A3:mpc toggle &:}$a0$p$(desktops)$p$a1$(window)$bg%\
-		{c}$p$(clock)$p%\
-		{r}$a2$p$(network)$p$a1$p$(sound)$p$a0$p$(battery)$p$bg"
-		sleep ".2s"
-	done |\
-
-	lemonbar \
-	    -f '-uw-ttyp0-medium-r-normal-*-12-*-*-*-*-*-*-*' \
-	    -f '-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1' \
-	    -g "x30" \
-	    | bash
-}
-
-loop "$@"
 ```
 
 ### Openbox
 
-```
-```
+`squash` will automatically create the necessary openbox configuration file for you.
+However, for themes to be dynamically applied, you must set your openbox theme
+to `generic` using a program such as `obconf` or `lxappearance`. Openbox does not need
+to be restarted for themes to take effect.
 
 ### Polybar
 
-```
+Place the following lines at the top of your polybar configuration file.
+Use the decalared variable names to apply these colors to your bar.
+
+It should be noted that if you do not apply `squash`
+to your `.Xresources`, then this method will not work when applying this to `tmux`.
+
+
+``` .ini
 [colors]
 
 background=${xrdb:background:#ffffff00a}
@@ -133,16 +130,16 @@ white=#EAEAED
 
 ### Tmux
 
+Tmux is able to apply colors using `.Xresources`. Use the following example to color
+your various `tmux` elements.
+
+It should be noted that if you do not apply `squash`
+to your `.Xresources`, then this method will not work when applying this to `tmux`.
+
 ```
-set -g status-left '#[fg=colour15,bg=colour0] #S:#I #[fg=default,bg=default] '
+set -g TMUX-MODULE-NAME '#[fg=colour15,bg=colour0] #S:#I #[fg=default,bg=default] '
 ```
 
-As you can see, both URXVT and rofi will read from this file and create colorschemes accordingly.
-
-As of right now, `bspwm` and `openbox` are supported by `squash`. `bspwm` is supported without any additional setup.
-
-If you are using openbox, you will need to add an openbox configuration directory at
-`~/.local/share/themes/generic/openbox-3/themerc`
 
 
 
