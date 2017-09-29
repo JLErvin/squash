@@ -84,7 +84,7 @@ bgf="%{F$bg}"
 EOL
 
 cat ~/.cache/squash/colors.sh
-	
+
 }
 
 write_xcolors()
@@ -126,7 +126,7 @@ MENU_TITLE_TEXT=#eee
 
 # define osd colors
 OSD_bg=${main_bg}
-OSD_TEXT=${main_bg}
+OSD_TEXT=${fg}
 
 # define active window colors
 WINDOW_A_bg=${acc0}
@@ -161,19 +161,19 @@ menu.border.width: 15
 menu.border.color: ${MENU_BORDER}
 menu.separator.color: ${MENU_SEPERATOR}
 menu.title.bg: Solid Flat
-menu.title.bg.color: ${MENU_TITLE_bg} 
-menu.title.text.color: ${fg} 
+menu.title.bg.color: ${MENU_TITLE_bg}
+menu.title.text.color: ${fg}
 menu.title.text.justify: Center
 
 # osd
 osd.bg: Solid Flat
 osd.bg.color: ${OSD_bg}
 osd.label.text.color: ${OSD_TEXT}
- 
+
 # windows
 window.client.padding.width: 0
 window.handle.width: 0
- 
+
 # active window
 window.active.button.disabled.bg: Solid Flat
 window.active.button.disabled.bg.color: ${WINDOW_A_bg}
@@ -201,7 +201,7 @@ window.active.label.text.font: shadow=n
 window.active.title.bg: Solid Flat
 window.active.title.bg.color: ${WINDOW_A_bg}
 
- 
+
 # inactive window
 window.inactive.*.bg: Solid Flat
 window.inactive.*.bg.color: ${WINDOW_I_bg}

@@ -11,7 +11,7 @@ blu=#5FB3B3
 mag=#C594c5
 cyn=#5FB3b3
 wht=#CDD3DE
-bre=#EC5f67
+bred=#EC5f67
 bgrn=#99C794
 bylw=#FAc863
 bblu=#5FB3B3
@@ -19,8 +19,14 @@ bmag=#C594c5
 bcyn=#5FB3b3
 bwht=#CDD3DE
 
+acc0="#5FB3B3"
+acc1="#6AB7Ac"
+acc2="#76BBA6"
+acc3="#76BBA6"
+acc4="#81bfa0"
+
 main_bg=${bg}
 alt_bg=${bblk}
 alt_bg_bright=${blu}
 main_fg=${fg}
-wallpaper=~/wallpapers/nasa-90395.jpg
+wallpaper=/data/wallpapers/JKJhFUk.jpg
