@@ -30,18 +30,10 @@ Finally, make `squash` executable:
 `squash <THEME>`
 
 Assuming the install worked correctly, you should now have a `squash` folder in your .config directory
-Inside this directory there will be three sub-directories `config`, `generic`, and `themes`. 
-Do not modify the `generic` directory, as the program will stop working.
 
-Inside the `themes` direcotry you will find some colorschemes created by `crayolo`. You can add as many themes as you want here. 
-These files are used to determine the colors of your system. 
+Inside the `themes` direcotry you will find some colorschemes created by `crayolo`. You can add as many themes as you want here. I have also added some of my favorite themes such as 
+`solarized light` `solarized dark` and `oceanic next`. 
 
-Inside the `config` directory you will find a configuration file for every colorscheme. 
-These config files are there for the user to customize each colorscheme they use. 
-For example, some colorschemes may lend themeselves well to use red as a background 
-and green as an accent - others not so much. You can specify what colors you want as 
-background, foreground, and accent here. In addition, you can specifiy a path to your desired
-wallpaper for this colorscheme. 
 
 To use with terminals such as rxvt-unicode, add the following to your .Xresources:
 
