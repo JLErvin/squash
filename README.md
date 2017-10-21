@@ -140,6 +140,10 @@ to your `.Xresources`, then this method will not work when applying this to `tmu
 set -g TMUX-MODULE-NAME '#[fg=colour15,bg=colour0] #S:#I #[fg=default,bg=default] '
 ```
 
+### Firefox
+
+
+
 
 
 
