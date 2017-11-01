@@ -146,7 +146,7 @@ WINDOW_I_U_BUTTON=${acc4}
 cat > ~/.local/share/themes/generic/openbox-3/themerc << EOL
 # titlebars
 border.width: 0
-padding.height: 10
+padding.height: 4 
 padding.width: 7
 
 # menu
@@ -228,7 +228,7 @@ reload_pbar()
 
 reload_lemonbar()
 {
-	killall -9 lemonbar
+	pkill -x lemonbar
 	bar &
 }
 
@@ -247,9 +247,7 @@ main()
 	reload_x
 	reload_ob
 	reload_lemonbar
-	#reload_pbar
 	write_lemonbar_colors
-	set_wallpaper
 }
 
 main "$@"
