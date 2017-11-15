@@ -1,22 +1,34 @@
-! -- Title:     skigh
-! -- Author:    dkeg 
-! -- Created:   2016
+#!/bin/bash
 
-#define bg    #252a32
-#define blk   #272c34
-#define bblk  #3b434f
-#define fg    #bab7b5
-#define red   #876058
-#define grn   #6f7f71
-#define ylw   #b39580
-#define blu   #546780
-#define mag   #84787d
-#define cyn   #556f86
-#define wht   #bab7b5
-#define bred  #876058
-#define bgrn  #6f7f71
-#define bylw  #b39580
-#define bblu  #546780
-#define bmag  #84787d
-#define bcyn  #556f86
-#define bwht  #dfdedd
+# Credit goes to dkeg for this colorscheme
+
+bg=#252a32
+blk=#272c34
+bblk=#3b434f
+fg=#bab7b5
+red=#876058
+grn=#6f7f71
+ylw=#b39580
+blu=#546780
+mag=#84787d
+cyn=#556f86
+wht=#bab7b5
+bred=#876058
+bgrn=#6f7f71
+bylw=#b39580
+bblu=#546780
+bmag=#84787d
+bcyn=#556f86
+bwht=#dfdedd
+
+acc0="#546780"
+acc1="#272c34"
+acc2="#272c34"
+acc3="#272c34"
+acc4="#272c34"
+
+main_bg=${bg}
+alt_bg=${bblk}
+alt_bg_bright=${blu}
+main_fg=${fg}
+wallpaper=~/wallpapers/alberto-restifo-40088.jpg

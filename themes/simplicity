@@ -1,23 +1,33 @@
-! -- Title:     simplicity
-! -- Author:    dkeg
-! -- Created:   2015
-! -- Modified:  2017
+#!/bin/bash
 
-#define bg      #28282C
-#define fg      #F3F3F3
-#define blk     #29292D
-#define bblk    #404047
-#define red     #BF5C56
-#define bred    #BF5C56
-#define grn     #97B19C
-#define bgrn    #97B19C
-#define ylw     #D7BD8A
-#define bylw    #D7BD8A
-#define blu     #545F72
-#define bblu    #545f72
-#define mag     #A18673
-#define bmag    #A18673
-#define cyn     #75909F
-#define bcyn    #BE926B
-#define wht     #E9E9E9
-#define bwht    #F4F4F2
+bg=#28282C
+fg=#F3F3F3
+blk=#29292D
+bblk=#404047
+red=#BF5C56
+bred=#BF5C56
+grn=#97B19C
+bgrn=#97B19C
+ylw=#D7BD8A
+bylw=#D7BD8A
+blu=#545F72
+bblu=#545f72
+mag=#A18673
+bmag=#A18673
+cyn=#75909F
+bcyn=#75909F
+wht=#E9E9E9
+bwht=#F4F4F2
+
+acc0="#545F72"
+acc1="#545F72"
+acc2="#545F72"
+acc3="#545F72"
+acc4="#545F72"
+
+main_bg=${bg}
+alt_bg=${bblk}
+alt_bg_bright=${blu}
+main_fg=${fg}
+wallpaper=~/wallpapers/alberto-restifo-40088.jpg
+

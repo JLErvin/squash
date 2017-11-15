@@ -51,10 +51,15 @@ cat > ~/.cache/squash/colors.sh << EOL
 #!/usr/bin/env bash
 
 #colors
-#text="#fff"
 text=${fg}
 warning="#e17878"
 background="${bg}"
+red="${red}"
+grn="${grn}"
+ylw="${ylw}"
+blu="${blu}"
+mag="${mag}"
+cyn="${cyn}"
 
 #other stuff
 trs="%{F#00000000}"
@@ -145,9 +150,11 @@ WINDOW_I_U_BUTTON=${acc4}
 
 cat > ~/.local/share/themes/generic/openbox-3/themerc << EOL
 # titlebars
-border.width: 0
-padding.height: 4 
+border.width: 0 
+padding.height: 7 
 padding.width: 7
+window.active.border.color: ${WINDOW_A_bg}
+window.inactive.border.color: ${WINDOW_I_bg}
 
 # menu
 menu.items.active.bg: Solid Flat
@@ -245,9 +252,10 @@ main()
 	write_xcolors
 	write_css
 	reload_x
-	reload_ob
-	reload_lemonbar
-	write_lemonbar_colors
+	reload_pbar
+	#reload_ob
+	#reload_lemonbar
+	#write_lemonbar_colors
 }
 
 main "$@"

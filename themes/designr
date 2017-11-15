@@ -1,23 +1,32 @@
-! -- Title:     designr
-! -- Author:    dkeg
-! -- Created:   2015
-! -- Modified:  2016
+#!/bin/bash
 
-#define bg    #242e32
-#define fg    #c4c4b5
-#define blk   #253034
-#define bblk  #35444b
-#define red   #a66959
-#define grn   #769070
-#define ylw   #ac8d6e
-#define blu   #607a86
-#define mag   #8a757e
-#define cyn   #60867f
-#define wht   #c4c4b5
-#define bred  #a66959
-#define bgrn  #769070
-#define bylw  #ac8d6e
-#define bblu  #607a86
-#define bmag  #8a757e
-#define bcyn  #60867f
-#define bwht  #c4c4b5
+bg=#242e32
+fg=#c4c4b5
+blk=#253034
+bblk=#35444b
+red=#a66959
+grn=#769070
+ylw=#ac8d6e
+blu=#
+mag=#8a757e
+cyn=#60867f
+wht=#c4c4b5
+bred=#a66959
+bgrn=#769070
+bylw=#ac8d6e
+bblu=#607a86
+bmag=#8a757e
+bcyn=#60867f
+bwht#c4c4b5
+
+acc0="#607a86"
+acc1="#607a86"
+acc2="#607a86"
+acc3="#607a86"
+acc4="#607a86"
+
+main_bg=${bg}
+alt_bg=${bblk}
+alt_bg_bright=${blu}
+main_fg=${fg}
+wallpaper=~/wallpapers/alberto-restifo-40088.jpg

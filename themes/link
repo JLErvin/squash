@@ -1,21 +1,33 @@
-! -- Title:   link
-! -- Author:  dkeg
-! -- Created: 2016
-#define bg    #222222
-#define blk   #242424
-#define fg    #c2c2c2
-#define bblk  #484848
-#define red   #4d4d4d
-#define grn   #8a8c84
-#define ylw   #c5c5b2
-#define blu   #5d5d5d
-#define mag   #707070
-#define cyn   #898989
-#define wht   #c2c2c2
-#define bred  #4d4d4d
-#define bgrn  #8a8c84
-#define bylw  #c5c5b2
-#define bblu  #5d5d5d
-#define bmag  #707070
-#define bcyn  #898989
-#define bwht  #f1f1f1
+#!/bin/bash
+
+bg=#222222
+blk=#242424
+fg=#c2c2c2
+bblk=#484848
+red=#4d4d4d
+grn=#8a8c84
+ylw=#c5c5b2
+blu=#5d5d5d
+mag=#707070
+cyn=#898989
+wht=#c2c2c2
+bred=#4d4d4d
+bgrn=#8a8c84
+bylw=#c5c5b2
+bblu=#5d5d5d
+bmag=#707070
+bcyn=#898989
+bwht=#f1f1f1
+
+acc0="#8a8c84"
+acc1="#4d4d4d"
+acc2="#4d4d4d"
+acc3="#4d4d4d"
+acc4="#4d4d4d"
+
+main_bg=${bg}
+alt_bg=${bblk}
+alt_bg_bright=${blu}
+main_fg=${fg}
+wallpaper=~/wallpapers/alberto-restifo-40088.jpg
+

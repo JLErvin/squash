@@ -1,3 +1,5 @@
+#!/bin/sh
+
 bg=#002b36
 fg=#657b83
 blk=#073642
@@ -17,15 +19,5 @@ bgrn=#859900
 wht=#eee8d5
 bwht=#fdf6e3
 
-acc0="#f8818e"
-acc1="#f88b98"
-acc2="#f995a1"
-acc3="#f99fa9"
-acc4="#faa8b2"
-
-main_bg=${bg}
-alt_bg=${bg}
-alt_bg_bright=${blu}
-main_fg=${fg}
 wallpaper=/data/wallpapers/JKJhFUk.jpg
 

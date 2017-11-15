@@ -1,4 +1,4 @@
-=#!/bin/bash
+#!/bin/bash
 
 bg=#1A2B34
 fg=#D8DEE9
@@ -19,14 +19,14 @@ bmag=#C594c5
 bcyn=#5FB3b3
 bwht=#CDD3DE
 
-acc0="#5FB3B3"
-acc1="#6AB7Ac"
-acc2="#76BBA6"
-acc3="#76BBA6"
-acc4="#81bfa0"
+acc0="#1A2B34"
+acc1="#1A2B34"
+acc2="#1A2B34"
+acc3="#1A2B34"
+acc4="#1A2B34"
 
 main_bg=${bg}
 alt_bg=${bblk}
 alt_bg_bright=${blu}
 main_fg=${fg}
-wallpaper=~/wallpapers/21 - vT23uKx.jpg
+wallpaper=/data/wallpapers/JKJhFUk.jpg
