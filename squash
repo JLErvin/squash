@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+
+# Define variables
 COLORS="$1"
 echo "${COLORS}"
 CACHE_DIR=~/.cache/squash
@@ -7,20 +9,18 @@ THEME_DIR=~/.config/squash/themes
 OB_DIR=~/.local/share/themes/generic/openbox-3
 
 # Remove all previous colors
-
-cleanup()
-{
+cleanup() {
 	rm -f $CACHE_DIR/colors
 }
 
-reload_x()
-{
+# Relaod .Xresources using xrdb
+reload_x() {
 	write_xcolors
 	xrdb ~/.Xresources
 }
 
-write_css()
-{
+# Write colors.css file to the CACHE_DIR
+write_css() {
 cat > $CACHE_DIR/colors.css << EOL
 :root {
 	--background: ${main_bg};
@@ -48,8 +48,10 @@ EOL
 cat ${CACHE_DIR}/colors.css
 }
 
-write_lemonbar_colors()
-{
+# Write colors to be used by lemonbar
+# You will need to either change these names 
+# or the names of your lemonbar variables for this to work. 
+write_lemonbar_colors() {
 cat > ~/colors.sh << EOL
 #!/usr/bin/env bash
 
@@ -113,8 +115,8 @@ cat $CACHE_DIR/colors.sh
 
 }
 
-write_xcolors()
-{
+# Write generic colors to be used by .Xresources
+write_xcolors() {
 cat > $CACHE_DIR/colors << EOL
 #define bg ${main_bg}
 #define fg ${fg}
@@ -139,8 +141,8 @@ EOL
 cat $CACHE_DIR/colors
 }
 
-write_ob()
-{
+# Write colors for openbox theme.rc
+write_ob() {
 # define menu colors
 MENU_A_bg=${main_bg}
 MENU_A_TEXT=${acc0}
@@ -242,32 +244,32 @@ EOL
 cat ~/.local/share/themes/generic/openbox-3/themerc
 }
 
-reload_ob()
-{
+# Reload openbox with new themerc
+# Openbox must be using 'generic' them for the changes to take effect
+reload_ob() {
 	write_ob
 	openbox --reconfigure
 }
 
-reload_pbar()
-{
+# Kills and reloads polybar
+reload_pbar() {
 	pkill -x polybar
 	polybar base &
 }
 
-reload_lemonbar()
-{
+# Kills and reloads lemonbar
+reload_lemonbar() {
 	pkill -x lemonbar
 	bar &
 }
 
-set_wallpaper()
-{
+# Sets wallpaper based on wallpaper in squash theme file
+set_wallpaper() {
 	pkill -x nitrogen
 	nitrogen --set-zoom-fill ${wallpaper}
 }
 
-main()
-{
+main() {
 	cleanup
 	. $THEME_DIR/${COLORS}
 	write_xcolors
