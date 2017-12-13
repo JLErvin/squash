@@ -9,21 +9,33 @@ instead it is desinged to save and quickly apply user-created themes.
 
 ## Install
 
-`squash` can be installed using the following commands:
+Download `squash` from github
 
 ```
 git clone https://github.com/JLErvin/squash
-cd squash
-./install
 ```
+
+You will need to edit 'squash' to point to your themes and desired colors directory. 
+You can do this by changing the first couple lines in `squash`. They default to the following:
+
+* THEMES_DIR=~/.config/squash/themes
+* CACHE_DIR=~/.cache/squash
+* OB_DIR=~/.local/share/themes/generic/openbox-3
+
+
+After these have been set, you can change your other applications to point to these directories. 
+Examples of these are provided in the Usage section. 
 
 For ease of use, add squash to your path. That will most likely look like this in your bashrc:
 
-`PATH=~/squsah:$PATH`
+`PATH=~/squash:$PATH`
 
 Finally, make `squash` executable:
 
 `chmod +x squash`
+
+Based on what functions you would like squash to use, you will need to create these directories
+yourself. For example, you will need to make your own directory for themes. 
 
 ## Usage
 

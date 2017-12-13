@@ -2,12 +2,15 @@
 
 COLORS="$1"
 echo "${COLORS}"
+CACHE_DIR=~/.cache/squash
+THEME_DIR=~/.config/squash/themes
+OB_DIR=~/.local/share/themes/generic/openbox-3
 
 # Remove all previous colors
 
 cleanup()
 {
-	rm -f ~/.cache/squash/colors
+	rm -f $CACHE_DIR/colors
 }
 
 reload_x()
@@ -18,7 +21,7 @@ reload_x()
 
 write_css()
 {
-cat > ~/.cache/squash/colors.css << EOL
+cat > $CACHE_DIR/colors.css << EOL
 :root {
 	--background: ${main_bg};
 	--foreground: ${fg};
@@ -42,18 +45,19 @@ cat > ~/.cache/squash/colors.css << EOL
 }
 EOL
 
-cat ~/.cache/squash/colors.css
+cat ${CACHE_DIR}/colors.css
 }
 
 write_lemonbar_colors()
 {
-cat > ~/.cache/squash/colors.sh << EOL
+cat > ~/colors.sh << EOL
 #!/usr/bin/env bash
 
 #colors
 text=${fg}
+fg=${fg}
 warning="#e17878"
-background="${bg}"
+bg="${bg}"
 red="${red}"
 grn="${grn}"
 ylw="${ylw}"
@@ -63,9 +67,26 @@ cyn="${cyn}"
 
 #other stuff
 trs="%{F#00000000}"
-bg="%{B$bg}"
 txt="%{F$fg}"
 wrn="%{F$warning}"
+
+obbg=${red}
+obibg=${fg}
+cpubg=${red}
+winbg=${ylw}
+netbg=${ylw}
+volbg=${grn}
+batbg=${mag}
+malbg=${red}
+
+obfg=${fg}
+obifg=${bg}
+cpufg=${fg}
+winfg=${bg}
+netfg=${bg}
+volfg=${fg}
+batfg=${fg}
+malfg=${fg}
 
 # accents
 acc0="${acc0}"
@@ -88,13 +109,13 @@ bgt="%{B$fg}"
 bgf="%{F$bg}"
 EOL
 
-cat ~/.cache/squash/colors.sh
+cat $CACHE_DIR/colors.sh
 
 }
 
 write_xcolors()
 {
-cat > ~/.cache/squash/colors << EOL
+cat > $CACHE_DIR/colors << EOL
 #define bg ${main_bg}
 #define fg ${fg}
 #define blk ${blk}
@@ -115,7 +136,7 @@ cat > ~/.cache/squash/colors << EOL
 #define bwht ${bwht}
 EOL
 
-cat ~/.cache/squash/colors
+cat $CACHE_DIR/colors
 }
 
 write_ob()
@@ -248,14 +269,14 @@ set_wallpaper()
 main()
 {
 	cleanup
-	. ~/.config/squash/themes/${COLORS}
+	. $THEME_DIR/${COLORS}
 	write_xcolors
 	write_css
 	reload_x
 	reload_pbar
 	#reload_ob
 	#reload_lemonbar
-	#write_lemonbar_colors
+	write_lemonbar_colors
 }
 
 main "$@"
