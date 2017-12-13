@@ -15,7 +15,7 @@ Download `squash` from github
 git clone https://github.com/JLErvin/squash
 ```
 
-You will need to edit 'squash' to point to your themes and desired colors directory. 
+You will need to edit `squash` to point to your themes and desired colors directory. 
 You can do this by changing the first couple lines in `squash`. They default to the following:
 
 * THEMES_DIR=~/.config/squash/themes
