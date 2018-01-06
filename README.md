@@ -5,7 +5,7 @@ It is desinged to manage and apply user-created themes on a variety of window ma
 squash is not intended to be an automatic themer like `wal` -
 instead it is desinged to save and quickly apply user-created themes.
 
-![Screenshot](https://i.imgur.com/5xRtWrY.png)
+![gif](https://thumbs.gfycat.com/WeepyRemarkableAdeliepenguin-size_restricted.gif)
 
 ## Install
 
@@ -18,9 +18,9 @@ git clone https://github.com/JLErvin/squash
 You will need to edit `squash` to point to your themes and desired colors directory. 
 You can do this by changing the first couple lines in `squash`. They default to the following:
 
-* THEMES_DIR=~/.config/squash/themes
-* CACHE_DIR=~/.cache/squash
-* OB_DIR=~/.local/share/themes/generic/openbox-3
+* `THEMES_DIR=~/.config/squash/themes`
+* `CACHE_DIR=~/.cache/squas`
+* `OB_DIR=~/.local/share/themes/generic/openbox-3`
 
 
 After these have been set, you can change your other applications to point to these directories. 
