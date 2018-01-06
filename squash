@@ -118,7 +118,7 @@ cat $CACHE_DIR/colors.sh
 # Write generic colors to be used by .Xresources
 write_xcolors() {
 cat > $CACHE_DIR/colors << EOL
-#define bg ${main_bg}
+#define bg ${bg}
 #define fg ${fg}
 #define blk ${blk}
 #define bblk ${bblk}
@@ -141,126 +141,70 @@ EOL
 cat $CACHE_DIR/colors
 }
 
-# Write colors for openbox theme.rc
-write_ob() {
-# define menu colors
-MENU_A_bg=${main_bg}
-MENU_A_TEXT=${acc0}
-MENU_bg=${main_bg}
-MENU_BORDER=${main_bg}
-MENU_SEPERATOR=${main_bg}
-MENU_TITLE_bg=${main_bg}
-MENU_TITLE_TEXT=#eee
+write_xreload() {
+cat > $CACHE_DIR/colorXReload << EOL
 
-# define osd colors
-OSD_bg=${main_bg}
-OSD_TEXT=${fg}
+!speical
+*.foreground:  ${fg}
+*.background:  ${bg}
+*.cursorColor: ${fg}
 
-# define active window colors
-WINDOW_A_bg=${acc0}
-WINDOW_A_bg_BUTTON=${acc0}
-WINDOW_A_H_BUTTON=${acc0}
-WINDOW_A_P_BUTTON=${acc0}
-WINDOW_A_T_BUTTON=${acc0}
-WINDOW_A_U_BUTTON=${acc0}
+!black
+*.color0:      ${blk}
+*.color8:      ${bblk}
 
-# devine inactive window colors
-WINDOW_I_bg=${acc4}
-WINDOW_I_bg_BUTTON=${acc4}
-WINDOW_I_H_BUTTON=${acc4}
-WINDOW_I_T_BUTTON=${acc4}
-WINDOW_I_U_BUTTON=${acc4}
+!red
+*.color1:      ${red}
+*.color9:      ${bred}
 
-cat > ~/.local/share/themes/generic/openbox-3/themerc << EOL
-# titlebars
-border.width: 0 
-padding.height: 7 
-padding.width: 7
-window.active.border.color: ${WINDOW_A_bg}
-window.inactive.border.color: ${WINDOW_I_bg}
+!grn
+*.color2:      ${grn}
+*.color10:     ${bgrn}
 
-# menu
-menu.items.active.bg: Solid Flat
-menu.items.active.bg.color: ${MENU_A_bg}
-menu.items.active.text.color: ${MENU_A_TEXT}
-menu.items.bg: Flat Solid
-menu.items.bg.color: ${MENU_bg}
-menu.items.disabled.text.color: #666
-menu.items.text.color: ${fg}
-menu.border.width: 15
-menu.border.color: ${MENU_BORDER}
-menu.separator.color: ${MENU_SEPERATOR}
-menu.title.bg: Solid Flat
-menu.title.bg.color: ${MENU_TITLE_bg}
-menu.title.text.color: ${fg}
-menu.title.text.justify: Center
+!ylw
+*.color3:      ${ylw}
+*.color11:     ${bylw}
 
-# osd
-osd.bg: Solid Flat
-osd.bg.color: ${OSD_bg}
-osd.label.text.color: ${OSD_TEXT}
+!blu
+*.color4:      ${blu}
+*.color12:     ${bblu}
 
-# windows
-window.client.padding.width: 0
-window.handle.width: 0
+!mag
+*.color5:      ${mag}
+*.color13:     ${bmag}
 
-# active window
-window.active.button.disabled.bg: Solid Flat
-window.active.button.disabled.bg.color: ${WINDOW_A_bg}
-window.active.button.disabled.image.color: ?
-window.active.button.hover.bg: Solid Flat
-window.active.button.hover.bg.color: ${WINDOW_I_bg}
-window.active.button.hover.image.color: ?
-window.active.button.pressed.bg: Solid Flat
-window.active.button.pressed.bg.color: ${WINDOW_A_bg}
-window.active.button.pressed.image.color: ?
-window.active.button.toggled.bg: Solid Flat
-window.active.button.toggled.bg.color: ${WINDOW_A_bg}
-window.active.button.toggled.image.color: #ffffff
-window.active.button.unpressed.bg: Solid Flat
-window.active.button.unpressed.bg.color: ${WINDOW_A_bg}
-window.active.button.unpressed.image.color: #ffffff
-window.active.client.color: ${WINDOW_A_bg}
-window.active.grip.bg: Solid flat
-window.active.grip.bg.color: ${WINDOW_A_bg}
-window.active.handle.bg: Solid Flat
-window.active.handle.bg.color: ${WINDOW_A_bg}
-window.active.label.bg: Parentrelative
-window.active.label.text.color: ${WINDOW_I_bg}
-window.active.label.text.font: shadow=n
-window.active.title.bg: Solid Flat
-window.active.title.bg.color: ${WINDOW_A_bg}
+!cyn
+*.color6:      ${cyn}
+*.color14:     ${bcyn}
 
-
-# inactive window
-window.inactive.*.bg: Solid Flat
-window.inactive.*.bg.color: ${WINDOW_I_bg}
-window.inactive.button.*.bg.color: ${WINDOW_I_bg_BUTTON}
-window.inactive.button.hover.image.color: ${WINDOW_I_H_BUTTON}
-window.inactive.button.toggled.image.color: ${WINDOW_I_T_BUTTON}
-window.inactive.button.unpressed.image.color: ${WINDOW_I_U_BUTTON}
+!wht
+*.color7:      ${wht}
+*.color15:     ${bwht}
 EOL
 
-cat ~/.local/share/themes/generic/openbox-3/themerc
+cat $CACHE_DIR/colorXReload
 }
 
-# Reload openbox with new themerc
-# Openbox must be using 'generic' them for the changes to take effect
-reload_ob() {
-	write_ob
-	openbox --reconfigure
-}
 
 # Kills and reloads polybar
 reload_pbar() {
 	pkill -x polybar
-	polybar base &
+	#polybar base &
+	polybar clite &
+}
+
+reload_xterm() {
+   colorswitcher $CACHE_DIR/colorXReload
 }
 
 # Kills and reloads lemonbar
 reload_lemonbar() {
 	pkill -x lemonbar
 	bar &
+}
+
+reload_2bwm() {
+   morphr &
 }
 
 # Sets wallpaper based on wallpaper in squash theme file
@@ -273,12 +217,13 @@ main() {
 	cleanup
 	. $THEME_DIR/${COLORS}
 	write_xcolors
+   write_xreload
 	write_css
 	reload_x
 	reload_pbar
-	#reload_ob
-	#reload_lemonbar
-	write_lemonbar_colors
+   reload_2bwm
+   reload_xterm
+   set_wallpaper
 }
 
 main "$@"
