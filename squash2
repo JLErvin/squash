@@ -1,0 +1,146 @@
+#!/usr/bin/env sh
+
+# Get command line arguments
+COLOR_SCHEME="$1"
+
+# Define location of cache and themes
+CACHE_DIR=$HOME/.cache/squash
+THEME_DIR=$HOME/.config/squash/themes
+
+# Make newlines easier
+NEWLINE=$'\n'
+
+# remove old cache files
+cleanup() {
+   rm -f $CACHE_DIR/x_colors
+}
+
+# reloads xterminals in place
+reload_x() {
+   for term in /dev/pts/[0-9]*; do
+      printf "%b" "$sequence" > "$term"
+   done
+}
+
+merge_x() {
+   xrdb ${HOME}/.Xresources
+}
+
+# kills old polybar and reloads
+reload_polybar() {
+   pkill -x polybar
+   polybar clite &
+}
+
+reload_2bwm() {
+   foc=$ylw
+   unfoc=$blw
+   fixc=$red
+   unkil=$cyn
+   fixunk=$mag
+   outr=$bg
+   emp=$bg
+
+   dir=$HOME/2bwm
+   file=$dir/config.h
+
+   wmcol=$(cat $file|awk '/\*colors/ {print $6}'|cut -d '}' -f1|awk '{gsub(/"/," ");print $2,$4,$6,$8,$10,$12,$14}') 
+   arr=($wmcol)
+
+    sed -i "s/${arr[0]}/"$foc"/;
+            s/${arr[1]}/"$unfoc"/;
+            s/${arr[2]}/"$fixc"/;
+            s/${arr[3]}/"$unkil"/;
+            s/${arr[4]}/"$fixunk"/;
+            s/${arr[5]}/"$outr"/;
+            s/${arr[6]}/"$emp"/" $file 
+
+   cd $dir && make && sudo make install && cd
+
+   xdotool key "super+ctrl+r"
+}
+
+set_wallpaper() {
+   pkill -x nitrogen
+   nirtogen --set-zoom-fill ${wallpaper}
+}
+
+# builds an array of all necessary colors
+# the last three elements of the array are
+# the bg, fg, and cursor color
+get_colors() {
+   . $THEME_DIR/$COLOR_SCHEME
+   COLOR_ARRAY=($blk $red $grn $ylw $blu $mag $cyn $wht \
+                $bblk $bred $bgrn $bylw $bblu $bmag $bcyn $bwht)
+}
+
+# adds main colors to sequence 0-15. Colors are defined in the 
+# COLOR_ARRAY
+create_main_sequence() {
+   for i in {0..15}
+   do
+      sequence+="\033]4;${i};${COLOR_ARRAY[${i}]}\007"
+   done
+}
+
+# adds background and foreground colors to sequence
+# does not rely on array, uses sourced variables
+create_secondary_sequence() {
+   # add foreground
+   for i in 10 12 13; do
+      sequence+="\033]${i};${fg}\007"
+   done
+
+   # add background
+   for i in 11 14 708; do
+      sequence+="\033]${i};${bg}\007"
+   done
+}
+
+write_x_source() {
+   x_output=""
+   x_output+="*.foreground:   ${fg}${NEWLINE}"
+   x_output+="*.background:   ${bg}${NEWLINE}"
+   x_output+="*.cursorColor:  ${fg}${NEWLINE}"
+
+   for i in {0..15}; do
+      x_output+="*.color${i}: ${COLOR_ARRAY[${i}]}${NEWLINE}"
+   done
+}
+
+write_rofi() {
+   rofi_output=""
+   rofi_output+="rofi.color-enaled: true${NEWLINE}"
+   rofi_output+="rofi.color-window: ${bg}, ${cyn}, ${cyn}${NEWLINE}"
+   rofi_output+="rofi.color-normal: ${bg}, ${fg}, ${bg}, ${cyn}, ${fg}${NEWLINE}"
+}
+
+write_2bwm() {
+   twobwm_output=""
+   twobwm_output+="twobwm.focus_color: ${wht}${NEWLINE}"
+   twobwm_output+="twobwm.unfocus_color: ${blu}${NEWLINE}"
+   twobwm_output+="twobwm.fixed_color: ${wht}${NEWLINE}"
+   twobwm_output+="twobwm.unkill_color: ${wht}${NEWLINE}"
+   twobwm_output+="twobwm.outer_border_color: ${bg}${NEWLINE}"
+   twobwm_output+="twobwm.fixed_unkill_color: ${cyn}${NEWLINE}"
+}
+
+write_all() {
+   output=${x_output}${rofi_output}${twobwm_output}
+   echo $output
+   printf "${output}" > "${CACHE_DIR}/x_colors"
+}
+
+cleanup
+get_colors
+sequence=""
+create_main_sequence
+create_secondary_sequence
+reload_x
+write_x_source
+write_rofi
+write_2bwm
+write_all
+merge_x
+reload_2bwm
+reload_polybar
