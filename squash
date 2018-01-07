@@ -1,229 +1,149 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
+# Get command line arguments
+COLOR_SCHEME="$1"
 
-# Define variables
-COLORS="$1"
-echo "${COLORS}"
-CACHE_DIR=~/.cache/squash
-THEME_DIR=~/.config/squash/themes
-OB_DIR=~/.local/share/themes/generic/openbox-3
+# Define location of cache and themes
+CACHE_DIR=$HOME/.cache/squash
+THEME_DIR=$HOME/.config/squash/themes
 
-# Remove all previous colors
+# Make newlines easier
+NEWLINE=$'\n'
+
+# remove old cache files
 cleanup() {
-	rm -f $CACHE_DIR/colors
+   rm -f $CACHE_DIR/x_colors
 }
 
-# Relaod .Xresources using xrdb
+# reloads xterminals in place
 reload_x() {
-	write_xcolors
-	xrdb ~/.Xresources
+   for term in /dev/pts/[0-9]*; do
+      printf "%b" "$sequence" > "$term"
+   done
 }
 
-# Write colors.css file to the CACHE_DIR
-write_css() {
-cat > $CACHE_DIR/colors.css << EOL
-:root {
-	--background: ${main_bg};
-	--foreground: ${fg};
-
-	--color0: ${blk};
-	--color1: ${red};
-	--color2: ${grn};
-	--color3: ${ylw};
-	--color4: ${blu};
-	--color5: ${mag};
-	--color6: ${cyn};
-	--color7: ${wht};
-	--color8: ${bblk};
-	--color9: ${bred};
-	--color10: ${bgrn};
-	--color11: ${bylw};
-	--color12: ${bblu};
-	--color13: ${bmag};
-	--color14: ${bcyn};
-	--color15: ${bwht};
-}
-EOL
-
-cat ${CACHE_DIR}/colors.css
+merge_x() {
+   xrdb ${HOME}/.Xresources
 }
 
-# Write colors to be used by lemonbar
-# You will need to either change these names 
-# or the names of your lemonbar variables for this to work. 
-write_lemonbar_colors() {
-cat > ~/colors.sh << EOL
-#!/usr/bin/env bash
-
-#colors
-text=${fg}
-fg=${fg}
-warning="#e17878"
-bg="${bg}"
-red="${red}"
-grn="${grn}"
-ylw="${ylw}"
-blu="${blu}"
-mag="${mag}"
-cyn="${cyn}"
-
-#other stuff
-trs="%{F#00000000}"
-txt="%{F$fg}"
-wrn="%{F$warning}"
-
-obbg=${red}
-obibg=${fg}
-cpubg=${red}
-winbg=${ylw}
-netbg=${ylw}
-volbg=${grn}
-batbg=${mag}
-malbg=${red}
-
-obfg=${fg}
-obifg=${bg}
-cpufg=${fg}
-winfg=${bg}
-netfg=${bg}
-volfg=${fg}
-batfg=${fg}
-malfg=${fg}
-
-# accents
-acc0="${acc0}"
-acc1="${acc1}"
-acc2="${acc2}"
-acc3="${acc2}"
-acc4="${acc3}"
-
-a0="%{B$acc0}"
-a1="%{B$acc1}"
-a2="%{B$acc2}"
-a3="%{B$acc3}"
-a4="%{B$acc4}"
-
-af0="%{F$acc0}"
-af1="%{F$acc1}"
-af2="%{F$fg}"
-
-bgt="%{B$fg}"
-bgf="%{F$bg}"
-EOL
-
-cat $CACHE_DIR/colors.sh
-
+# kills old polybar and reloads
+reload_polybar() {
+   pkill -x polybar
+   polybar clite &
 }
 
-# Write generic colors to be used by .Xresources
-write_xcolors() {
-cat > $CACHE_DIR/colors << EOL
-#define bg ${bg}
-#define fg ${fg}
-#define blk ${blk}
-#define bblk ${bblk}
-#define red ${red}
-#define grn ${grn}
-#define ylw ${ylw}
-#define blu ${blu}
-#define mag ${mag}
-#define cyn ${cyn}
-#define wht ${wht}
-#define bred ${bred}
-#define bgrn ${bgrn}
-#define bylw ${bylw}
-#define bblu ${bblu}
-#define bmag ${bmag}
-#define bcyn ${bcyn}
-#define bwht ${bwht}
-EOL
-
-cat $CACHE_DIR/colors
-}
-
-write_xreload() {
-cat > $CACHE_DIR/colorXReload << EOL
-
-!speical
-*.foreground:  ${fg}
-*.background:  ${bg}
-*.cursorColor: ${fg}
-
-!black
-*.color0:      ${blk}
-*.color8:      ${bblk}
-
-!red
-*.color1:      ${red}
-*.color9:      ${bred}
-
-!grn
-*.color2:      ${grn}
-*.color10:     ${bgrn}
-
-!ylw
-*.color3:      ${ylw}
-*.color11:     ${bylw}
-
-!blu
-*.color4:      ${blu}
-*.color12:     ${bblu}
-
-!mag
-*.color5:      ${mag}
-*.color13:     ${bmag}
-
-!cyn
-*.color6:      ${cyn}
-*.color14:     ${bcyn}
-
-!wht
-*.color7:      ${wht}
-*.color15:     ${bwht}
-EOL
-
-cat $CACHE_DIR/colorXReload
-}
-
-
-# Kills and reloads polybar
-reload_pbar() {
-	pkill -x polybar
-	#polybar base &
-	polybar clite &
-}
-
-reload_xterm() {
-   colorswitcher $CACHE_DIR/colorXReload
-}
-
-# Kills and reloads lemonbar
-reload_lemonbar() {
-	pkill -x lemonbar
-	bar &
-}
-
+# Credit for this method goes to dkeg
+# github.com/dkeg
 reload_2bwm() {
-   morphr &
+   foc=$ylw
+   unfoc=$blw
+   fixc=$red
+   unkil=$cyn
+   fixunk=$mag
+   outr=$bg
+   emp=$bg
+
+   dir=$HOME/2bwm
+   file=$dir/config.h
+
+   wmcol=$(cat $file|awk '/\*colors/ {print $6}'|cut -d '}' -f1|awk '{gsub(/"/," ");print $2,$4,$6,$8,$10,$12,$14}') 
+   arr=($wmcol)
+
+    sed -i "s/${arr[0]}/"$foc"/;
+            s/${arr[1]}/"$unfoc"/;
+            s/${arr[2]}/"$fixc"/;
+            s/${arr[3]}/"$unkil"/;
+            s/${arr[4]}/"$fixunk"/;
+            s/${arr[5]}/"$outr"/;
+            s/${arr[6]}/"$emp"/" $file 
+
+   cd $dir && make && sudo make install && cd
+
+   xdotool key "super+ctrl+r"
 }
 
-# Sets wallpaper based on wallpaper in squash theme file
 set_wallpaper() {
-	pkill -x nitrogen
-	nitrogen --set-zoom-fill ${wallpaper}
+   pkill -x nitrogen
+   nitrogen --set-zoom-fill ${wallpaper}
 }
 
-main() {
-	cleanup
-	. $THEME_DIR/${COLORS}
-	write_xcolors
-   write_xreload
-	write_css
-	reload_x
-	reload_pbar
-   reload_2bwm
-   reload_xterm
-   set_wallpaper
+# builds an array of all necessary colors
+# the last three elements of the array are
+# the bg, fg, and cursor color
+get_colors() {
+   . $THEME_DIR/$COLOR_SCHEME
+   COLOR_ARRAY=($blk $red $grn $ylw $blu $mag $cyn $wht \
+                $bblk $bred $bgrn $bylw $bblu $bmag $bcyn $bwht)
 }
 
-main "$@"
+# adds main colors to sequence 0-15. Colors are defined in the 
+# COLOR_ARRAY
+create_main_sequence() {
+   for i in {0..15}
+   do
+      sequence+="\033]4;${i};${COLOR_ARRAY[${i}]}\007"
+   done
+}
+
+# adds background and foreground colors to sequence
+# does not rely on array, uses sourced variables
+create_secondary_sequence() {
+   # add foreground
+   for i in 10 12 13; do
+      sequence+="\033]${i};${fg}\007"
+   done
+
+   # add background
+   for i in 11 14 708; do
+      sequence+="\033]${i};${bg}\007"
+   done
+}
+
+write_x_source() {
+   x_output=""
+   x_output+="*.foreground:   ${fg}${NEWLINE}"
+   x_output+="*.background:   ${bg}${NEWLINE}"
+   x_output+="*.cursorColor:  ${fg}${NEWLINE}"
+
+   for i in {0..15}; do
+      x_output+="*.color${i}: ${COLOR_ARRAY[${i}]}${NEWLINE}"
+   done
+}
+
+write_rofi() {
+   rofi_output=""
+   rofi_output+="rofi.color-enaled: true${NEWLINE}"
+   rofi_output+="rofi.color-window: ${bg}, ${cyn}, ${cyn}${NEWLINE}"
+   rofi_output+="rofi.color-normal: ${bg}, ${fg}, ${bg}, ${cyn}, ${fg}${NEWLINE}"
+}
+
+write_2bwm() {
+   twobwm_output=""
+   twobwm_output+="twobwm.focus_color: ${wht}${NEWLINE}"
+   twobwm_output+="twobwm.unfocus_color: ${blu}${NEWLINE}"
+   twobwm_output+="twobwm.fixed_color: ${wht}${NEWLINE}"
+   twobwm_output+="twobwm.unkill_color: ${wht}${NEWLINE}"
+   twobwm_output+="twobwm.outer_border_color: ${bg}${NEWLINE}"
+   twobwm_output+="twobwm.fixed_unkill_color: ${cyn}${NEWLINE}"
+}
+
+write_all() {
+   output=${x_output}${rofi_output}${twobwm_output}
+   echo $output
+   printf "${output}" > "${CACHE_DIR}/x_colors"
+}
+
+cleanup
+get_colors
+sequence=""
+create_main_sequence
+create_secondary_sequence
+reload_x
+write_x_source
+write_rofi
+write_2bwm
+write_all
+merge_x
+reload_2bwm
+reload_polybar
+set_wallpaper
