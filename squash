@@ -29,7 +29,7 @@ merge_x() {
 # kills old polybar and reloads
 reload_polybar() {
    pkill -x polybar
-   polybar clite &
+   polybar base &
 }
 
 # Credit for this method goes to dkeg
