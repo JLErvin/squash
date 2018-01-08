@@ -128,7 +128,15 @@ write_2bwm() {
 }
 
 write_css() {
-   echo "cock"
+   css_output=""
+   css_output+=":root {${NEWLINE}"
+   css_output+="\t--background: ${bg};${NEWLINE}"
+   css_output+="\t--foreground: ${fg};${NEWLINE}"
+   for i in {0..15}; do
+      css_output+="\t--color${i}: ${COLOR_ARRAY[${i}]};${NEWLINE}"
+   done
+   css_output+="}"
+   printf "${css_output}" > "${CACHE_DIR}/colors.css"
 }
 
 write_all() {
@@ -147,6 +155,7 @@ write_x_source
 write_rofi
 write_2bwm
 write_all
+write_css
 merge_x
 reload_2bwm
 reload_polybar
