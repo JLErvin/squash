@@ -64,7 +64,7 @@ reload_2bwm() {
 
 set_wallpaper() {
    pkill -x nitrogen
-   nitrogen --set-zoom-fill ${wallpaper}
+   hsetroot -fill ${wallpaper}
 }
 
 # builds an array of all necessary colors
@@ -125,6 +125,10 @@ write_2bwm() {
    twobwm_output+="twobwm.unkill_color: ${wht}${NEWLINE}"
    twobwm_output+="twobwm.outer_border_color: ${bg}${NEWLINE}"
    twobwm_output+="twobwm.fixed_unkill_color: ${cyn}${NEWLINE}"
+}
+
+write_css() {
+   echo "cock"
 }
 
 write_all() {
