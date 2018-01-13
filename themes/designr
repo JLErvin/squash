@@ -7,7 +7,7 @@ bblk=#35444b
 red=#a66959
 grn=#769070
 ylw=#ac8d6e
-blu=#
+blu=#607a86
 mag=#8a757e
 cyn=#60867f
 wht=#c4c4b5
@@ -17,16 +17,10 @@ bylw=#ac8d6e
 bblu=#607a86
 bmag=#8a757e
 bcyn=#60867f
-bwht#c4c4b5
-
-acc0="#607a86"
-acc1="#607a86"
-acc2="#607a86"
-acc3="#607a86"
-acc4="#607a86"
+bwht=#c4c4b5
 
 main_bg=${bg}
 alt_bg=${bblk}
 alt_bg_bright=${blu}
 main_fg=${fg}
-wallpaper=~/wallpapers/alberto-restifo-40088.jpg
+wallpaper=~/wallpapers/designrlighter.png

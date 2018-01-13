@@ -2,7 +2,7 @@
 
 # Credit goes to dkeg for this colorscheme
 
-bg=#252a32
+bg=#2e384b
 blk=#272c34
 bblk=#3b434f
 fg=#bab7b5
@@ -21,14 +21,8 @@ bmag=#84787d
 bcyn=#556f86
 bwht=#dfdedd
 
-acc0="#546780"
-acc1="#272c34"
-acc2="#272c34"
-acc3="#272c34"
-acc4="#272c34"
-
 main_bg=${bg}
 alt_bg=${bblk}
 alt_bg_bright=${blu}
 main_fg=${fg}
-wallpaper=~/wallpapers/alberto-restifo-40088.jpg
+wallpaper=~/wallpapers/skighbg.png
