@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# Inspired by NerdyPepper
+# github.com/NerdyPepper
+
+bg=#121c21
+fg=#aaafb2
+
+blk=#121c21
+red=#f0696f
+grn=#76a08c
+ylw=#f7cca1
+blu=#718c97
+mag=#ceb5ce
+cyn=#5f9993
+wht=#aaafb2
+
+bblk=#3f6173
+bred=#fa9a6a
+bgrn=#1e2e36
+bylw=#304b59
+bblu=#7b8e98
+bmag=#bcd9e8
+bcyn=#877366
+bwht=#cfefff
+
+wallpaper=~/wallpapers/output.jpg
