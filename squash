@@ -1,11 +1,11 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Get command line arguments
 COLOR_SCHEME="$1"
 
 # Define location of cache and themes
 CACHE_DIR=$HOME/.cache/squash
-THEME_DIR=$HOME/.config/squash/themes
+THEME_DIR=$HOME/.config/squash
 
 # Make newlines easier, and define sequence
 NEWLINE=$'\n'
@@ -40,7 +40,7 @@ reload_polybar()
 reload_lemonbar() 
 {
    pkill -x lemonbar
-   infobar &
+   lbar &
 }
 
 # Credit for this method goes to dkeg
@@ -207,35 +207,39 @@ write_x_define()
    printf "${xd_output}" > "$CACHE_DIR/xd_colors"
 }
 
-# Remove old colors
-cleanup
+if [ -f $THEME_DIR/$COLOR_SCHEME ]; then
+    # Remove old colors
+    cleanup
 
-# Source color directory
-get_colors
+    # Source color directory
+    get_colors
 
-# Create sequence to reload opened terminals
-create_main_sequence
-create_secondary_sequence
+    # Create sequence to reload opened terminals
+    create_main_sequence
+    create_secondary_sequence
 
-# Reload all x terminals
-reload_x
+    # Reload all x terminals
+    reload_x
 
-# Write all colors files to .cahe
-write_x_source
-write_rofi
-write_2bwm
-write_all_x
-write_css
-write_sh
-write_x_define
+    # Write all colors files to .cahe
+    write_x_source
+    write_rofi
+    write_2bwm
+    write_all_x
+    write_css
+    write_sh
+    write_x_define
 
-# Merge x colors
-merge_x
+    # Merge x colors
+    merge_x
 
-# Recompile and reload 2bwm
-# Reload bar
-reload_2bwm
-reload_lemonbar
+    # Recompile and reload 2bwm
+    # Reload bar
+    reload_2bwm
+    reload_lemonbar
 
-# Set wallpaper
-set_wallpaper
+    # Set wallpaper
+    set_wallpaper
+else
+    printf "ERROR : THEME FILE NOT FOUND"
+fi
