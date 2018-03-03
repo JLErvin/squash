@@ -6,6 +6,7 @@ COLOR_SCHEME="$1"
 # Define location of cache and themes
 CACHE_DIR=$HOME/.cache/squash
 THEME_DIR=$HOME/.config/squash
+WM=$(head -n 1 $CACHE_DIR/wm)
 
 # Make newlines easier, and define sequence
 NEWLINE=$'\n'
@@ -135,8 +136,8 @@ write_rofi()
 {
    rofi_output=""
    rofi_output+="rofi.color-enaled: true${NEWLINE}"
-   rofi_output+="rofi.color-window: ${wht}, ${wht}, ${cyn}${NEWLINE}"
-   rofi_output+="rofi.color-normal: ${wht}, ${bg}, ${wht}, ${cyn}, ${fg}${NEWLINE}"
+   rofi_output+="rofi.color-window: ${bg}, ${bg}, ${blk}${NEWLINE}"
+   rofi_output+="rofi.color-normal: ${bg}, ${fg}, ${bg}, ${blk}, ${acc}${NEWLINE}"
 }
 
 write_2bwm() 
@@ -235,7 +236,9 @@ if [ -f $THEME_DIR/$COLOR_SCHEME ]; then
 
     # Recompile and reload 2bwm
     # Reload bar
-    reload_2bwm
+    if [[ $WM == "2bwm" ]]; then
+        reload_2bwm
+    fi
     reload_lemonbar
 
     # Set wallpaper
