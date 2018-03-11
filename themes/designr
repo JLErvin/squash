@@ -1,12 +1,12 @@
-#!/bin/bash
-#
-# Inspired by dkeg
-# github.com/dkeg
+#!/usr/bin/env bash
+
+
+
 
 bg=#242e32
 fg=#c4c4b5
-
 blk=#253034
+bblk=#35444b
 red=#a66959
 grn=#769070
 ylw=#ac8d6e
@@ -14,8 +14,6 @@ blu=#607a86
 mag=#8a757e
 cyn=#60867f
 wht=#c4c4b5
-
-bblk=#35444b
 bred=#a66959
 bgrn=#769070
 bylw=#ac8d6e
@@ -23,5 +21,4 @@ bblu=#607a86
 bmag=#8a757e
 bcyn=#60867f
 bwht=#c4c4b5
-
-wallpaper=~/wallpapers/designrlighter.png
+wallpaper=~/wallpapers/5i43Hvw.jpg

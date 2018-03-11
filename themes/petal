@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+
+
+bg=#22211f
+blk=#252422
+bblk=#4a4843
+fg=#b4b399
+red=#785326
+grn=#516941
+ylw=#827834
+blu=#42514f
+mag=#6a5632
+cyn=#4e5d4d
+wht=#b4b399
+bred=#785326
+bgrn=#516941
+bylw=#827834
+bblu=#42514f
+bmag=#6a5632
+bcyn=#4e5d4d
+bwht=#c9c9b6
+wallpaper=~/wallpapers/5i43Hvw.jpg

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bg=#282828
+bg=#1d2021
 fg=#ebdbb2
 
 blk=#3c3836
@@ -12,7 +12,7 @@ mag=#b16286
 cyn=#689d6a
 wht=#fbf1c7
 
-bblk=#a89984
+bblk=#3c3836
 bred=#fb4934
 bgrn=#b8bb26
 bylw=#fabd2f
@@ -20,5 +20,7 @@ bblu=#83a598
 bmag=#d3869b
 bcyn=#8ec07c
 bwht=#fbf1c7
+
+acc=$ylw
 
 wallpaper=~/wallpapers/sergey-turkin-299295.jpg
