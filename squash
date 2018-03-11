@@ -83,6 +83,7 @@ set_wallpaper()
 {
    pkill -x nitrogen
    hsetroot -fill ${wallpaper}
+   cp ${wallpaper} "/tmp/screen.png"
 }
 
 # builds an array of all necessary colors
@@ -157,6 +158,7 @@ write_css()
 {
    css_output=""
    css_output+=":root {${NEWLINE}"
+   css_output+="\t--wallpaper: url("${wallpaper}");${NEWLINE}"
    css_output+="\t--background: ${bg};${NEWLINE}"
    css_output+="\t--foreground: ${fg};${NEWLINE}"
    for i in {0..15}; do
