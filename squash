@@ -6,6 +6,7 @@ COLOR_SCHEME="$1"
 # Define location of cache and themes
 CACHE_DIR=$HOME/.cache/squash
 THEME_DIR=$HOME/.config/squash
+VIM_CONFIG=$HOME/.config/nvim/appearance.vim
 WM=$(head -n 1 $CACHE_DIR/wm)
 
 # Make newlines easier, and define sequence
@@ -215,7 +216,8 @@ write_name()
 
 write_vim_colorscheme()
 {
-    sed -i -i 's/colorscheme .*\colorscheme $COLOR_SCHEME/g' '/home/jlervin/.config/nvim/appearance.vim'
+    echo $vim_scheme
+    sed -i -e "s/colorscheme .*/colorscheme $vim_scheme/g" $VIM_CONFIG
 }
 
 if [ -f $THEME_DIR/$COLOR_SCHEME ]; then
