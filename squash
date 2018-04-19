@@ -41,7 +41,7 @@ reload_polybar()
 reload_lemonbar() 
 {
    pkill -x lemonbar
-   lbar &
+   bar &
 }
 
 # Credit for this method goes to dkeg
@@ -56,7 +56,7 @@ reload_2bwm()
    outr=$bg
    emp=$bg
 
-   dir=$HOME/2bwm
+   dir=$HOME/2bwm/src/2bwm
    file=$dir/config.h
 
    printf "${NEWLINE}"
@@ -81,7 +81,6 @@ reload_2bwm()
 
 set_wallpaper() 
 {
-   pkill -x nitrogen
    hsetroot -fill ${wallpaper}
    cp ${wallpaper} "/tmp/screen.png"
 }
@@ -181,7 +180,6 @@ write_sh()
 write_all_x() 
 {
    output=${x_output}${rofi_output}${twobwm_output}
-   echo $output
    printf "${output}" > "${CACHE_DIR}/x_colors"
 }
 
@@ -210,6 +208,16 @@ write_x_define()
    printf "${xd_output}" > "$CACHE_DIR/xd_colors"
 }
 
+write_name()
+{
+    printf "$COLOR_SCHEME" > "${CACHE_DIR}/name"
+}
+
+write_vim_colorscheme()
+{
+    sed -i -i 's/colorscheme .*\colorscheme $COLOR_SCHEME/g' '/home/jlervin/.config/nvim/appearance.vim'
+}
+
 if [ -f $THEME_DIR/$COLOR_SCHEME ]; then
     # Remove old colors
     cleanup
@@ -232,6 +240,8 @@ if [ -f $THEME_DIR/$COLOR_SCHEME ]; then
     write_css
     write_sh
     write_x_define
+    write_name
+    write_vim_colorscheme
 
     # Merge x colors
     merge_x
@@ -241,6 +251,7 @@ if [ -f $THEME_DIR/$COLOR_SCHEME ]; then
     if [[ $WM == "2bwm" ]]; then
         reload_2bwm
     fi
+
     reload_lemonbar
 
     # Set wallpaper
