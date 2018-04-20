@@ -2,9 +2,9 @@
 
 A dead simple program to apply user-created themes to unix systems. 
 
-Unlike many themeing programs, squash uses bash scripts for configuration. 
+Unlike many themeing programs, squash uses shell scripts for configuration. 
 This makes squash very extensible, and allows all information about a theme
-to be store in a single bash file. 
+to be store in a single shell script. 
 
 The most basic `squash` theme files look like:
 
@@ -63,7 +63,8 @@ wallpaper=~/Wallpapers/wallpaper.png
 vim_scheme=base16-default-dark
 ```
 
-Squash currently includes the following features: 
+## Features
+
    * Apply colors to existing urxvt terminals
    * Create color files using the following formats:
       * bash
