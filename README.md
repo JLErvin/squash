@@ -64,18 +64,17 @@ vim_scheme=base16-default-dark
 ```
 
 Squash currently includes the following features: 
-
-    * Apply colors to existing urxvt terminals
-    * Create color files using the following formats:
-        * bash
-        * css
-        * Xresources
-            * 2bwm colors
-            * rofi colors
-            * urxvt colors
-    * Reload and recompile 2bwm after applying new colors
-    * Reload lemonbar after applying new colors
-    * Rewrite $MYVIMRC to use desired colorscheme
+   * Apply colors to existing urxvt terminals
+   * Create color files using the following formats:
+      * bash
+      * css
+      * Xresources
+         * 2bwm colors
+         * rofi colors
+         * urxvt colors
+   * Reload and recompile 2bwm after applying new colors
+   * Reload lemonbar after applying new colors
+   * Rewrite $MYVIMRC to use desired colorscheme
 
 # Usage
 
