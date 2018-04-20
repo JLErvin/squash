@@ -9,7 +9,7 @@ to be store in a single bash file.
 The most basic `squash` theme files look like:
 
 
-``` bash
+``` zsh
 #!/bin/bash
 bg=#3c4254
 fg=#feddd0
@@ -39,7 +39,7 @@ to reflect these colors on all current and new terminals.
 However, by using bash files, we can easily extend squash to add new functionality. For example, 
 we can specify a `wallpaper` variable that will applied uniquely to each theme. 
 
-``` bash
+``` zsh
 #!/bin/bash
 bg=#3c4254
 fg=#feddd0
@@ -64,6 +64,7 @@ vim_scheme=base16-default-dark
 ```
 
 Squash currently includes the following features: 
+
     * Apply colors to existing urxvt terminals
     * Create color files using the following formats:
         * bash
