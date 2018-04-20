@@ -207,6 +207,8 @@ write_vim_colorscheme() {
 }
 
 if [ -f $THEME_DIR/$COLOR_SCHEME ]; then
+    printf "Changing colorschemes..."
+
     # Remove old colors
     cleanup
 
@@ -234,16 +236,16 @@ if [ -f $THEME_DIR/$COLOR_SCHEME ]; then
     # Merge x colors
     merge_x
 
+    reload_lemonbar
+
+    # Set wallpaper
+    set_wallpaper
+
     # Recompile and reload 2bwm
     # Reload bar
     if [[ $WM == "2bwm" ]]; then
         reload_2bwm
     fi
-
-    reload_lemonbar
-
-    # Set wallpaper
-    set_wallpaper
 else
-    printf "ERROR : THEME FILE NOT FOUND"
+    printf "ERROR: THEME FILE NOT FOUND"
 fi

@@ -1,10 +1,10 @@
 # squash
 
-A dead simple program to apply user-created themes to unix systems. 
+A dead simple program for applying user-created themes to unix systems. 
 
 Unlike many themeing programs, squash uses shell scripts for configuration. 
 This makes squash very extensible, and allows all information about a theme
-to be store in a single shell script. 
+to be stored in a single shell script. 
 
 The most basic `squash` theme files look like:
 
@@ -37,7 +37,7 @@ This defines all the colors that the system is going to use, and can easily appl
 to reflect these colors on all current and new terminals. 
 
 However, by using bash files, we can easily extend squash to add new functionality. For example, 
-we can specify a `wallpaper` variable that will applied uniquely to each theme. 
+we can specify a `wallpaper` variable that will be applied uniquely to each theme. 
 
 ``` zsh
 #!/bin/bash
