@@ -1,54 +1,52 @@
 #!/usr/bin/env bash
 
-# Get command line arguments
+# COLORSCHEME 
 COLOR_SCHEME="$1"
 
-# Define location of cache and themes
+# GLOBAL VARIABLES
 CACHE_DIR=$HOME/.cache/squash
 THEME_DIR=$HOME/.config/squash
 VIM_CONFIG=$HOME/.config/nvim/appearance.vim
 WM=$(head -n 1 $CACHE_DIR/wm)
 
-# Make newlines easier, and define sequence
+# CONVENIENCE VARIABLES
 NEWLINE=$'\n'
 sequence=""
 
-# remove old cache files
-cleanup() 
-{
+# Removes old color files from the cache
+# directory used to define xrdb
+cleanup() { 
    rm -f $CACHE_DIR/x_colors
 }
 
-# reloads xterminals in place
-reload_x() 
-{
+# Sends the current color escape sequences to 
+# all active terminals, causing them to 
+# change active colors without having to be
+# reloaded
+reload_x() { 
    for term in /dev/pts/[0-9]*; do
       printf "%b" "$sequence" > "$term"
    done
 }
 
-merge_x() 
-{
+# Reloads the current X resources file
+# in the home direcotry
+merge_x() { 
    xrdb ${HOME}/.Xresources
 }
 
-# kills old polybar and reloads
-reload_polybar() 
-{
-   pkill -x polybar
-   polybar base &
-}
-
-reload_lemonbar() 
-{
-   pkill -x lemonbar
-   bar &
+reload_lemonbar() { 
+    killall lemonbar
+    bar &
 }
 
 # Credit for this method goes to dkeg
 # github.com/dkeg
-reload_2bwm() 
-{
+# Changes the colors within 2bwm's config.h file
+# to reflect the new colorscheme, then recompiles and
+# reloads 2bwm
+# NOTE: Requires sudo
+reload_2bwm() { 
    foc=$ylw
    unfoc=$blu
    fixc=$red
@@ -60,9 +58,9 @@ reload_2bwm()
    dir=$HOME/2bwm/src/2bwm
    file=$dir/config.h
 
-   printf "${NEWLINE}"
-   printf "${dir}${NEWLINE}"
-   printf "${file}${NEWLINE}"
+   #printf "${NEWLINE}"
+   #printf "${dir}${NEWLINE}"
+   #printf "${file}${NEWLINE}"
 
    wmcol=$(cat $file|awk '/\*colors/ {print $6}'|cut -d '}' -f1|awk '{gsub(/"/," ");print $2,$4,$6,$8,$10,$12,$14}') 
    arr=($wmcol)
@@ -80,8 +78,10 @@ reload_2bwm()
    xdotool key "super+ctrl+r"
 }
 
-set_wallpaper() 
-{
+# Sets the current wallpaper using hsetroot. 
+# Overwrites any current wallpaper set by either
+# xsetroot or nitrogen
+set_wallpaper() { 
    hsetroot -fill ${wallpaper}
    cp ${wallpaper} "/tmp/screen.png"
 }
@@ -89,27 +89,22 @@ set_wallpaper()
 # builds an array of all necessary colors
 # the last three elements of the array are
 # the bg, fg, and cursor color
-get_colors() 
-{
+get_colors() { 
    . $THEME_DIR/$COLOR_SCHEME
    COLOR_ARRAY=($blk $red $grn $ylw $blu $mag $cyn $wht \
                 $bblk $bred $bgrn $bylw $bblu $bmag $bcyn $bwht)
 }
-
 # adds main colors to sequence 0-15. Colors are defined in the 
 # COLOR_ARRAY
-create_main_sequence() 
-{
-   for i in {0..15}
-   do
+create_main_sequence() { 
+   for i in {0..15}; do
       sequence+="\033]4;${i};${COLOR_ARRAY[${i}]}\007"
    done
 }
 
 # adds background and foreground colors to sequence
 # does not rely on array, uses sourced variables
-create_secondary_sequence() 
-{
+create_secondary_sequence() { 
    # add foreground
    for i in 10 12 13; do
       sequence+="\033]${i};${fg}\007"
@@ -121,8 +116,7 @@ create_secondary_sequence()
    done
 }
 
-write_x_source() 
-{
+write_x_source() { 
    x_output=""
    x_output+="*.foreground:   ${fg}${NEWLINE}"
    x_output+="*.background:   ${bg}${NEWLINE}"
@@ -133,16 +127,15 @@ write_x_source()
    done
 }
 
-write_rofi() 
-{
+write_rofi() { 
+
    rofi_output=""
    rofi_output+="rofi.color-enaled: true${NEWLINE}"
    rofi_output+="rofi.color-window: ${bg}, ${bg}, ${blk}${NEWLINE}"
    rofi_output+="rofi.color-normal: ${bg}, ${fg}, ${bg}, ${blk}, ${acc}${NEWLINE}"
 }
 
-write_2bwm() 
-{
+write_2bwm() { 
    twobwm_output=""
    twobwm_output+="twobwm.focus_color: ${wht}${NEWLINE}"
    twobwm_output+="twobwm.unfocus_color: ${blu}${NEWLINE}"
@@ -154,8 +147,7 @@ write_2bwm()
 
 # Writes CSS colors for use with programs such as firefox to 
 # $CACHE_DIR/colors.css
-write_css() 
-{
+write_css() { 
    css_output=""
    css_output+=":root {${NEWLINE}"
    css_output+="\t--wallpaper: url("${wallpaper}");${NEWLINE}"
@@ -170,22 +162,19 @@ write_css()
 
 # Writes SH Colors for use with programs such as lemonbar
 # to $CACHE_DIR/colors
-write_sh() 
-{
+write_sh() { 
    rm -f $CACHE_DIR/colors
    cp $THEME_DIR/$COLOR_SCHEME $CACHE_DIR/colors
 }
 
 # Writes X Output, Rofi output, and 2bwm output to x_colors
 # in $CACHE_DIR
-write_all_x() 
-{
+write_all_x() { 
    output=${x_output}${rofi_output}${twobwm_output}
    printf "${output}" > "${CACHE_DIR}/x_colors"
 }
 
-write_x_define() 
-{
+write_x_define() { 
    xd_output=""
    xd_output+="#define bg   ${bg}${NEWLINE}"
    xd_output+="#define blk   ${blk}${NEWLINE}"
@@ -209,14 +198,11 @@ write_x_define()
    printf "${xd_output}" > "$CACHE_DIR/xd_colors"
 }
 
-write_name()
-{
+write_name() {
     printf "$COLOR_SCHEME" > "${CACHE_DIR}/name"
 }
 
-write_vim_colorscheme()
-{
-    echo $vim_scheme
+write_vim_colorscheme() {
     sed -i -e "s/colorscheme .*/colorscheme $vim_scheme/g" $VIM_CONFIG
 }
 
