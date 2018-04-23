@@ -87,8 +87,10 @@ reload_2bwm() {
 
 # Credit to tudor for this awesome method
 reload_nvim() {
-	for nvim_inst in /tmp/nvimsocket-*; do
-    	nvr --servername "$nvim_inst" --remote-send '<Esc>:so $HOME/.config/nvim/init.vim<CR>' &
+    inst=($(nvr --serverlist | sort | uniq))
+
+    for nvim_inst in "${inst[@]}"; do
+        nvr --servername "$nvim_inst" --remote-send '<Esc>:so $HOME/.config/nvim/init.vim<CR>' &
     done
 }
 
