@@ -83,8 +83,12 @@ reload_2bwm() {
 # Overwrites any current wallpaper set by either
 # xsetroot or nitrogen
 set_wallpaper() { 
-   hsetroot -fill ${wallpaper}
-   cp ${wallpaper} "/tmp/screen.png"
+    if [[ $wallpaper_style == "tile" ]]; then
+        hsetroot -tile ${wallpaper}
+    else
+        hsetroot -fill ${wallpaper}
+    fi
+    cp ${wallpaper} "/tmp/screen.png"
 }
 
 # builds an array of all necessary colors
