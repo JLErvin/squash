@@ -37,7 +37,8 @@ merge_x() {
 
 reload_lemonbar() { 
     killall lemonbar
-    bar &
+    #infobar &
+    ${bar} &
 }
 
 # Credit for this method goes to dkeg
