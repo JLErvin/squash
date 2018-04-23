@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+#
+# Unix theme manager
+#
+# Designed by Joshua Ervin @ University of Washington
+# jlevin@posteo.net
+# github.com/JLErvin
 
 # COLORSCHEME 
 COLOR_SCHEME="$1"
@@ -77,6 +83,13 @@ reload_2bwm() {
    cd $dir && make && sudo make install && cd
 
    xdotool key "super+ctrl+r"
+}
+
+# Credit to tudor for this awesome method
+reload_nvim() {
+	for nvim_inst in /tmp/nvimsocket-*; do
+    	nvr --servername "$nvim_inst" --remote-send '<Esc>:so $HOME/.config/nvim/init.vim<CR>' &
+    done
 }
 
 # Sets the current wallpaper using hsetroot. 
@@ -242,6 +255,7 @@ if [ -f $THEME_DIR/$COLOR_SCHEME ]; then
     merge_x
 
     reload_lemonbar
+    reload_nvim
 
     # Set wallpaper
     set_wallpaper
