@@ -30,6 +30,8 @@ BGRN="#769070"
 BYLW="#ac8d6e"
 BBLU="#607a86"
 BMAG="#8a757e"
+
+
 BCYN="#60867f"
 BWHT="#c4c4b5"
 
@@ -38,7 +40,6 @@ ACC="${RED}"
 
 # BAR OPTIONS
 BAR_SCRIPT="infobar2"
-
 # VIM COLORSCHEME
 VIM_SCHEME='bleh'
 
@@ -83,3 +84,9 @@ To make these colors persist on new terminals, add the following to your `.Xreso
 These changes will be merged with the current `.Xresources`. This means that all active programs
 are able to see these changes. For example, a call to refresh `polybar` using `xrdb` would
 see the new colors and apply them accordingly. 
+
+### Reloading nvim
+
+squash is able to change neovim colorschemes and reload all instances of neovim without having to close and reopen the application. 
+For this feature to be available, you must have `neovim-remove` installed. 
+
