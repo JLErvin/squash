@@ -1,24 +1,45 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
+# DEFINE COLORS
+BG="#20292d"
+FG="#c4c4b5"
 
+BLK="#253034"
+RED="#a66959"
+GRN="#769070"
+YLW="#ac8d6e"
+BLU="#607a86"
+MAG="#8a757e"
+CYN="#60867f"
+WHT="#c4c4b5"
 
+BBLK="#35444b"
+BRED="#a66959"
+BGRN="#769070"
+BYLW="#ac8d6e"
+BBLU="#607a86"
+BMAG="#8a757e"
+BCYN="#60867f"
+BWHT="#c4c4b5"
 
-bg=#242e32
-fg=#c4c4b5
-blk=#253034
-bblk=#35444b
-red=#a66959
-grn=#769070
-ylw=#ac8d6e
-blu=#607a86
-mag=#8a757e
-cyn=#60867f
-wht=#c4c4b5
-bred=#a66959
-bgrn=#769070
-bylw=#ac8d6e
-bblu=#607a86
-bmag=#8a757e
-bcyn=#60867f
-bwht=#c4c4b5
-wallpaper=~/wallpapers/5i43Hvw.jpg
+# ROFI OPTIONS
+ACC="${RED}"
+
+# BAR OPTIONS
+BAR_SCRIPT="infobar2"
+
+# VIM COLORSCHEME
+VIM_SCHEME='bleh'
+
+# WALLPAPER OPTIONS
+WALLPAPER_PATH="$HOME/Wallpapers/designr2.png"
+WALLPAPER_STYLE="tile"
+
+# 2BWM OPTIONS
+TWOBWM_FOCUS="${YLW}"
+TWOBWM_UNFOCUS="${BLU}"
+TWOBWM_FIXED="${RED}"
+TWOBWM_UNKILL="${CYN}"
+TWOBWM_FIXEDUNK="${MAG}"
+TWOBWM_OUTR="${BG}"
+TWOBWM_EMP="${BG}"

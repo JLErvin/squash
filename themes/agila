@@ -1,29 +1,49 @@
 #!/bin/bash
-#
-# Inspired by NerdyPepper
-# github.com/NerdyPepper
 
-bg=#121c21
-fg=#aaafb2
+# DEFINE COLORS
+BG="#121c21"
+FG="#aaafb2"
 
-blk=#121c21
-red=#f0696f
-grn=#76a08c
-ylw=#f7cca1
-blu=#718c97
-mag=#ceb5ce
-cyn=#5f9993
-wht=#aaafb2
+BLK="#121c21"
+RED="#f0696f"
+GRN="#76a08c"
+YLW="#f7cca1"
+BLU="#718c97"
+MAG="#ceb5ce"
+CYN="#5f9993"
+WHT="#aaafb2"
 
-bblk=#3f6173
-bred=#fa9a6a
-bgrn=#1e2e36
-bylw=#304b59
-bblu=#7b8e98
-bmag=#bcd9e8
-bcyn=#877366
-bwht=#cfefff
+BBLK="#3f6173"
+BRED="#fa9a6a"
+BGRN="#1e2e36"
+BYLW="#304b59"
+BBLU="#7b8e98"
+BMAG="#bcd9e8"
+BCYN="#877366"
+BWHT="#cfefff"
 
-acc=$red
+# ROFI OPTIONS
+ACC="${RED}"
 
-wallpaper=~/wallpapers/andre-benz-588355-unsplash.jpg
+# BAR OPTIONS
+BAR_SCRIPT="infobar2"
+
+# VIM COLORSCHEME
+VIM_SCHEME='agila'
+
+# WALLPAPER OPTIONS
+WALLPAPER_PATH="$HOME/Wallpapers/annie-spratt-39297-unsplash.jpg"
+WALLPAPER_STYLE="fill"
+
+# 2BWM OPTIONS
+TWOBWM_FOCUS="${BYLW}"
+TWOBWM_UNFOCUS="${BGRN}"
+TWOBWM_FIXED="${RED}"
+TWOBWM_UNKILL="${CYN}"
+TWOBWM_FIXEDUNK="${MAG}"
+TWOBWM_OUTR="${BG}"
+TWOBWM_EMP="${BG}"
+
+# LEMONBAR OPTIONS
+LMNBAR_DARK="${BYLW}"
+LMNBAR_DARKER="${BGRN}"

@@ -10,9 +10,9 @@
 COLOR_SCHEME="$1"
 
 # GLOBAL VARIABLES
-CACHE_DIR=$HOME/.cache/squash
-THEME_DIR=$HOME/.config/squash
-VIM_CONFIG=$HOME/.config/nvim/appearance.vim
+CACHE_DIR="$HOME/.cache/squash"
+THEME_DIR="$HOME/.config/squash"
+VIM_CONFIG="$HOME/.config/nvim/appearance.vim"
 WM=$(head -n 1 $CACHE_DIR/wm)
 
 # CONVENIENCE VARIABLES
@@ -44,7 +44,7 @@ merge_x() {
 reload_lemonbar() { 
     killall lemonbar
     #infobar &
-    ${bar} &
+    ${BAR_SCRIPT} &
 }
 
 # Credit for this method goes to dkeg
@@ -54,13 +54,13 @@ reload_lemonbar() {
 # reloads 2bwm
 # NOTE: Requires sudo
 reload_2bwm() { 
-   foc=$ylw
-   unfoc=$blu
-   fixc=$red
-   unkil=$cyn
-   fixunk=$mag
-   outr=$bg
-   emp=$bg
+   foc=${TWOBWM_FOCUS}
+   unfoc=${TWOBWM_UNFOCUS}
+   fixc=${TWOBWM_FIXED}
+   unkil=${TWOBWM_UNKILL}
+   fixunk=${TWOBWM_FIXEDUNK}
+   outr=${TWOBWM_OUTR}
+   emp=${TWOBWM_EMP}
 
    dir=$HOME/2bwm/src/2bwm
    file=$dir/config.h
@@ -86,6 +86,7 @@ reload_2bwm() {
 }
 
 # Credit to tudor for this awesome method
+# REQUIRES: nvim remote to work
 reload_nvim() {
     inst=($(nvr --serverlist | sort | uniq))
 
@@ -98,21 +99,22 @@ reload_nvim() {
 # Overwrites any current wallpaper set by either
 # xsetroot or nitrogen
 set_wallpaper() { 
-    if [[ $wallpaper_style == "tile" ]]; then
-        hsetroot -tile ${wallpaper}
+    if [[ $WALLPAPER_STYLE == "tile" ]]; then
+        hsetroot -tile ${WALLPAPER_PATH}
     else
-        hsetroot -fill ${wallpaper}
+        hsetroot -fill ${WALLPAPER_PATH}
     fi
-    cp ${wallpaper} "/tmp/screen.png"
+    cp ${WALLPAPER_PATH} "/tmp/screen.png"
 }
 
 # builds an array of all necessary colors
 # the last three elements of the array are
 # the bg, fg, and cursor color
 get_colors() { 
-   . $THEME_DIR/$COLOR_SCHEME
-   COLOR_ARRAY=($blk $red $grn $ylw $blu $mag $cyn $wht \
-                $bblk $bred $bgrn $bylw $bblu $bmag $bcyn $bwht)
+   #. $THEME_DIR/$COLOR_SCHEME
+   source $THEME_DIR/$COLOR_SCHEME
+   COLOR_ARRAY=($BLK $RED $GRN $YLW $BLU $MAG $CYN $WHT \
+                $BBLK $BRED $BGRN $BYLW $BBLU $BMAG $BCYN $BWHT)
 }
 # adds main colors to sequence 0-15. Colors are defined in the 
 # COLOR_ARRAY
@@ -127,20 +129,20 @@ create_main_sequence() {
 create_secondary_sequence() { 
    # add foreground
    for i in 10 12 13; do
-      sequence+="\033]${i};${fg}\007"
+      sequence+="\033]${i};${FG}\007"
    done
 
    # add background
    for i in 11 14 708; do
-      sequence+="\033]${i};${bg}\007"
+      sequence+="\033]${i};${BG}\007"
    done
 }
 
 write_x_source() { 
    x_output=""
-   x_output+="*.foreground:   ${fg}${NEWLINE}"
-   x_output+="*.background:   ${bg}${NEWLINE}"
-   x_output+="*.cursorColor:  ${fg}${NEWLINE}"
+   x_output+="*.foreground:   ${FG}${NEWLINE}"
+   x_output+="*.background:   ${BG}${NEWLINE}"
+   x_output+="*.cursorColor:  ${FG}${NEWLINE}"
 
    for i in {0..15}; do
       x_output+="*.color${i}: ${COLOR_ARRAY[${i}]}${NEWLINE}"
@@ -148,21 +150,20 @@ write_x_source() {
 }
 
 write_rofi() { 
-
    rofi_output=""
    rofi_output+="rofi.color-enaled: true${NEWLINE}"
-   rofi_output+="rofi.color-window: ${bg}, ${bg}, ${blk}${NEWLINE}"
-   rofi_output+="rofi.color-normal: ${bg}, ${fg}, ${bg}, ${blk}, ${acc}${NEWLINE}"
+   rofi_output+="rofi.color-window: ${BG}, ${BG}, ${BLK}${NEWLINE}"
+   rofi_output+="rofi.color-normal: ${BG}, ${FG}, ${BG}, ${BLK}, ${ACC}${NEWLINE}"
 }
 
 write_2bwm() { 
    twobwm_output=""
-   twobwm_output+="twobwm.focus_color: ${wht}${NEWLINE}"
-   twobwm_output+="twobwm.unfocus_color: ${blu}${NEWLINE}"
-   twobwm_output+="twobwm.fixed_color: ${wht}${NEWLINE}"
-   twobwm_output+="twobwm.unkill_color: ${wht}${NEWLINE}"
-   twobwm_output+="twobwm.outer_border_color: ${bg}${NEWLINE}"
-   twobwm_output+="twobwm.fixed_unkill_color: ${cyn}${NEWLINE}"
+   twobwm_output+="twobwm.focus_color: ${TWOBWM_FOCUS}${NEWLINE}"
+   twobwm_output+="twobwm.unfocus_color: ${TWOBWM_FOCUS}${NEWLINE}"
+   twobwm_output+="twobwm.fixed_color: ${TWOBWM_FIXED}${NEWLINE}"
+   twobwm_output+="twobwm.unkill_color: ${TWOBWM_UNKILL}${NEWLINE}"
+   twobwm_output+="twobwm.outer_border_color: ${TWOBWM_OUTR}${NEWLINE}"
+   twobwm_output+="twobwm.fixed_unkill_color: ${TWOBWM_UNKILL}${NEWLINE}"
 }
 
 # Writes CSS colors for use with programs such as firefox to 
@@ -171,8 +172,8 @@ write_css() {
    css_output=""
    css_output+=":root {${NEWLINE}"
    css_output+="\t--wallpaper: url("${wallpaper}");${NEWLINE}"
-   css_output+="\t--background: ${bg};${NEWLINE}"
-   css_output+="\t--foreground: ${fg};${NEWLINE}"
+   css_output+="\t--background: ${BG};${NEWLINE}"
+   css_output+="\t--foreground: ${FG};${NEWLINE}"
    for i in {0..15}; do
       css_output+="\t--color${i}: ${COLOR_ARRAY[${i}]};${NEWLINE}"
    done
@@ -194,36 +195,12 @@ write_all_x() {
    printf "${output}" > "${CACHE_DIR}/x_colors"
 }
 
-write_x_define() { 
-   xd_output=""
-   xd_output+="#define bg   ${bg}${NEWLINE}"
-   xd_output+="#define blk   ${blk}${NEWLINE}"
-   xd_output+="#define bblk   ${bblk}${NEWLINE}"
-   xd_output+="#define fg   ${fg}${NEWLINE}"
-   xd_output+="#define red   ${red}${NEWLINE}"
-   xd_output+="#define bred   ${bred}${NEWLINE}"
-   xd_output+="#define grn   ${grn}${NEWLINE}"
-   xd_output+="#define bgrn   ${bgrn}${NEWLINE}"
-   xd_output+="#define ylw   ${ylw}${NEWLINE}"
-   xd_output+="#define bylw   ${bylw}${NEWLINE}"
-   xd_output+="#define blu   ${blu}${NEWLINE}"
-   xd_output+="#define bblu   ${bblu}${NEWLINE}"
-   xd_output+="#define mag   ${mag}${NEWLINE}"
-   xd_output+="#define bmag   ${bmag}${NEWLINE}"
-   xd_output+="#define cyn   ${cyn}${NEWLINE}"
-   xd_output+="#define bcyn   ${bcyn}${NEWLINE}"
-   xd_output+="#define wht   ${wht}${NEWLINE}"
-   xd_output+="#define bwht   ${bwht}${NEWLINE}"
-
-   printf "${xd_output}" > "$CACHE_DIR/xd_colors"
-}
-
 write_name() {
     printf "$COLOR_SCHEME" > "${CACHE_DIR}/name"
 }
 
 write_vim_colorscheme() {
-    sed -i -e "s/colorscheme .*/colorscheme $vim_scheme/g" $VIM_CONFIG
+    sed -i -e "s/colorscheme .*/colorscheme $VIM_SCHEME/g" $VIM_CONFIG
 }
 
 if [ -f $THEME_DIR/$COLOR_SCHEME ]; then
@@ -249,7 +226,7 @@ if [ -f $THEME_DIR/$COLOR_SCHEME ]; then
     write_all_x
     write_css
     write_sh
-    write_x_define
+    #write_x_define
     write_name
     write_vim_colorscheme
 
