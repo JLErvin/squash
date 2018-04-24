@@ -8,7 +8,7 @@ to be stored in a single shell script.
 
 The most basic `squash` theme files look like:
 
-``` shell
+``` bash
 #!/bin/bash
 
 # DEFINE COLORS
@@ -37,12 +37,10 @@ BWHT="#c4c4b5"
 ACC="${RED}"
 
 # BAR OPTIONS
-
 BAR_SCRIPT="infobar2"
 
 # VIM COLORSCHEME
 VIM_SCHEME='bleh'
-
 
 # WALLPAPER OPTIONS
 WALLPAPER_PATH="$HOME/Wallpapers/designr2.png"
