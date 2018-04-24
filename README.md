@@ -8,74 +8,58 @@ to be stored in a single shell script.
 
 The most basic `squash` theme files look like:
 
-
-``` zsh
+``` shell
 #!/bin/bash
-bg=#3c4254
-fg=#feddd0
 
-blk=#181818
-red=#ab4642
-grn=#a1b56c
-ylw=#f7ca88
-blu=#7cafc2
-mag=#ba8baf
-cyn=#86c1b9
-wht=#d8d8d8
 
-bblk=#585858
-bred=#dc9656
-bgrn=#282828
-bylw=#383838
-bblu=#b8b8b8
-bmag=#e8e8e8
-bcyn=#a16946
-bwht=#f8f8f8
+
+# DEFINE COLORS
+BG="#20292d"
+FG="#c4c4b5"
+
+BLK="#253034"
+RED="#a66959"
+GRN="#769070"
+YLW="#ac8d6e"
+BLU="#607a86"
+MAG="#8a757e"
+CYN="#60867f"
+WHT="#c4c4b5"
+
+BBLK="#35444b"
+BRED="#a66959"
+BGRN="#769070"
+BYLW="#ac8d6e"
+BBLU="#607a86"
+BMAG="#8a757e"
+BCYN="#60867f"
+BWHT="#c4c4b5"
+
+# ROFI OPTIONS
+ACC="${RED}"
+
+# BAR OPTIONS
+
+BAR_SCRIPT="infobar2"
+
+# VIM COLORSCHEME
+VIM_SCHEME='bleh'
+
+
+# WALLPAPER OPTIONS
+WALLPAPER_PATH="$HOME/Wallpapers/designr2.png"
+WALLPAPER_STYLE="tile"
+
+# 2BWM OPTIONS
+TWOBWM_FOCUS="${YLW}"
+TWOBWM_UNFOCUS="${BLU}"
+TWOBWM_FIXED="${RED}"
+TWOBWM_UNKILL="${CYN}"
+TWOBWM_FIXEDUNK="${MAG}"
+TWOBWM_OUTR="${BG}"
+TWOBWM_EMP="${BG}"
 ```
 
-This defines all the colors that the system is going to use, and can easily apply them to .Xresources
-to reflect these colors on all current and new terminals. 
-
-However, by using bash files, we can easily extend squash to add new functionality. For example, 
-we can specify a `wallpaper` variable that will be applied uniquely to each theme. 
-
-``` zsh
-#!/bin/bash
-bg=#3c4254
-fg=#feddd0
-
-blk=#181818
-...
-...
-wallpaper=~/Wallpapers/wallpaper.png
-```
-
-Or, we could specify what colorscheme we want vim to use with each colorscheme: 
-``` bash
-#!/bin/bash
-bg=#3c4254
-fg=#feddd0
-
-blk=#181818
-...
-...
-wallpaper=~/Wallpapers/wallpaper.png
-vim_scheme=base16-default-dark
-```
-
-## Features
-
-   * Apply colors to existing urxvt terminals
-   * Create color files using the following formats:
-      * bash
-      * css
-      * Xresources
-         * 2bwm colors
-         * rofi colors
-         * urxvt colors
-   * Reload and recompile 2bwm after applying new colors
-   * Reload lemonbar after applying new colors
-   * Rewrite $MYVIMRC to use desired colorscheme
 
 # Usage
 
