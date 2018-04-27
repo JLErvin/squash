@@ -1,0 +1,5 @@
+#!/bin/bash
+
+CACHE_DIR="${HOME}/.cache/squash"
+THEME_DIR="${HOME}/.config/squash"
+VIM_CONFIG="${HOME}/.config/nvim/appearance.vim"
