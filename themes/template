@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# Background & Foreground colors
+bg=#ffffff
+fg=#ffffff
+
+# Rregular colors
+blk=#ffffff
+red=#ffffff
+grn=#ffffff
+ylw=#ffffff
+blu=#ffffff
+mag=#ffffff
+cyn=#ffffff
+wht=#ffffff
+
+# Bright colors
+bblk=#ffffff
+bred=#ffffff
+bgrn=#ffffff
+bylw=#ffffff
+bblu=#ffffff
+bmag=#ffffff
+bcyn=#ffffff
+bwht=#ffffff
+
+# Accent color used for rofi
+acc=$red
+# Path to your wallpaper, can be any format supported by hsetroot
+wallpaper=~/Wallpapers/MyWallpaper.png
+# Wallpaper Style, can be set to either 'fill' or 'tile'
+wallpaper_style='fill'
+# Name of the vim colorscheme to be used with this colorscheme
+vim_scheme=bleh
+# Name of lemonbar script
+bar='infobar.sh'

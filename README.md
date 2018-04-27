@@ -1,97 +1,31 @@
-# squash
+<div alight='center'>
+    <h1>squash</h1><br>
+</div>
 
-A dead simple program for applying user-created themes to unix systems. 
+`squash` is a collection of scripts and configuration files
+to emulate desktop environment-features with minimal window
+managers such as `2bwm`, `bspwm`, and `openbox`.
+`squash` is based around configuration files written in 
+pure bash. 
+The main script, `squash`, is able to apply these themes to terminals, 
+bars, notifications, and write files in additional formats to be used
+by applicatons like `xorg`, `firefox`, and more. 
 
-Unlike many themeing programs, squash uses shell scripts for configuration. 
-This makes squash very extensible, and allows all information about a theme
-to be stored in a single shell script. 
+## Theory
 
-The most basic `squash` theme files look like:
+Managing themes on unix systems can often be difficult. 
+Nearly even program stores their theme files in different locations
+and in different formats. 
+Squash aims to consolidate theme information into a single location. 
+These files can then be used to quickly apply themes to the entire system.
 
+## Installation
 
-``` zsh
-#!/bin/bash
-bg=#3c4254
-fg=#feddd0
+## Configuration Files
 
-blk=#181818
-red=#ab4642
-grn=#a1b56c
-ylw=#f7ca88
-blu=#7cafc2
-mag=#ba8baf
-cyn=#86c1b9
-wht=#d8d8d8
-
-bblk=#585858
-bred=#dc9656
-bgrn=#282828
-bylw=#383838
-bblu=#b8b8b8
-bmag=#e8e8e8
-bcyn=#a16946
-bwht=#f8f8f8
-```
-
-This defines all the colors that the system is going to use, and can easily apply them to .Xresources
-to reflect these colors on all current and new terminals. 
-
-However, by using bash files, we can easily extend squash to add new functionality. For example, 
-we can specify a `wallpaper` variable that will be applied uniquely to each theme. 
-
-``` zsh
-#!/bin/bash
-bg=#3c4254
-fg=#feddd0
-
-blk=#181818
-...
-...
-wallpaper=~/Wallpapers/wallpaper.png
-```
-
-Or, we could specify what colorscheme we want vim to use with each colorscheme: 
-``` bash
-#!/bin/bash
-bg=#3c4254
-fg=#feddd0
-
-blk=#181818
-...
-...
-wallpaper=~/Wallpapers/wallpaper.png
-vim_scheme=base16-default-dark
-```
-
-## Features
-
-   * Apply colors to existing urxvt terminals
-   * Create color files using the following formats:
-      * bash
-      * css
-      * Xresources
-         * 2bwm colors
-         * rofi colors
-         * urxvt colors
-   * Reload and recompile 2bwm after applying new colors
-   * Reload lemonbar after applying new colors
-   * Rewrite $MYVIMRC to use desired colorscheme
-
-# Usage
-
-`squash <theme>`
-
-`squash` comes preloaded with a set of themes for you to use. Move these themes to `~/.config/squash/themes` (or redefine the theme `dir` in `squash`). 
-
-### urxvt/xterm
-
-`squash` will automatically reload all active terminals with the new colorscheme. 
-To make these colors persist on new terminals, add the following to your `.Xresources`:
-
-```c
-#include ".cache/squash/x_colors"
-```
-
-These changes will be merged with the current `.Xresources`. This means that all active programs
-are able to see these changes. For example, a call to refresh `polybar` using `xrdb` would
-see the new colors and apply them accordingly. 
+## Scripts
+    * Base
+        * `squash`: Central script to apply themes and write new color files from given theme
+        * `sqbar` : A minimal block-style bar using `lemonbar` with patched borders
+    * Notifications
+        * `batnot`: Basic script to check battery levels and send notifications when battery is low
