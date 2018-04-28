@@ -1,4 +1,4 @@
-<div alight='center'>
+<div align='center'>
     <h1>squash</h1><br>
 </div>
 
