@@ -21,11 +21,27 @@ These files can then be used to quickly apply themes to the entire system.
 
 ## Installation
 
-## Configuration Files
+Installing and setting up squash should be fairly simple. Follow these steps:
 
-## Scripts
-    * Base
-        * `squash`: Central script to apply themes and write new color files from given theme
-        * `sqbar` : A minimal block-style bar using `lemonbar` with patched borders
-    * Notifications
-        * `batnot`: Basic script to check battery levels and send notifications when battery is low
+1) Clone the repository:
+    `git clone https://github.com/JLErvin/squash`
+
+2) Create the theme directory and move themes there
+    ```bash
+    cd squash
+    mkdir ~/.config/squash
+    cp themes/* ~/.config/squash
+    ```
+
+3) Set the defaults. Change the values in the `defaults` file
+
+4) Source `squash` files for xorg. Add the following to the top of your `.Xresources`
+    ```xdefaults
+    #include ".cache/squash/x_colors"
+    ```
+
+5) Switch to your first theme!
+    ```bash
+    squash designr
+    ```
+    
