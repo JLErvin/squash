@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 #
-# Simple statusbar for use with squash
-#
-# Designed by Joshua Ervin @ University of Washington
-# jlervin@posteo.net
-# github.com/JLErvin
+# -- infobar2: minimal block-style bar for use with lemonbar
+# -- Author  : Joshua L Ervin @ Unversity of Washington
+# -- Contant : jlervin@posteo.net
 
 source "${HOME}/.cache/squash/colors"
 SEP="  "
 SEP2="    "
 SEPB="__"
-#SPC="%{B$bg}%{F$bg}$SEPB%{B-}%{F-}"
 SPC="%{B$BG}%{F$BG}$SEPB%{B-}%{F-}"
 
 # Generate glyphs for Siji using echos
@@ -48,9 +45,13 @@ if [ ! -z ${LMNBAR_DARK} ]; then
 fi
 
 # Bar contents
-content() {
+function content() 
+{
     # Get current workspaces
-    workspaces() {
+    # Displays the active workspace using a 0 index
+    # Notes:
+    #   Requires xprop to get current desktop
+    function workspaces() {
         local cur=$(xprop -root _NET_CURRENT_DESKTOP | awk '{print $3}')
         local total=5
         local seq=""
@@ -68,15 +69,20 @@ content() {
         echo "${seq}${CLR}"
     }
 
-    # Clock
-    date-time() {
+    # Clock function gets current time and displays
+    # Day of week, date, and time
+    function date-time() 
+    {
         local clock="$(date +'%a %d %I:%M')"
         echo "${GEN}${GLYDATE}${SEP}${BLACK}${clock}${CLR}"
     }
 
     # Volume 0-100
     # Glyph will change when volume is muted
-    volume() {
+    # Notes:
+    #   Requires amixer to get volume
+    function volume() 
+    {
         local vol="$(amixer get Master|awk 'NR==5 {print $4}'|cut -d '%' -f1 | cut -d '[' -f2)"
         local mut="$(amixer get Master| awk 'NR==5 {print $6}')"
 
@@ -92,7 +98,8 @@ content() {
     # Battery 0-100
     # Battery considered charged at 98%
     # Glyph changes below 20 %
-    battery() {
+    function battery() 
+    {
         local cap="$(cat /sys/class/power_supply/BAT0/capacity)"
         local stat="$(cat /sys/class/power_supply/BAT0/status)"
 
@@ -107,7 +114,8 @@ content() {
 
     # Get SSID using iwgetid
     # If iwgetid is not found, then DISCONNECTED will be displayed
-    wireless() {
+    function wireless() 
+    {
         local wifi=$(iwgetid -r)
 
         if [[ -z $wifi ]]; then

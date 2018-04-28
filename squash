@@ -6,7 +6,8 @@
 
 COLOR_SCHEME="${1}"
 
-usage() {
+function usage() 
+{
     printf "Usage: pepper <THEME_NAME>"
     exit 1
 }
@@ -27,19 +28,19 @@ color_array=($BLK $RED $GRN $YLW $BLU $MAG $CYN $WHT \
 # Uses the sourced color array to create a sequence
 # of escape codes for x terminals, and update their
 # colors without restarting them
-# Globals:
-#   None
-# Arguments: 
-#   None
-# Returns:
-#   None
-update_terminals() 
+function update_terminals() 
 {
     local sequence=""
 
-    for i in {0..15}; do sequence+="\033]4;${i};${color_array[${i}]}\007"; done
-    for i in 10 12 13; do sequence+="\033]${i};${FG}\007"; done
-    for i in 11 14 708; do sequence+="\033]${i};${BG}\007"; done
+    for i in {0..15}; do 
+        sequence+="\033]4;${i};${color_array[${i}]}\007"
+    done
+    for i in 10 12 13; do 
+        sequence+="\033]${i};${FG}\007"
+    done
+    for i in 11 14 708; do 
+        sequence+="\033]${i};${BG}\007"
+    done
 
     reload_terminals "${sequence}"
 }
@@ -47,15 +48,9 @@ update_terminals()
 # Identifies the current window manager 
 # and reloads the given window manager using the
 # given colors. 
-# Globals:
-#   None
-# Arguments: 
-#   None
-# Returns:
-#   None
 # Notes:
 #   Requires wmctrl to identify window manager
-update_wm() 
+function update_wm() 
 {
     if [[ ! $(command -v wmctrl) ]]; then
         printf "ERROR: cmtrl not found"
@@ -72,16 +67,10 @@ update_wm()
 
 # Updates neovim by overwriting the current colorscheme in the .vimrc
 # and sending remote commands to source $MYVIMRC to all vim instances
-# Globals:
-#   None
-# Arguments: 
-#   None
-# Returns:
-#   None
 # Notes:
 #   Requires neovim-remote to function
 #   Will overwrite the current theme in you .vimrc 
-update_nvim()
+function update_nvim()
 {
     if [[ -z ${VIM_SCHEME} ]]; then
         printf "VIM_SCHEME is unset, not changing vim colorscheme"
@@ -92,14 +81,8 @@ update_nvim()
 }
 
 # Kills all current instances of lemonbar and starts the current bar in the background
-# Globals:
-#   None
-# Arguments: 
-#   None
-# Returns:
-#   None
 # Notes:
-update_bar() 
+function update_bar() 
 {
     killall lemonbar
     ${BAR_SCRIPT} &
@@ -116,13 +99,9 @@ update_bar()
 #   TWOBWM_FIXEDUNK
 #   TWOBWM_OUTR
 #   TWOBWM_EMP
-# Arguments: 
-#   None
-# Returns:
-#   None
 # Notes:
 #   Requires xdotool to reload 2bwm
-reload_2bwm() 
+function reload_2bwm() 
 {
     local dir=$HOME/2bwm/src/2bwm
     local file=$dir/config.h
@@ -146,15 +125,9 @@ reload_2bwm()
 # Function that actually reload's neovim by identify all current sockets and sending
 # remote commands to each instance to reload the $MYVIMRC file
 # NOTE: Requires neovim-remote to function
-# Globals:
-#   None
-# Arguments: 
-#   None
-# Returns:
-#   None
 # Notes:
 #   Requires neovim-remote to function
-reload_nvim()
+function reload_nvim()
 {
     if [[ ! $(command -v nvr) ]]; then
         printf "Not reloading neovim: neovim-remote not found"
@@ -169,18 +142,16 @@ reload_nvim()
 }
 
 # Sends escape codes to all terminals that reflect the colors from the new colorscheme
-# Globals:
-#   None
 # Arguments: 
 #   sequence: escape codes for terminals
-# Returns:
-#   None
 # Notes:
-reload_terminals() 
+function reload_terminals() 
 {
     local seq="${1}"
 
-    for term in /dev/pts/[0-9]*; do printf "%b" "${seq}" > "${term}"; done
+    for term in /dev/pts/[0-9]*; do
+        printf "%b" "${seq}" > "${term}"
+    done
 }
 
 # Writes a a file specified by ${CACHE_DIR}/x_colors to be sourced by x_resources
@@ -188,15 +159,11 @@ reload_terminals()
 # As well as rofi colors and 2bwm colors
 # Globals:
 #   CACHE_DIR
-# Arguments: 
-#   None
-# Returns:
-#   None
 # Notes:
 #   This file is only useful if it is source in ${HOME}/.Xresources
 #   This can be done with the line: 
 #       #include ".cache/squash/x_colors"
-write_x() 
+function write_x() 
 {
    local x_output=""
    local x_output+="*.foreground:   ${FG}${NEWLINE}"
@@ -228,20 +195,16 @@ write_x()
 # to the ${CACHE_DIR}. Can be sourced by any number of applicatons. 
 # Globals:
 #   CACHE_DIR
-# Arguments:
-#   None
-# Returns:
-#   None
-# Notes:
-#   None
-write_css() 
+function write_css() 
 {
    local css_output=""
    local css_output+=":root {${NEWLINE}"
    local css_output+="\t--wallpaper: url("${wallpaper}");${NEWLINE}"
    local css_output+="\t--background: ${BG};${NEWLINE}"
    local css_output+="\t--foreground: ${FG};${NEWLINE}"
-   for i in {0..15}; do local css_output+="\t--color${i}: ${color_array[${i}]};${NEWLINE}"; done
+   for i in {0..15}; do 
+       local css_output+="\t--color${i}: ${color_array[${i}]};${NEWLINE}"
+   done
    local css_output+="}"
 
    printf "${css_output}" > "${CACHE_DIR}/colors.css"
@@ -251,13 +214,7 @@ write_css()
 # that want access to the variables in the bash script
 # Globals:
 #   CACHE_DIR
-# Arguments:
-#   None
-# Returns:
-#   None
-# Notes:
-#   None
-write_sh() 
+function write_sh() 
 {
     rm -f ${CACHE_DIR}/colors
     cp ${THEME_DIR}/${COLOR_SCHEME} ${CACHE_DIR}/colors
