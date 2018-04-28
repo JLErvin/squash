@@ -14,6 +14,12 @@ function usage()
 
 test -z "${1}" && usage
 
+if [[ ! -f ${THEME_DIR}/${COLOR_SCHEME} ]]; then
+    printf "Error: Colorscheme not found\n"
+    printf "Exiting program\n"
+    exit 0
+fi
+
 # Set variables for the script
 squash_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 NEWLINE=$'\n'
@@ -53,8 +59,8 @@ function update_terminals()
 function update_wm() 
 {
     if [[ ! $(command -v wmctrl) ]]; then
-        printf "ERROR: cmtrl not found"
-        printf "wm will not be reloaded"
+        printf "ERROR: cmtrl not found\n"
+        printf "wm will not be reloaded\n"
     else
         wm=$(wmctrl -m | grep Name | cut -d' ' -f2)
         case ${wm} in
@@ -73,7 +79,7 @@ function update_wm()
 function update_nvim()
 {
     if [[ -z ${VIM_SCHEME} ]]; then
-        printf "VIM_SCHEME is unset, not changing vim colorscheme"
+        printf "VIM_SCHEME is unset, not changing vim colorscheme\n"
     else
         sed -i -e "s/colorscheme .*/colorscheme $VIM_SCHEME/g" $VIM_CONFIG
         reload_nvim
@@ -130,8 +136,8 @@ function reload_2bwm()
 function reload_nvim()
 {
     if [[ ! $(command -v nvr) ]]; then
-        printf "Not reloading neovim: neovim-remote not found"
-        printf "Please install nvr to reload neovim"
+        printf "Not reloading neovim: neovim-remote not found\n"
+        printf "Please install nvr to reload neovim\n"
     else
         inst=($(nvr --serverlist | sort | uniq))
 
