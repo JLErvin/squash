@@ -6,9 +6,17 @@
 
 COLOR_SCHEME="${1}"
 
+squash_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${squash_dir}/defaults"
+
 function usage() 
 {
-    printf "Usage: pepper <THEME_NAME>"
+    printf "Usage: pepper <THEME_NAME>\n"
+    printf "    Available Themes:\n"
+    for theme in "${THEME_DIR}"/*; do
+        theme=${theme##*/}
+        printf "        ${theme}\n"
+    done 
     exit 1
 }
 
@@ -21,11 +29,11 @@ if [[ ! -f ${THEME_DIR}/${COLOR_SCHEME} ]]; then
 fi
 
 # Set variables for the script
-squash_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+#squash_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 NEWLINE=$'\n'
 
 # Source necessary squash files
-source "${squash_dir}/defaults"
+#source "${squash_dir}/defaults"
 source "${THEME_DIR}/${COLOR_SCHEME}"
 
 color_array=($BLK $RED $GRN $YLW $BLU $MAG $CYN $WHT \
