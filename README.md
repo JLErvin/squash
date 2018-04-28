@@ -2,14 +2,17 @@
     <h1>squash</h1><br>
 </div>
 
-`squash` is a collection of scripts and configuration files
-to emulate desktop environment-features with minimal window
-managers such as `2bwm`, `bspwm`, and `openbox`.
-`squash` is based around configuration files written in 
-pure bash. 
-The main script, `squash`, is able to apply these themes to terminals, 
-bars, notifications, and write files in additional formats to be used
-by applicatons like `xorg`, `firefox`, and more. 
+`squash` is a dead simple theme manager for unix systems.
+Themes are defined in pure shell scripts, allowing for squash to be both flexible and increadibly simple. 
+`squash` takes theme information, applies it to active applications,
+and writes files in various formats to be used by other programs. 
+
+Predefined themes are availabel in the `themes` directory. 
+Add your own themes using the `template` file.
+When you are ready, change themes with: 
+```
+squash <THEME>
+```
 
 ## Theory
 
