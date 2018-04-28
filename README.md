@@ -24,13 +24,15 @@ These files can then be used to quickly apply themes to the entire system.
 Installing and setting up squash should be fairly simple. Follow these steps:
 
 1) Clone the repository:
-    `git clone https://github.com/JLErvin/squash`
+    ```bash
+    git clone https://github.com/JLErvin/squash
+    ```
 
 2) Create the theme directory and move themes there
     ```bash
     cd squash
     mkdir ~/.config/squash
-    cp themes/* ~/.config/squash
+    cp themes/* ~/.config/squash/
     ```
 
 3) Set the defaults. Change the values in the `defaults` file
