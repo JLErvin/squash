@@ -11,7 +11,7 @@ source "${squash_dir}/defaults"
 
 function usage() 
 {
-    printf "Usage: pepper <THEME_NAME>\n"
+    printf "Usage: squash <THEME_NAME>\n"
     printf "    Available Themes:\n"
     for theme in "${THEME_DIR}"/*; do
         theme=${theme##*/}
@@ -75,6 +75,9 @@ function update_wm()
             $"2bwm")
                 reload_2bwm
             ;;
+            $"bspwm")
+                reload_bspwm
+            ;;
         esac
     fi
 }
@@ -102,6 +105,15 @@ function update_bar()
     ${BAR_SCRIPT} &
 }
 
+function update_wall()
+{
+    if [[ -z ${WALLPAPER_PATH} ]]; then
+        printf "Error: WALLPAPER_PATH not set\n"
+    else
+        hsetroot -"${WALLPAPER_STYLE}" "${WALLPAPER_PATH}"
+    fi
+}
+
 # Updates 2bwm's config.h with the new system colors
 # Recompiles 2bwm and reloads the window manager
 # Kills all current instances of lemonbar and starts the current bar in the background
@@ -113,14 +125,17 @@ function update_bar()
 #   TWOBWM_FIXEDUNK
 #   TWOBWM_OUTR
 #   TWOBWM_EMP
+#   TWOBWM_PATH
 # Notes:
 #   Requires xdotool to reload 2bwm
 function reload_2bwm() 
 {
-    local dir=$HOME/2bwm/src/2bwm
-    local file=$dir/config.h
+    #local dir=$HOME/2bwm/src/2bwm
+    #local file="$dir/config.h"
+    local dir="${TWOBWM_PATH}"
+    local file="${TWOBWM_PATH}/config.h"
 
-    local wmcol=$(cat $file|awk '/\*colors/ {print $6}'|cut -d '}' -f1|awk '{gsub(/"/," ");print $2,$4,$6,$8,$10,$12,$14}') 
+    local wmcol=$(cat ${file}|awk '/\*colors/ {print $6}'|cut -d '}' -f1|awk '{gsub(/"/," ");print $2,$4,$6,$8,$10,$12,$14}') 
     local arr=($wmcol)
 
     sed -i "s/${arr[0]}/"${TWOBWM_FOCUS}"/;
@@ -134,6 +149,16 @@ function reload_2bwm()
     cd ${dir} && make && sudo make install && cd
 
     xdotool key "super+ctrl+r"
+}
+
+function reload_bspwm()
+{
+    if [[ -z ${BSPWM_PATH} ]]; then
+        printf "Error: BSPWM_PATH not found\n"
+        printf "Not reloading bspwm\n"
+    else
+        "${BSPWM_PATH}/bspwmrc" &
+    fi
 }
 
 # Function that actually reload's neovim by identify all current sockets and sending
@@ -243,6 +268,7 @@ write_css
 xrdb "${HOME}/.Xresources"
 
 # Update applications
+update_wall
 update_terminals
 update_nvim
 update_bar

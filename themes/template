@@ -1,36 +1,49 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-# Background & Foreground colors
-bg=#ffffff
-fg=#ffffff
+# DEFINE COLORS
+BG="#FFFFFF"
+FG="#FFFFFF"
 
-# Rregular colors
-blk=#ffffff
-red=#ffffff
-grn=#ffffff
-ylw=#ffffff
-blu=#ffffff
-mag=#ffffff
-cyn=#ffffff
-wht=#ffffff
+BLK="#FFFFFF"
+RED="#FFFFFF"
+GRN="#FFFFFF"
+YLW="#FFFFFF"
+BLU="#FFFFFF"
+MAG="#FFFFFF"
+CYN="#FFFFFF"
+WHT="#FFFFFF"
 
-# Bright colors
-bblk=#ffffff
-bred=#ffffff
-bgrn=#ffffff
-bylw=#ffffff
-bblu=#ffffff
-bmag=#ffffff
-bcyn=#ffffff
-bwht=#ffffff
+BBLK="#FFFFFF"
+BRED="#FFFFFF"
+BGRN="#FFFFFF"
+BYLW="#FFFFFF"
+BBLU="#FFFFFF"
+BMAG="#FFFFFF"
+BCYN="#FFFFFF"
+BWHT="#FFFFFF"
 
-# Accent color used for rofi
-acc=$red
-# Path to your wallpaper, can be any format supported by hsetroot
-wallpaper=~/Wallpapers/MyWallpaper.png
-# Wallpaper Style, can be set to either 'fill' or 'tile'
-wallpaper_style='fill'
-# Name of the vim colorscheme to be used with this colorscheme
-vim_scheme=bleh
-# Name of lemonbar script
-bar='infobar.sh'
+# ROFI OPTIONS
+ACC="${RED}"
+
+# BAR OPTIONS
+BAR_SCRIPT="infobar2"
+
+# VIM COLORSCHEME
+VIM_SCHEME='bleh'
+
+# WALLPAPER OPTIONS
+WALLPAPER_PATH="$HOME/Wallpapers/wallpaper.png"
+WALLPAPER_STYLE="fill"
+
+# 2BWM OPTIONS
+TWOBWM_FOCUS="${BYLW}"
+TWOBWM_UNFOCUS="${BGRN}"
+TWOBWM_FIXED="${RED}"
+TWOBWM_UNKILL="${CYN}"
+TWOBWM_FIXEDUNK="${MAG}"
+TWOBWM_OUTR="${BG}"
+TWOBWM_EMP="${BG}"
+
+# LEMONBAR OPTIONS
+LMNBAR_DARK="${BYLW}"
+LMNBAR_DARKER="${BGRN}"
