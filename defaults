@@ -3,5 +3,7 @@
 CACHE_DIR="${HOME}/.cache/squash"
 THEME_DIR="${HOME}/.config/squash"
 VIM_CONFIG="${HOME}/.config/nvim/appearance.vim"
+
 TWOBWM_PATH="${HOME}/2bwm/src/2bwm"
 BSPWM_PATH="${HOME}/.config/bspwm"
+CHEF_PATH="${HOME}/.config/windowchef"

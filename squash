@@ -78,6 +78,9 @@ function update_wm()
             $"bspwm")
                 reload_bspwm
             ;;
+            $"windowchef")
+                reload_chef
+            ;;
         esac
     fi
 }
@@ -158,6 +161,16 @@ function reload_bspwm()
         printf "Not reloading bspwm\n"
     else
         "${BSPWM_PATH}/bspwmrc" &
+    fi
+}
+
+function reload_chef()
+{
+    if [[ -z ${CHEF_PATH} ]]; then
+        printf "Error: CHEF_PATH not found\n"
+        printf "Not reloading windowchef\n"
+    else
+        "${CHEF_PATH}/windowchefrc" &
     fi
 }
 
