@@ -172,7 +172,7 @@ function reload_nvim()
         printf "Not reloading neovim: neovim-remote not found\n"
         printf "Please install nvr to reload neovim\n"
     else
-        inst=($(nvr --serverlist | sort | uniq))
+        inst=($(nvr --serverlist | grep nvim | sort | uniq))
 
         for nvim_inst in "${inst[@]}"; do 
             nvr --servername "${nvim_inst}" --remote-send '<Esc>:so ${HOME}/.config/nvim/init.vim<CR>' &
