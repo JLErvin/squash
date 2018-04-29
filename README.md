@@ -49,4 +49,25 @@ Installing and setting up squash should be fairly simple. Follow these steps:
     ```bash
     squash designr
     ```
-    
+
+## Configuration
+
+### .Xresources
+
+For colors to persist on new terminals, and for the colors to be used by `x` applications, 
+add the following to your `$HOME/.Xresources`
+
+    ```xdefaults
+    #include ".cache/squash/x_colors"
+    ```
+
+### BSPWM
+
+For bspwm to use variables define by squash, add the following to your `bspwmrc`
+
+    ```bash
+    source "${HOME}/.cache/squash/colors"
+
+    bspc config normal_border_color "${BSPWM_NORMAL}"
+    bspc config focused_border_color "${BSPWM_FOCUSED}"
+    ```
