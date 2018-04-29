@@ -56,7 +56,6 @@ Installing and setting up squash should be fairly simple. Follow these steps:
 
 For colors to persist on new terminals, and for the colors to be used by `x` applications, 
 add the following to your `$HOME/.Xresources`
-
     ```xdefaults
     #include ".cache/squash/x_colors"
     ```
@@ -64,7 +63,6 @@ add the following to your `$HOME/.Xresources`
 ### BSPWM
 
 For bspwm to use variables define by squash, add the following to your `bspwmrc`
-
     ```bash
     source "${HOME}/.cache/squash/colors"
 
