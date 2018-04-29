@@ -10,6 +10,11 @@ and writes files in various formats to be used by other programs.
 Predefined themes are availabel in the `themes` directory. 
 Add your own themes using the `template` file.
 When you are ready, change themes with: 
+
+Squash currently supports the following window managers:
+    * 2bwm
+    * bspwm
+    * windowchef
 ```
 squash <THEME>
 ```
