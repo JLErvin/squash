@@ -101,8 +101,8 @@ function update_nvim()
 # Notes:
 function update_bar() 
 {
-    killall lemonbar
-    ${BAR_SCRIPT} &
+    pkill -x lemonbar
+    ( ${BAR_SCRIPT} &) > /dev/null 2>&1
 }
 
 function update_wall()
