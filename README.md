@@ -12,6 +12,7 @@ Add your own themes using the `template` file.
 When you are ready, change themes with: 
 
 Squash currently supports the following window managers:
+
     * 2bwm
     * bspwm
     * windowchef
