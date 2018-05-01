@@ -24,7 +24,7 @@ Squash currently supports the following window managers:
 ## Theory
 
 Managing themes on unix systems can often be difficult. 
-Nearly even program stores their theme files in different locations
+Nearly every program stores their theme files in different locations
 and in different formats. 
 Squash aims to consolidate theme information into a single location. 
 These files can then be used to quickly apply themes to the entire system.
