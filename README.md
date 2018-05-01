@@ -7,7 +7,7 @@ Themes are defined in pure shell scripts, allowing for squash to be both flexibl
 `squash` takes theme information, applies it to active applications,
 and writes files in various formats to be used by other programs. 
 
-Predefined themes are availabel in the `themes` directory. 
+Predefined themes are available in the `themes` directory. 
 Add your own themes using the `template` file.
 When you are ready, change themes with: 
 
