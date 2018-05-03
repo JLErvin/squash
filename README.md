@@ -77,3 +77,24 @@ source "${HOME}/.cache/squash/colors"
 bspc config normal_border_color "${BSPWM_NORMAL}"
 bspc config focused_border_color "${BSPWM_FOCUSED}"
 ```
+
+### Windowchef
+
+Windowchef configuration is almost identical to bspwm configruation, 
+simply add the following to `windowchefrc`
+
+```bash
+source "${HOME}/.cache/squash/colors"
+
+waitron wm_config internal_border_width 5 
+waitron wm_config internal_color_focused "${TWOBWM_FOCUS:1:7}"
+waitron wm_config internal_color_unfocused "${TWOBWM_UNFOCUS:1:7}"
+
+waitron wm_config border_width 10
+waitron wm_config color_focused "${BG:1:7}"
+waitron wm_config color_unfocused "${BG:1:7}" 
+```
+
+This gives a double border look much like 2bwm.
+Notice that in `windowchefrc` you must use hex colors
+without the #, hence shortening the hex code. 
