@@ -23,6 +23,9 @@ Squash currently supports the following window managers:
 * bspwm
 * windowchef
 
+
+
+
 ## Theory
 
 Managing themes on unix systems can often be difficult. 
