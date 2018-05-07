@@ -7,6 +7,8 @@ Themes are defined in pure shell scripts, allowing for squash to be both flexibl
 `squash` takes theme information, applies it to active applications,
 and writes files in various formats to be used by other programs. 
 
+<img src="https://i.imgur.com/zmk2y1m.gifv" alt="gif" align="right" width="500px">
+
 Predefined themes are available in the `themes` directory. 
 Add your own themes using the `template` file.
 When you are ready, change themes with: 
