@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+CRAYOLO_DIR="${HOME}/crayolo/colors"
+SQUASH_DIR="${HOME}/.config/squash"
+
+cur="${CRAYOLO_DIR}/5725"
+
+bg=$(cat $cur | grep "define bg ")
+
+echo $bg

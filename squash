@@ -5,18 +5,17 @@
 # -- Contact: jlervin@posteo.net 
 
 COLOR_SCHEME="${1}"
+SQUASH_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+NEWLINE=$'\n'
 
-squash_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source "${squash_dir}/defaults"
+source "${SQUASH_DIR}/defaults"
 
 function usage() 
 {
     printf "Usage: squash <THEME_NAME>\n"
-    printf "    Available Themes:\n"
-    for theme in "${THEME_DIR}"/*; do
-        theme=${theme##*/}
-        printf "        ${theme}\n"
-    done 
+    printf "Example: squash designr\n"
+    printf "         squash -b -w designr\n"
+    printf "\n"
     exit 1
 }
 
@@ -28,12 +27,8 @@ if [[ ! -f ${THEME_DIR}/${COLOR_SCHEME} ]]; then
     exit 0
 fi
 
-# Set variables for the script
-#squash_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-NEWLINE=$'\n'
-
 # Source necessary squash files
-#source "${squash_dir}/defaults"
+#source "${SQUASH_DIR}/defaults"
 source "${THEME_DIR}/${COLOR_SCHEME}"
 
 color_array=($BLK $RED $GRN $YLW $BLU $MAG $CYN $WHT \
@@ -67,8 +62,7 @@ function update_terminals()
 function update_wm() 
 {
     if [[ ! $(command -v wmctrl) ]]; then
-        printf "ERROR: cmtrl not found\n"
-        printf "wm will not be reloaded\n"
+        printf "Error: cmtrl not found, wm will not be reloaded\n"
     else
         wm=$(wmctrl -m | grep Name | cut -d' ' -f2)
         case ${wm} in
@@ -93,7 +87,7 @@ function update_wm()
 function update_nvim()
 {
     if [[ -z ${VIM_SCHEME} ]]; then
-        printf "VIM_SCHEME is unset, not changing vim colorscheme\n"
+        printf "Error: VIM_SCHEME not set: not changing vim colorscheme\n"
     else
         sed -i -e "s/colorscheme .*/colorscheme $VIM_SCHEME/g" $VIM_CONFIG
         reload_nvim
@@ -104,14 +98,18 @@ function update_nvim()
 # Notes:
 function update_bar() 
 {
-    pkill -x lemonbar
+    if [[ $(pgrep lemonbar) ]]; then
+        pkill -x lemonbar
+    elif [[ $(pgrep polybar) ]]; then
+        pkill -x polybar
+    fi
     ( ${BAR_SCRIPT} &) > /dev/null 2>&1
 }
 
 function update_wall()
 {
     if [[ -z ${WALLPAPER_PATH} ]]; then
-        printf "Error: WALLPAPER_PATH not set\n"
+        printf "Error: WALLPAPER_PATH not set: not changing wallpaper\n"
     else
         hsetroot -"${WALLPAPER_STYLE}" "${WALLPAPER_PATH}"
     fi
@@ -133,8 +131,6 @@ function update_wall()
 #   Requires xdotool to reload 2bwm
 function reload_2bwm() 
 {
-    #local dir=$HOME/2bwm/src/2bwm
-    #local file="$dir/config.h"
     local dir="${TWOBWM_PATH}"
     local file="${TWOBWM_PATH}/config.h"
 
@@ -157,8 +153,7 @@ function reload_2bwm()
 function reload_bspwm()
 {
     if [[ -z ${BSPWM_PATH} ]]; then
-        printf "Error: BSPWM_PATH not found\n"
-        printf "Not reloading bspwm\n"
+        printf "Error: BSPWM_PATH not found, not reloading bspwm\n"
     else
         "${BSPWM_PATH}/bspwmrc" &
     fi
@@ -167,8 +162,7 @@ function reload_bspwm()
 function reload_chef()
 {
     if [[ -z ${CHEF_PATH} ]]; then
-        printf "Error: CHEF_PATH not found\n"
-        printf "Not reloading windowchef\n"
+        printf "Error: CHEF_PATH not found, not reloading windowchef\n"
     else
         "${CHEF_PATH}/windowchefrc" &
     fi
@@ -182,7 +176,7 @@ function reload_chef()
 function reload_nvim()
 {
     if [[ ! $(command -v nvr) ]]; then
-        printf "Not reloading neovim: neovim-remote not found\n"
+        printf "Error:: neovim-remote not found\n"
         printf "Please install nvr to reload neovim\n"
     else
         inst=($(nvr --serverlist | grep nvim | sort | uniq))

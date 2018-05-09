@@ -32,7 +32,7 @@ BAR_SCRIPT="infobar2"
 VIM_SCHEME='base16-default-dark'
 
 # WALLPAPER OPTIONS
-WALLPAPER_PATH="$HOME/Wallpapers/annie-spratt-39297-unsplash.jpg"
+WALLPAPER_PATH="$HOME/Wallpapers/windows.jpg"
 WALLPAPER_STYLE="fill"
 
 # 2BWM OPTIONS

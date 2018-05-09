@@ -4,7 +4,8 @@
 BG="#20292d"
 FG="#c4c4b5"
 
-BLK="#253034"
+#BLK="#253034"
+BLK="#2c3539"
 RED="#a66959"
 GRN="#769070"
 YLW="#ac8d6e"
@@ -13,7 +14,8 @@ MAG="#8a757e"
 CYN="#60867f"
 WHT="#c4c4b5"
 
-BBLK="#35444b"
+#BBLK="#35444b"
+BBLK="#343d41"
 BRED="#a66959"
 BGRN="#769070"
 BYLW="#ac8d6e"
@@ -23,10 +25,11 @@ BCYN="#60867f"
 BWHT="#c4c4b5"
 
 # ROFI OPTIONS
-ACC="${RED}"
+ACC="${YLW}"
 
 # BAR OPTIONS
-BAR_SCRIPT="infobar2"
+#BAR_SCRIPT="infobar2"
+BAR_SCRIPT="polybar example"
 
 # VIM COLORSCHEME
 VIM_SCHEME='bleh'
