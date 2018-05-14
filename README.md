@@ -103,5 +103,3 @@ waitron wm_config color_unfocused "${BG:1:7}"
 This gives a double border look much like 2bwm.
 Notice that in `windowchefrc` you must use hex colors
 without the #, hence shortening the hex code. 
-
-https://github.com/etianen/html5media/wiki/embedding-video
