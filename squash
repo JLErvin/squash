@@ -50,6 +50,12 @@ function update_terminals()
     for i in 11 14 708; do 
         sequence+="\033]${i};${BG}\007"
     done
+    
+    if [[ $SQUASH_FONT ]]; then
+        sequence+="\033]50;${SQUASH_FONT}\007"
+        sequence+="\033]711;${SQUASH_FONT}\007"
+    fi
+
 
     reload_terminals "${sequence}"
 }
@@ -168,7 +174,16 @@ function reload_chef()
     fi
 }
 
-# Function that actually reload's neovim by identify all current sockets and sending
+function reload_ob() {
+    if [[ -z ${OB_PATH} ]]; then
+        printf "Error: OB_PATH not found, not reloading openbox\n"
+    else
+        sed -i -e "s/<theme>\n <name>*<\/name>/<theme>\n <name>"${OB_THEME}"<\/name>/g" "$OB_PATH/rc.xml"
+        openbox --reconfigure
+    fi
+}
+
+# Function that reloads neovim by identify all current sockets and sending
 # remote commands to each instance to reload the $MYVIMRC file
 # NOTE: Requires neovim-remote to function
 # Notes:
@@ -232,6 +247,11 @@ function write_x()
    local twobwm_output+="twobwm.unkill_color: ${TWOBWM_UNKILL}${NEWLINE}"
    local twobwm_output+="twobwm.outer_border_color: ${TWOBWM_OUTR}${NEWLINE}"
    local twobwm_output+="twobwm.fixed_unkill_color: ${TWOBWM_UNKILL}${NEWLINE}"
+
+   if [[ $SQUASH_FONT ]]; then
+       local x_output+="URxvt*font:${SQUASH_FONT}${NEWLINE}"
+       local x_output+="URxvt*boldFont:${SQUASH_FONT}${NEWLINE}"
+   fi
 
    local output="${x_output}${rofi_output}${twobwm_output}"
    printf "${output}" > "${CACHE_DIR}/x_colors"
