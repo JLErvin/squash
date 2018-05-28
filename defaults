@@ -1,11 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
+# ---- GENERAL DEFAULTS ----
+
+# Paths
 CACHE_DIR="${HOME}/.cache/squash"
 THEME_DIR="${HOME}/.config/squash"
 VIM_CONFIG="${HOME}/.config/nvim/appearance.vim"
+BAR_DIR="${HOME}/squash/bar"
 
+# WM Options
 TWOBWM_PATH="${HOME}/2bwm/src/2bwm"
 BSPWM_PATH="${HOME}/.config/bspwm"
 CHEF_PATH="${HOME}/.config/windowchef"
-#OB_PATH="${HOME}/.config/openbox"
-OB_PATH="${HOME}/squash"
