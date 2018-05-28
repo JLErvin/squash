@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
-# -- infobar2: minimal block-style bar for use with lemonbar
+# -- blockbar: minimal block-style bar for use with lemonbar
 # -- Author  : Joshua L Ervin @ Unversity of Washington
-# -- Contant : jlervin@posteo.net
+# -- Contact : jlervin@posteo.net
 
 BAR_NAME="blockbar"
 source ${HOME}/squash/bar/bar_defaults "${BAR_NAME}"
