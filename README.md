@@ -7,6 +7,8 @@ Themes are defined in pure shell scripts, allowing for squash to be both flexibl
 `squash` takes theme information, applies it to active applications,
 and writes files in various formats to be used by other programs. 
 
+
+
 <img src="https://imgur.com/zmk2y1m.gif" alt="gif" align="right" width="500px">
 
 Predefined themes are available in the `themes` directory. 
@@ -103,3 +105,18 @@ waitron wm_config color_unfocused "${BG:1:7}"
 This gives a double border look much like 2bwm.
 Notice that in `windowchefrc` you must use hex colors
 without the #, hence shortening the hex code. 
+
+## Using built-in bars
+
+`squash` comes pre-loaded with two simple lemonbar scripts, `blockbar` and `simplebar`.
+Both scripts change icon colors based on system status (i.e. the battery icon will turn red
+when the battery is below a certain threshold, etc). Many of the themes I have created
+are optimized to work best with these scripts. 
+
+To use these scripts, add them to your path. Which bar is used for which theme is determined 
+in the given theme's configruation file under the `BAR_SCRIPT` variable.
+
+To change the scripts general behavior, edit the `bar_defaults` file found in the `bar` directory. 
+
+NOTE: These scripts may require some tweaking to work with your system. Elements like battery/audio levels
+may depend on what backends you use. 
