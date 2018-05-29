@@ -9,7 +9,7 @@ and writes files in various formats to be used by other programs.
 
 
 
-<img src="https://imgur.com/zmk2y1m.gif" alt="gif" align="right" width="500px">
+<img src="https://imgur.com/zmk2y1m.gif" alt="gif" align="center" width="500px">
 
 Predefined themes are available in the `themes` directory. 
 Add your own themes using the `template` file.
