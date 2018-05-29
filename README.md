@@ -120,3 +120,8 @@ To change the scripts general behavior, edit the `bar_defaults` file found in th
 
 NOTE: These scripts may require some tweaking to work with your system. Elements like battery/audio levels
 may depend on what backends you use. 
+
+#### blockbar
+![Screenshot](https://i.imgur.com/aic9jPm.png)
+#### simplebar
+![Screenshot](https://i.imgur.com/Kxx9Yps.png)
