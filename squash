@@ -121,6 +121,19 @@ function update_wall()
     fi
 }
 
+function update_dunst()
+{
+    if [[ -z ${DUNST_PATH} ]]; then
+        printf "Error: Dunst path not set: not reloading dunst\n"
+    else
+        killall dunst
+        sed -i "s/background.*/background = \"${BLK}\"/g" "${DUNST_PATH}"
+        sed -i "s/foreground.*/foreground = \"${FG}\"/g" "${DUNST_PATH}"
+        dunst &
+        notify-send "DUNST RELOADED"
+    fi
+}
+
 # Updates 2bwm's config.h with the new system colors
 # Recompiles 2bwm and reloads the window manager
 # Kills all current instances of lemonbar and starts the current bar in the background
@@ -300,3 +313,4 @@ update_terminals
 update_nvim
 update_bar
 update_wm
+update_dunst
