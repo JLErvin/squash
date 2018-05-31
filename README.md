@@ -9,7 +9,7 @@ and writes files in various formats to be used by other programs.
 
 
 
-<img src="https://imgur.com/zmk2y1m.gif" alt="gif" align="right" width="500px">
+<img src="https://imgur.com/zmk2y1m.gif" alt="gif" align="center" width="500px">
 
 Predefined themes are available in the `themes` directory. 
 Add your own themes using the `template` file.
@@ -120,3 +120,8 @@ To change the scripts general behavior, edit the `bar_defaults` file found in th
 
 NOTE: These scripts may require some tweaking to work with your system. Elements like battery/audio levels
 may depend on what backends you use. 
+
+#### blockbar
+![Screenshot](https://i.imgur.com/aic9jPm.png)
+#### simplebar
+![Screenshot](https://i.imgur.com/Kxx9Yps.png)
