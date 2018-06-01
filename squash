@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # -- squash : simple bash script to apply color themes to unix systems
-# -- Author : Joshua L Ervin @ University of Washinton
+# -- Author : Joshua L Ervin @ University of Washington
 # -- Contact: jlervin@posteo.net 
 
 COLOR_SCHEME="${1}"
@@ -250,8 +250,11 @@ function write_x()
 
    local rofi_output=""
    local rofi_output+="rofi.color-enaled: true${NEWLINE}"
-   local rofi_output+="rofi.color-window: ${BG}, ${BG}, ${BLK}${NEWLINE}"
-   local rofi_output+="rofi.color-normal: ${BG}, ${FG}, ${BG}, ${BLK}, ${ACC}${NEWLINE}"
+   #local rofi_output+="rofi.color-window: ${BG}, ${BG}, ${BLK}${NEWLINE}"
+   #local rofi_output+="rofi.color-normal: ${BG}, ${FG}, ${BG}, ${BLK}, ${ACC}${NEWLINE}"
+   #                                        bg      fg     bgalt  hlbg     hlfg
+   local rofi_output+="rofi.color-window: ${BLK}, ${BLK}, ${BLK}${NEWLINE}"
+   local rofi_output+="rofi.color-normal: ${BLK}, ${FG}, ${BLK}, ${BBLK}, ${ACC}${NEWLINE}"
 
    local twobwm_output=""
    local twobwm_output+="twobwm.focus_color: ${TWOBWM_FOCUS}${NEWLINE}"
