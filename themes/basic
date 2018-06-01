@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# DEFINE COLORS
+BG="#181818"
+FG="#d8d8d8"
+
+BLK="#282828"
+RED="#ab4642"
+GRN="#a1b56c"
+YLW="#f7ca88"
+BLU="#7cafc2"
+MAG="#ba8baf"
+CYN="#86c1b9"
+WHT="#d8d8d8"
+
+BBLK="#383838"
+BRED="#ab4642"
+BGRN="#a1b56c"
+BYLW="#f7ca88"
+BBLU="#7cafc2"
+BMAG="#ba8baf"
+BCYN="#86c1b9"
+BWHT="#f8f8f8"
+
+# ROFI OPTIONS
+ACC="${RED}"
+
+# BAR OPTIONS
+BAR_SCRIPT="infobar2"
+
+# VIM COLORSCHEME
+VIM_SCHEME='base16-default-dark'
+
+# WALLPAPER OPTIONS
+WALLPAPER_PATH="$HOME/Wallpapers/spacesurf.png"
+WALLPAPER_STYLE="fill"
+
+# 2BWM OPTIONS
+TWOBWM_FOCUS="${YLW}"
+TWOBWM_UNFOCUS="${BBLK}"
+TWOBWM_FIXED="${RED}"
+TWOBWM_UNKILL="${CYN}"
+TWOBWM_FIXEDUNK="${MAG}"
+TWOBWM_OUTR="${BG}"
+TWOBWM_EMP="${BG}"
+
+# LEMONBAR OPTIONS
+LMNBAR_DARK="${BBLK}"
+LMNBAR_DARKER="${BLK}"
+#SQUASH_FONT="xft:UW Ttyp0:pixelsize=14"
+SQUASH_FONT="xft:Roboto Mono:pixelsize=12"

@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# DEFINE COLORS
+BG="#2d2d2d"
+FG="#cc99cc"
+
+BLK="#2d2d2d"
+RED="#f2777a"
+GRN="#99cc99"
+YLW="#ffcc66"
+BLU="#6699cc"
+MAG="#cc99cc"
+CYN="#66cccc"
+WHT="#d3d0c8"
+
+BBLK="#747369"
+BRED="#f2777a"
+BGRN="#99cc99"
+BYLW="#ffcc66"
+BBLU="#6699cc"
+BMAG="#cc99cc"
+BCYN="#66cccc"
+BWHT="#f2f0ec"
+
+# ROFI OPTIONS 
+ACC="${YLW}" 
+
+#BAR OPTIONS 
+BAR_SCRIPT="simplebar" 
+
+# VIM COLORSCHEME
+VIM_SCHEME='base16-eighties'
+
+# WALLPAPER OPTIONS
+WALLPAPER_PATH="$HOME/Wallpapers/rob-bye-20143-unsplash.jpg"
+WALLPAPER_STYLE="fill"
+
+# 2BWM OPTIONS
+TWOBWM_FOCUS="${BBLK}"
+TWOBWM_UNFOCUS="${BLK}"
+TWOBWM_FIXED="${RED}"
+TWOBWM_UNKILL="${CYN}"
+TWOBWM_FIXEDUNK="${MAG}"
+TWOBWM_OUTR="${BG}"
+TWOBWM_EMP="${BG}"
+
+# BSPWM OPTIONS
+BSPWM_NORMAL="${BBLK}"
+BSPWM_FOCUSED="${CYN}"
+BSPWM_URGENT="${RED}"
+BSPWM_PRESEL="${GRN}"
+SQUASH_FONT="xft:UW Ttyp0:pixelsize=14"

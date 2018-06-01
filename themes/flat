@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# DEFINE COLORS
+BG="#2c3e50"
+FG="#e0e0e0"
+
+BLK="#2c3e50"
+RED="#e74c3c"
+GRN="#2ecc71"
+YLW="#f1c40f"
+BLU="#3498db"
+MAG="#9b59b6"
+CYN="#1abc9c"
+WHT="#e0e0e0"
+
+BBLK="#95a5a6"
+BRED="#e74c3c"
+BGRN="#2ecc71"
+BYLW="#f1c40f"
+BBLU="#3498db"
+BMAG="#9b59b6"
+BCYN="#1abc9c"
+BWHT="#ecf0f1"
+
+# ROFI OPTIONS
+ACC="${RED}"
+
+# BAR OPTIONS
+BAR_SCRIPT="simplebar"
+
+# VIM COLORSCHEME
+VIM_SCHEME='base16-flat'
+
+# WALLPAPER OPTIONS
+WALLPAPER_PATH="$HOME/Wallpapers/windows.jpg"
+WALLPAPER_STYLE="fill"
+
+# 2BWM OPTIONS
+TWOBWM_FOCUS="${WHT}"
+TWOBWM_UNFOCUS="${BBLK}"
+TWOBWM_FIXED="${RED}"
+TWOBWM_UNKILL="${CYN}"
+TWOBWM_FIXEDUNK="${MAG}"
+TWOBWM_OUTR="${BG}"
+TWOBWM_EMP="${BG}"
+
+# LEMONBAR OPTIONS
+LMNBAR_DARK="${BLK}"
+LMNBAR_DARKER="${BBLK}"
+SQUASH_FONT="xft:UW Ttyp0:pixelsize=14"

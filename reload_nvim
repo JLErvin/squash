@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+#
+# Simple bash script used to dynamically reload
+# all open instances of neovim by sourcing $MYVIMRC
+# without having to restart
+#
+# REQUIRED: nvr-remove must be installed
 
 if [[ ! $(command -v nvr) ]]; then
     printf "Error:: neovim-remote not found\n"
