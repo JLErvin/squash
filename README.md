@@ -38,14 +38,14 @@ own themeing engine using these scripts.
 Clone the repository and make all script executable. 
 
 ```bash
-cd && git clone https://github.com/JLErvin/squash
+git clone https://github.com/JLErvin/squash
 chmod +x squash/*
 ```
 
 Now, edit the `defaults` file and set the default behavior that you want. 
 This includes setting what programs `squash` will attempt to reload. 
 
-Next, create a directory for the theme files and copy theme there. 
+Next, create a directory for the theme files and copy them there. 
 
 ```bash
 mkdir ~/.config/squash
