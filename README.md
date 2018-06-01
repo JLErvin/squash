@@ -7,8 +7,6 @@ Themes are defined in pure shell scripts, allowing for squash to be both flexibl
 `squash` takes theme information, applies it to active applications,
 and writes files in various formats to be used by other programs. 
 
-
-
 <img src="https://imgur.com/zmk2y1m.gif" alt="gif" align="center" width="500px">
 
 Predefined themes are available in the `themes` directory. 
@@ -19,109 +17,54 @@ When you are ready, change themes with:
 squash <THEME>
 ```
 
-Squash currently supports the following window managers:
 
-* 2bwm
-* bspwm
-* windowchef
+## Getting Started
+
+`squash` consists of two main files: `squash` and `pepper`. 
+`squash` is a standalone theme engine that can apply user-created
+themes to various system applications and write files in formats such
+as bash and css for clients to use. `pepper` is a modular version of `squash`, 
+which utilizes the various utility files in this repository to achieve the same results.
+
+`squash` was designed with the unix philopsphy in mind - do one thing and do it well. 
+Each script in this directory does one main function, such as reloading terminals
+or neovim. You are free to use, expand, and edit these scripts as you see fit. 
+This modular approach was largely inspired by `wmutils` - you are free to create your
+own themeing engine using these scripts. 
 
 
+## Usage
 
+Clone the repository and make all script executable. 
 
-## Theory
+```bash
+cd && git clone https://github.com/JLErvin/squash
+chmod +x squash/*
+```
 
-Managing themes on unix systems can often be difficult. 
-Nearly every program stores their theme files in different locations
-and in different formats. 
-Squash aims to consolidate theme information into a single location. 
-These files can then be used to quickly apply themes to the entire system.
+Now, edit the `defaults` file and set the default behavior that you want. 
+This includes setting what programs `squash` will attempt to reload. 
 
-## Installation
+Next, create a directory for the theme files and copy theme there. 
 
-Installing and setting up squash should be fairly simple. Follow these steps:
+```bash
+mkdir ~/.config/squash
+cp -r ~/squash/themes/* ~/.config/squash/
+```
 
-1) Clone the repository:
-    ```bash
-    git clone https://github.com/JLErvin/squash
-    ```
+You are now ready to change to your first theme: 
 
-2) Create the theme directory and move themes there
-    ```bash
-    cd squash
-    mkdir ~/.config/squash
-    cp themes/* ~/.config/squash/
-    ```
-
-3) Set the defaults. Change the values in the `defaults` file
-
-4) Source `squash` files for xorg. Add the following to the top of your `.Xresources`
-    ```xdefaults
-    #include ".cache/squash/x_colors"
-    ```
-
-5) Switch to your first theme!
-    ```bash
-    squash designr
-    ```
+```bash
+squash <THEME>
+pepper <THEME>
+```
 
 ## Configuration
 
-### .Xresources
-
-For colors to persist on new terminals, and for the colors to be used by `x` applications, 
-add the following to your `$HOME/.Xresources`
+`squash` is designed to work well with `X` systems and certain window managers. 
+If you are using an x-based terminal, such as `urxvt`, you can make colors
+persist on new terminals by adding the following to your `~/.Xresources`
 
 ```xdefaults
 #include ".cache/squash/x_colors"
 ```
-
-### BSPWM
-
-For bspwm to use variables define by squash, add the following to your `bspwmrc`
-
-```bash
-source "${HOME}/.cache/squash/colors"
-bspc config normal_border_color "${BSPWM_NORMAL}"
-bspc config focused_border_color "${BSPWM_FOCUSED}"
-```
-
-### Windowchef
-
-Windowchef configuration is almost identical to bspwm configruation, 
-simply add the following to `windowchefrc`
-
-```bash
-source "${HOME}/.cache/squash/colors"
-
-waitron wm_config internal_border_width 5 
-waitron wm_config internal_color_focused "${TWOBWM_FOCUS:1:7}"
-waitron wm_config internal_color_unfocused "${TWOBWM_UNFOCUS:1:7}"
-
-waitron wm_config border_width 10
-waitron wm_config color_focused "${BG:1:7}"
-waitron wm_config color_unfocused "${BG:1:7}" 
-```
-
-This gives a double border look much like 2bwm.
-Notice that in `windowchefrc` you must use hex colors
-without the #, hence shortening the hex code. 
-
-## Using built-in bars
-
-`squash` comes pre-loaded with two simple lemonbar scripts, `blockbar` and `simplebar`.
-Both scripts change icon colors based on system status (i.e. the battery icon will turn red
-when the battery is below a certain threshold, etc). Many of the themes I have created
-are optimized to work best with these scripts. 
-
-To use these scripts, add them to your path. Which bar is used for which theme is determined 
-in the given theme's configruation file under the `BAR_SCRIPT` variable.
-
-To change the scripts general behavior, edit the `bar_defaults` file found in the `bar` directory. 
-
-NOTE: These scripts may require some tweaking to work with your system. Elements like battery/audio levels
-may depend on what backends you use. 
-
-#### blockbar
-![Screenshot](https://i.imgur.com/aic9jPm.png)
-#### simplebar
-![Screenshot](https://i.imgur.com/Kxx9Yps.png)
