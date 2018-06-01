@@ -1,30 +1,243 @@
 #!/usr/bin/env bash
+#
+# -- squash : simple bash script to apply color themes to unix systems
+# -- Author : Joshua L Ervin @ University of Washington
+# -- Contact: jlervin@posteo.net 
 
 COLOR_SCHEME="${1}"
-SQUASH_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
+SQUASH_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 NEWLINE=$'\n'
 
 source "${SQUASH_DIR}/defaults"
 
-usage()
+function usage() 
 {
-    printf "Welcome to squash!${NEWLINE}"
+    printf "Usage: squash <THEME_NAME>\n"
+    printf "Example: squash designr\n"
+    printf "         squash -b -w designr\n"
+    printf "\n"
+    exit 1
 }
 
-# if using squash as backend
+test -z "${1}" && usage
+
 if [[ ! -f ${THEME_DIR}/${COLOR_SCHEME} ]]; then
-    printf "Error: colorscheme not found${NEWLINE}"
-    printf "Exiting squash${NEWLINE}"
+    printf "Error: Colorscheme not found\n"
+    printf "Exiting program\n"
     exit 0
 fi
 
+# Source necessary squash files
+#source "${SQUASH_DIR}/defaults"
 source "${THEME_DIR}/${COLOR_SCHEME}"
 
-COLOR_ARRAY=($BLK  $RED  $GRN  $YLW  $BLU  $MAG  $CYN  $WHT \
-             $BBLK $BRED $BGRN $BYLW $BBLU $BMAG $BCYN $BWHT\
-             $BG $FG)
+color_array=($BLK $RED $GRN $YLW $BLU $MAG $CYN $WHT \
+             $BBLK $BRED $BGRN $BYLW $BBLU $BMAG $BCYN $BWHT)
 
-w_x() 
+# Uses the sourced color array to create a sequence
+# of escape codes for x terminals, and update their
+# colors without restarting them
+function update_terminals() 
+{
+    local sequence=""
+
+    for i in {0..15}; do 
+        sequence+="\033]4;${i};${color_array[${i}]}\007"
+    done
+    for i in 10 12 13; do 
+        sequence+="\033]${i};${FG}\007"
+    done
+    for i in 11 14 708; do 
+        sequence+="\033]${i};${BG}\007"
+    done
+    
+    if [[ $SQUASH_FONT ]]; then
+        sequence+="\033]50;${SQUASH_FONT}\007"
+        sequence+="\033]711;${SQUASH_FONT}\007"
+    fi
+
+
+    reload_terminals "${sequence}"
+}
+
+# Identifies the current window manager 
+# and reloads the given window manager using the
+# given colors. 
+# Notes:
+#   Requires wmctrl to identify window manager
+function update_wm() 
+{
+    if [[ ! $(command -v wmctrl) ]]; then
+        printf "Error: cmtrl not found, wm will not be reloaded\n"
+    else
+        wm=$(wmctrl -m | grep Name | cut -d' ' -f2)
+        case ${wm} in
+            $"2bwm")
+                reload_2bwm
+            ;;
+            $"bspwm")
+                reload_bspwm
+            ;;
+            $"windowchef")
+                reload_chef
+            ;;
+        esac
+    fi
+}
+
+# Updates neovim by overwriting the current colorscheme in the .vimrc
+# and sending remote commands to source $MYVIMRC to all vim instances
+# Notes:
+#   Requires neovim-remote to function
+#   Will overwrite the current theme in you .vimrc 
+function update_nvim()
+{
+    if [[ -z ${VIM_SCHEME} ]]; then
+        printf "Error: VIM_SCHEME not set: not changing vim colorscheme\n"
+    else
+        sed -i -e "s/colorscheme .*/colorscheme $VIM_SCHEME/g" $VIM_CONFIG
+        reload_nvim
+    fi
+}
+
+# Kills all current instances of lemonbar and starts the current bar in the background
+# Notes:
+function update_bar() 
+{
+    if [[ $(pgrep lemonbar) ]]; then
+        pkill -x lemonbar
+    elif [[ $(pgrep polybar) ]]; then
+        pkill -x polybar
+    fi
+    ( ${BAR_SCRIPT} &) > /dev/null 2>&1
+}
+
+function update_wall()
+{
+    if [[ -z ${WALLPAPER_PATH} ]]; then
+        printf "Error: WALLPAPER_PATH not set: not changing wallpaper\n"
+    else
+        hsetroot -"${WALLPAPER_STYLE}" "${WALLPAPER_PATH}"
+    fi
+}
+
+function update_dunst()
+{
+    if [[ -z ${DUNST_PATH} ]]; then
+        printf "Error: Dunst path not set: not reloading dunst\n"
+    else
+        killall dunst
+        sed -i "s/background.*/background = \"${BLK}\"/g" "${DUNST_PATH}"
+        sed -i "s/foreground.*/foreground = \"${FG}\"/g" "${DUNST_PATH}"
+        dunst &
+        notify-send "DUNST RELOADED"
+    fi
+}
+
+# Updates 2bwm's config.h with the new system colors
+# Recompiles 2bwm and reloads the window manager
+# Kills all current instances of lemonbar and starts the current bar in the background
+# Globals:
+#   TWOBWM_FOCUS
+#   TWOBWM_UNFOCUS
+#   TWOBWM_FIXED
+#   TWOBWM_UNKILL
+#   TWOBWM_FIXEDUNK
+#   TWOBWM_OUTR
+#   TWOBWM_EMP
+#   TWOBWM_PATH
+# Notes:
+#   Requires xdotool to reload 2bwm
+function reload_2bwm() 
+{
+    local dir="${TWOBWM_PATH}"
+    local file="${TWOBWM_PATH}/config.h"
+
+    local wmcol=$(cat ${file}|awk '/\*colors/ {print $6}'|cut -d '}' -f1|awk '{gsub(/"/," ");print $2,$4,$6,$8,$10,$12,$14}') 
+    local arr=($wmcol)
+
+    sed -i "s/${arr[0]}/"${TWOBWM_FOCUS}"/;
+            s/${arr[1]}/"${TWOBWM_UNFOCUS}"/;
+            s/${arr[2]}/"${TWOBWM_FIXED}"/;
+            s/${arr[3]}/"${TWOBWM_UNKILL}"/;
+            s/${arr[4]}/"${TWOBWM_FIXEDUNK}"/;
+            s/${arr[5]}/"${TWOBWM_OUTR}"/;
+            s/${arr[6]}/"${TWOBWM_EMP}"/" ${file} 
+
+    cd ${dir} && make && sudo make install && cd
+
+    xdotool key "super+ctrl+r"
+}
+
+function reload_bspwm()
+{
+    if [[ -z ${BSPWM_PATH} ]]; then
+        printf "Error: BSPWM_PATH not found, not reloading bspwm\n"
+    else
+        "${BSPWM_PATH}/bspwmrc" &
+    fi
+}
+
+function reload_chef()
+{
+    if [[ -z ${CHEF_PATH} ]]; then
+        printf "Error: CHEF_PATH not found, not reloading windowchef\n"
+    else
+        "${CHEF_PATH}/windowchefrc" &
+    fi
+}
+
+function reload_ob() {
+    if [[ -z ${OB_PATH} ]]; then
+        printf "Error: OB_PATH not found, not reloading openbox\n"
+    else
+        sed -i -e "s/<theme>\n <name>*<\/name>/<theme>\n <name>"${OB_THEME}"<\/name>/g" "$OB_PATH/rc.xml"
+        openbox --reconfigure
+    fi
+}
+
+# Function that reloads neovim by identify all current sockets and sending
+# remote commands to each instance to reload the $MYVIMRC file
+# NOTE: Requires neovim-remote to function
+# Notes:
+#   Requires neovim-remote to function
+function reload_nvim()
+{
+    if [[ ! $(command -v nvr) ]]; then
+        printf "Error:: neovim-remote not found\n"
+        printf "Please install nvr to reload neovim\n"
+    else
+        inst=($(nvr --serverlist | grep nvim | sort | uniq))
+
+        for nvim_inst in "${inst[@]}"; do 
+            nvr --servername "${nvim_inst}" --remote-send '<Esc>:so ${HOME}/.config/nvim/init.vim<CR>' &
+        done
+    fi
+}
+
+# Sends escape codes to all terminals that reflect the colors from the new colorscheme
+# Arguments: 
+#   sequence: escape codes for terminals
+# Notes:
+function reload_terminals() 
+{
+    local seq="${1}"
+
+    for term in /dev/pts/[0-9]*; do
+        printf "%b" "${seq}" > "${term}"
+    done
+}
+
+# Writes a a file specified by ${CACHE_DIR}/x_colors to be sourced by x_resources
+# Contains information about all system colors (foreground, background, cursorcolor, colors 0 - 15)
+# As well as rofi colors and 2bwm colors
+# Globals:
+#   CACHE_DIR
+# Notes:
+#   This file is only useful if it is source in ${HOME}/.Xresources
+#   This can be done with the line: 
+#       #include ".cache/squash/x_colors"
+function write_x() 
 {
    local x_output=""
    local x_output+="*.foreground:   ${FG}${NEWLINE}"
@@ -32,11 +245,14 @@ w_x()
    local x_output+="*.cursorColor:  ${FG}${NEWLINE}"
 
    for i in {0..15}; do
-      local x_output+="*.color${i}: ${COLOR_ARRAY[${i}]}${NEWLINE}"
+      local x_output+="*.color${i}: ${color_array[${i}]}${NEWLINE}"
    done
 
    local rofi_output=""
    local rofi_output+="rofi.color-enaled: true${NEWLINE}"
+   #local rofi_output+="rofi.color-window: ${BG}, ${BG}, ${BLK}${NEWLINE}"
+   #local rofi_output+="rofi.color-normal: ${BG}, ${FG}, ${BG}, ${BLK}, ${ACC}${NEWLINE}"
+   #                                        bg      fg     bgalt  hlbg     hlfg
    local rofi_output+="rofi.color-window: ${BLK}, ${BLK}, ${BLK}${NEWLINE}"
    local rofi_output+="rofi.color-normal: ${BLK}, ${FG}, ${BLK}, ${BBLK}, ${ACC}${NEWLINE}"
 
@@ -61,7 +277,7 @@ w_x()
 # to the ${CACHE_DIR}. Can be sourced by any number of applicatons. 
 # Globals:
 #   CACHE_DIR
-w_css() 
+function write_css() 
 {
    local css_output=""
    local css_output+=":root {${NEWLINE}"
@@ -69,7 +285,7 @@ w_css()
    local css_output+="\t--background: ${BG};${NEWLINE}"
    local css_output+="\t--foreground: ${FG};${NEWLINE}"
    for i in {0..15}; do 
-       local css_output+="\t--color${i}: ${COLOR_ARRAY[${i}]};${NEWLINE}"
+       local css_output+="\t--color${i}: ${color_array[${i}]};${NEWLINE}"
    done
    local css_output+="}"
 
@@ -80,104 +296,24 @@ w_css()
 # that want access to the variables in the bash script
 # Globals:
 #   CACHE_DIR
-w_sh() 
+function write_sh() 
 {
     rm -f ${CACHE_DIR}/colors
     cp ${THEME_DIR}/${COLOR_SCHEME} ${CACHE_DIR}/colors
 }
 
-u_vim()
-{
-    sed -i -e "s/colorscheme .*/colorscheme $VIM_SCHEME/g" $VIM_CONFIG
-    r_nvim
-}
-
-r_term()
-{
-    COLOR_ARRAY=("$@")
-    SEQ=""
-
-    # Create main sequence for colors 0 - 15
-    for i in {0..15}; do 
-        SEQ+="\033]4;${i};${COLOR_ARRAY[${i}]}\007"
-    done
-
-    # Support for background colors
-    for i in 10 12 13; do 
-        SEQ+="\033]${i};${COLOR_ARRAY[17]}\007"
-    done
-
-    # Support for foreground colors
-    for i in 11 14 708; do 
-        SEQ+="\033]${i};${COLOR_ARRAY[16]}\007"
-    done
-
-    for TERM in /dev/pts/[0-9]*; do
-        printf "%b" "${SEQ}" > "${TERM}"
-    done
-}
-
-r_bar()
-{
-    BAR_SCRIPT=${1}
-
-    if [[ $(pgrep lemonbar) ]]; then
-        pkill -x lemonbar
-    elif [[ $(pgrep polybar) ]]; then
-        pkill -x polybar
-    fi
-
-    ( ${BAR_SCRIPT} &) > /dev/null 2>&1
-}
-
-r_nvim()
-{
-    if [[ ! $(command -v nvr) ]]; then
-        printf "Error:: neovim-remote not found\n"
-        printf "Please install nvr to reload neovim\n"
-    else
-        inst=($(nvr --serverlist | grep nvim | sort | uniq))
-
-        for nvim_inst in "${inst[@]}"; do 
-            nvr --servername "${nvim_inst}" --remote-send '<Esc>:so ${HOME}/.config/nvim/init.vim<CR>' &
-        done
-    fi
-}
-
-r_dunst()
-{
-    DUNST_PATH=${1}
-    FG=${2}
-    BG=${3}
-
-    if [[ -z ${DUNST_PATH} ]]; then
-        printf "Error: Dunst path not set: not reloading dunst\n"
-    else
-        killall dunst
-        sed -i "s/background.*/background = \"${BG}\"/g" "${DUNST_PATH}"
-        sed -i "s/foreground.*/foreground = \"${FG}\"/g" "${DUNST_PATH}"
-        dunst &
-        notify-send "DUNST RELOADED" &
-    fi
-}
-
-r_wallpaper()
-{
-    WALLPAPER_PATH=${1}
-    WALLPAPER_STYLE=${2}
-
-    hsetroot -fill ${WALLPAPER_PATH}
-}
-
 # Write all files
-# Don't know why anyone wound't want to do this
-test ${WRITE_ALL} && w_x
-test ${WRITE_ALL} && w_sh
-test ${WRITE_ALL} && w_css
+write_x
+write_sh
+write_css
 
-test ${RELOAD_TERMINALS} && r_term ${COLOR_ARRAY[@]}
-test ${RELOAD_BAR}  && r_bar ${BAR_SCRIPT}
-test ${RELOAD_WM} && r_wm
-test ${RELOAD_VIM} && u_vim
-test ${RELOAD_DUNST} && r_dunst ${DUNST_PATH} ${BLK} ${FG}
-test ${RELOAD_WALLPAPER} && r_wallpaper ${WALLPAPER_PATH} ${WALLPAPER_STYLE}
+# Source .Xresources
+xrdb "${HOME}/.Xresources"
+
+# Update applications
+update_wall
+update_terminals
+update_nvim
+update_bar
+update_wm
+update_dunst
