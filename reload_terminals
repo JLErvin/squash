@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+#
+# Bash script to reload all active terminals by sending
+# x escape sequences. 
+#
+# Args: Path to a squash configuration file, which will be
+#       used to reload all terminals
+#
+# Note: Not tested on non x-terminals (i.e. urxvt)
+
+usage()
+{
+    printf "reload_terminals <COLOR_ARRAY>"
+    exit 0
+}
+
+test -z ${1} && usage
+COLOR_ARRAY=("$@")
+SEQ=""
+
+# Create main sequence for colors 0 - 15
+for i in {0..15}; do 
+    SEQ+="\033]4;${i};${COLOR_ARRAY[${i}]}\007"
+done
+
+# Support for background colors
+for i in 10 12 13; do 
+    SEQ+="\033]${i};${COLOR_ARRAY[17]}\007"
+done
+
+# Support for foreground colors
+for i in 11 14 708; do 
+    SEQ+="\033]${i};${COLOR_ARRAY[16]}\007"
+done
+
+for TERM in /dev/pts/[0-9]*; do
+    printf "%b" "${SEQ}" > "${TERM}"
+done

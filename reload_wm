@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#
+# Reloads the currently active window manger
+# Supports the following wm's:
+#   2bwm, windowchef, 2bwm, i3
+
+usage()
+{
+    printf "Usage: reload_wm <SQUASH_FILE>\n"
+    exit 0
+}
+
+test -z ${1} && usage
+COLOR_SCHEME=${1}
+source ${COLOR_SCHEME}
+
+if [ -n "$DISPLAY" ]; then
+    id="$(xprop -root -notype | \awk '$1=="_NET_SUPPORTING_WM_CHECK:"{print $5}')"
+    wm="$(xprop -id "$id" -notype -f _NET_WM_NAME 8t)"
+    wm="${wm/*_NET_WM_NAME = }"
+    wm="${wm/\"}"
+    wm="${wm/\"*}"
+fi
+
+case ${wm} in
+    $"2bwm")
+        reload_2bwm ${COLOR_SCHEME}
+        ;;
+    $"bspwm")
+        reload_bspwm ${COLOR_SCHEME}
+        ;;
+    $"windowchef")
+        reload_wchef ${COLOR_SCHEME}
+        ;;
+    $"i3")
+        reload_i3 ${COLOR_SCHEME}
+        ;;
+esac
+

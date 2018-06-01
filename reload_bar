@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+usage()
+{
+    printf "Error: bar name not found"
+    exit 0
+}
+
+test -z ${1} && usage
+BAR_SCRIPT=${1}
+
+if [[ $(pgrep lemonbar) ]]; then
+    pkill -x lemonbar
+elif [[ $(pgrep polybar) ]]; then
+    pkill -x polybar
+fi
+
+( ${BAR_SCRIPT} &) > /dev/null 2>&1
+
+

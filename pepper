@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+#
+# A modular color-scheme manager for unix systems
+#
+# Created by Joshua L Ervin @ University of Washington
+# Contact: jlervin@posteo.net
 
 COLOR_SCHEME="${1}"
 SQUASH_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)"
@@ -24,7 +29,7 @@ COLOR_ARRAY=($BLK  $RED  $GRN  $YLW  $BLU  $MAG  $CYN  $WHT \
              $BBLK $BRED $BGRN $BYLW $BBLU $BMAG $BCYN $BWHT\
              $BG $FG)
 
-w_x() 
+write_x() 
 {
    local x_output=""
    local x_output+="*.foreground:   ${FG}${NEWLINE}"
@@ -61,7 +66,7 @@ w_x()
 # to the ${CACHE_DIR}. Can be sourced by any number of applicatons. 
 # Globals:
 #   CACHE_DIR
-w_css() 
+write_css() 
 {
    local css_output=""
    local css_output+=":root {${NEWLINE}"
@@ -80,104 +85,27 @@ w_css()
 # that want access to the variables in the bash script
 # Globals:
 #   CACHE_DIR
-w_sh() 
+write_sh() 
 {
     rm -f ${CACHE_DIR}/colors
     cp ${THEME_DIR}/${COLOR_SCHEME} ${CACHE_DIR}/colors
 }
 
-u_vim()
+update_vim()
 {
     sed -i -e "s/colorscheme .*/colorscheme $VIM_SCHEME/g" $VIM_CONFIG
-    r_nvim
-}
-
-r_term()
-{
-    COLOR_ARRAY=("$@")
-    SEQ=""
-
-    # Create main sequence for colors 0 - 15
-    for i in {0..15}; do 
-        SEQ+="\033]4;${i};${COLOR_ARRAY[${i}]}\007"
-    done
-
-    # Support for background colors
-    for i in 10 12 13; do 
-        SEQ+="\033]${i};${COLOR_ARRAY[17]}\007"
-    done
-
-    # Support for foreground colors
-    for i in 11 14 708; do 
-        SEQ+="\033]${i};${COLOR_ARRAY[16]}\007"
-    done
-
-    for TERM in /dev/pts/[0-9]*; do
-        printf "%b" "${SEQ}" > "${TERM}"
-    done
-}
-
-r_bar()
-{
-    BAR_SCRIPT=${1}
-
-    if [[ $(pgrep lemonbar) ]]; then
-        pkill -x lemonbar
-    elif [[ $(pgrep polybar) ]]; then
-        pkill -x polybar
-    fi
-
-    ( ${BAR_SCRIPT} &) > /dev/null 2>&1
-}
-
-r_nvim()
-{
-    if [[ ! $(command -v nvr) ]]; then
-        printf "Error:: neovim-remote not found\n"
-        printf "Please install nvr to reload neovim\n"
-    else
-        inst=($(nvr --serverlist | grep nvim | sort | uniq))
-
-        for nvim_inst in "${inst[@]}"; do 
-            nvr --servername "${nvim_inst}" --remote-send '<Esc>:so ${HOME}/.config/nvim/init.vim<CR>' &
-        done
-    fi
-}
-
-r_dunst()
-{
-    DUNST_PATH=${1}
-    FG=${2}
-    BG=${3}
-
-    if [[ -z ${DUNST_PATH} ]]; then
-        printf "Error: Dunst path not set: not reloading dunst\n"
-    else
-        killall dunst
-        sed -i "s/background.*/background = \"${BG}\"/g" "${DUNST_PATH}"
-        sed -i "s/foreground.*/foreground = \"${FG}\"/g" "${DUNST_PATH}"
-        dunst &
-        notify-send "DUNST RELOADED" &
-    fi
-}
-
-r_wallpaper()
-{
-    WALLPAPER_PATH=${1}
-    WALLPAPER_STYLE=${2}
-
-    hsetroot -fill ${WALLPAPER_PATH}
+    reload_nvim
 }
 
 # Write all files
 # Don't know why anyone wound't want to do this
-test ${WRITE_ALL} && w_x
-test ${WRITE_ALL} && w_sh
-test ${WRITE_ALL} && w_css
+test ${WRITE_ALL} && write_x
+test ${WRITE_ALL} && write_sh
+test ${WRITE_ALL} && write_css
 
-test ${RELOAD_TERMINALS} && r_term ${COLOR_ARRAY[@]}
-test ${RELOAD_BAR}  && r_bar ${BAR_SCRIPT}
-test ${RELOAD_WM} && r_wm
-test ${RELOAD_VIM} && u_vim
-test ${RELOAD_DUNST} && r_dunst ${DUNST_PATH} ${BLK} ${FG}
-test ${RELOAD_WALLPAPER} && r_wallpaper ${WALLPAPER_PATH} ${WALLPAPER_STYLE}
+test ${RELOAD_TERMINALS} && reload_terminals ${COLOR_ARRAY[@]}
+test ${RELOAD_BAR}  && reload_bar ${BAR_SCRIPT}
+test ${RELOAD_WM} && reload_wm
+test ${RELOAD_VIM} && update_vim
+test ${RELOAD_DUNST} && reload_dunst ${DUNST_PATH} ${BLK} ${FG}
+test ${RELOAD_WALLPAPER} && reload_wallpaper ${WALLPAPER_PATH} ${WALLPAPER_STYLE}

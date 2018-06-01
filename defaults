@@ -7,8 +7,20 @@ CACHE_DIR="${HOME}/.cache/squash"
 THEME_DIR="${HOME}/.config/squash"
 VIM_CONFIG="${HOME}/.config/nvim/appearance.vim"
 BAR_DIR="${HOME}/squash/bar"
+DUNST_PATH="${HOME}/.config/dunst/dunstrc"
 
 # WM Options
 TWOBWM_PATH="${HOME}/2bwm/src/2bwm"
 BSPWM_PATH="${HOME}/.config/bspwm"
 CHEF_PATH="${HOME}/.config/windowchef"
+
+# ---- ENABLED MODULES ----
+
+RELOAD_TERMINALS=true
+RELOAD_WALLPAPER=true
+RELOAD_BAR=true
+RELOAD_WM=true # NOTE: if wm is 2bwm, modifies config files
+RELOAD_VIM=true # NOTE: Modifies config files
+RELOAD_DUNST=true #NOTE: Modifies config files
+
+WRITE_ALL=true

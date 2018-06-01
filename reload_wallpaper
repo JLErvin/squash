@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+usage()
+{
+    printf "Usage: reload_wallpaper <WALLPAPER_PATH> <WALLPAPER_STYLE}\n"
+    printf "Valid Styles: tile, fill\n"
+    exit 0
+}
+
+test -z ${1} && usage
+test -z ${2} && usage
+
+WALLPAPER_PATH=${1}
+WALLPAPER_STYLE=${2}
+
+hsetroot -fill ${WALLPAPER_PATH}

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#
+# Script to reload 2bwm by modifying the state of colors
+# in it's config.h file and then recompiling the program
+#
+# WARNING: This program will change the contents of your
+# 2bwm config.h file - USE AT YOUR OWN RISK
+#
+# NOTE: xdotool required to reload 2bwm after recompiling
+
+
+DIR="${HOME}/2bwm/src/2bwm"
+FILE="${DIR}/config.h"
+
+WMCOL=$(cat ${FILE}|awk '/\*colors/ {print $6}'|cut -d '}' -f1|awk '{gsub(/"/," ");print $2,$4,$6,$8,$10,$12,$14}') 
+ARR=($WMCOL)
+
+sed -i "s/${ARR[0]}/"${TWOBWM_FOCUS}"/;
+        s/${ARR[1]}/"${TWOBWM_UNFOCUS}"/;
+        s/${ARR[2]}/"${TWOBWM_FIXED}"/;
+        s/${ARR[3]}/"${TWOBWM_UNKILL}"/;
+        s/${ARR[4]}/"${TWOBWM_FIXEDUNK}"/;
+        s/${ARR[5]}/"${TWOBWM_OUTR}"/;
+        s/${ARR[6]}/"${TWOBWM_EMP}"/" ${FILE} 
+
+cd ${DIR} && make && sudo make install && cd
+
+xdotool key "super+ctrl+r"

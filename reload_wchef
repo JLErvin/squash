@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+usage()
+{
+    printf "Usage: reload_wchef <WINDOWCHEF_PATH>"
+    exit 0
+}
+
+test -z ${1} && usage
+WINDOWCHEF_PATH=${1}
+
+"${WINDOWCHEF_PATH}/windowchefrc" &

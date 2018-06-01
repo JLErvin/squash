@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+usage()
+{
+    printf "Usage: reload_dunst <PATH> <FOREGROUND> <BACKGROUND>"
+    exit 0
+}
+
+test -z ${1} && usage
+test -z ${2} && usage
+test -z ${3} && usage
+
+DUNST_PATH=${1}
+FG=${2}
+BG=${3}
+
+if [[ -z ${DUNST_PATH} ]]; then
+    printf "Error: Dunst path not set: not reloading dunst\n"
+else
+    killall dunst
+    sed -i "s/background.*/background = \"${BG}\"/g" "${DUNST_PATH}"
+    sed -i "s/foreground.*/foreground = \"${FG}\"/g" "${DUNST_PATH}"
+    dunst &
+    notify-send "DUNST RELOADED" &
+fi
