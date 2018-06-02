@@ -9,6 +9,9 @@
 #
 # Bar created by Joshua Ervin @ University of Washington
 # Contact: jlervin@posteo.net
+#
+# NOTE: Requires patched lemonbar to allow for borders
+#       Can be found here -> https://github.com/dark-yux/bar
 
 source "${HOME}/.cache/squash/colors"
 
