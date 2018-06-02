@@ -99,13 +99,13 @@ update_vim()
 
 # Write all files
 # Don't know why anyone wound't want to do this
-test ${WRITE_ALL} && write_x
-test ${WRITE_ALL} && write_sh
-test ${WRITE_ALL} && write_css
+test ${WRITE_ALL} == true && write_x
+test ${WRITE_ALL} == true && write_sh
+test ${WRITE_ALL} == true && write_css
 
-test ${RELOAD_TERMINALS} && reload_terminals ${COLOR_ARRAY[@]}
-test ${RELOAD_BAR}  && reload_bar ${BAR_SCRIPT}
-test ${RELOAD_WM} && reload_wm
-test ${RELOAD_VIM} && update_vim
-test ${RELOAD_DUNST} && reload_dunst ${DUNST_PATH} ${BLK} ${FG}
-test ${RELOAD_WALLPAPER} && reload_wallpaper ${WALLPAPER_PATH} ${WALLPAPER_STYLE}
+test ${RELOAD_TERMINALS} == true && reload_terminals ${COLOR_ARRAY[@]}
+test ${RELOAD_BAR} == true  && reload_bar ${BAR_SCRIPT}
+test ${RELOAD_WM} == true && reload_wm
+test ${RELOAD_VIM} == true && update_vim
+test ${RELOAD_DUNST} == true && reload_dunst ${DUNST_PATH} ${BLK} ${FG}
+test ${RELOAD_WALLPAPER} == true && reload_wallpaper ${WALLPAPER_PATH} ${WALLPAPER_STYLE}

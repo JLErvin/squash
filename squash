@@ -303,17 +303,17 @@ function write_sh()
 }
 
 # Write all files
-write_x
-write_sh
-write_css
+test ${WRITE_ALL} == true && write_x
+test ${WRITE_ALL} == true && write_sh
+test ${WRITE_ALL} == true && write_css
 
 # Source .Xresources
 xrdb "${HOME}/.Xresources"
 
 # Update applications
-update_wall
-update_terminals
-update_nvim
-update_bar
-update_wm
-update_dunst
+test ${RELOAD_WALLPAPER} == true && update_wall
+test ${RELOAD_TERMINALS} == true && update_terminals
+test ${RELOAD_VIM} == true && update_nvim
+test ${RELOAD_BAR} == true && update_bar
+test ${RELOAD_WM} == true && update_wm
+test ${RELOAD_DUNST} == true && update_dunst
