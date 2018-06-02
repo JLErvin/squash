@@ -3,8 +3,9 @@
 # Bash script to reload all active terminals by sending
 # x escape sequences. 
 #
-# Args: Path to a squash configuration file, which will be
-#       used to reload all terminals
+# Args: A bash array where the indicies correspond to the color
+#       code be used for X. 0 = black, 1 = red... etc
+#       The last two indicies should correspond to the FG and BG
 #
 # Note: Not tested on non x-terminals (i.e. urxvt)
 
