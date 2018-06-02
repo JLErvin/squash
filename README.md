@@ -99,20 +99,16 @@ without the #, hence shortening the hex code.
 
 ## Using built-in bars
 
-`squash` comes pre-loaded with two simple lemonbar scripts, `blockbar` and `simplebar`.
-Both scripts change icon colors based on system status (i.e. the battery icon will turn red
-when the battery is below a certain threshold, etc). Many of the themes I have created
-are optimized to work best with these scripts. 
+`squash` comes pre-loaded with a bar script `tinybar` which uses block-style elements to show sytem information. 
+Icons colors change depending on the state of each block (i.e. battery will turn red below a certain threshold). 
 
 To use these scripts, add them to your path. Which bar is used for which theme is determined 
 in the given theme's configruation file under the `BAR_SCRIPT` variable.
 
-To change the scripts general behavior, edit the `bar_defaults` file found in the `bar` directory. 
+Variables to define bar behavior are located in the `tinybar` script. 
 
 NOTE: These scripts may require some tweaking to work with your system. Elements like battery/audio levels
 may depend on what backends you use. 
 
 #### blockbar
 ![Screenshot](https://i.imgur.com/aic9jPm.png)
-#### simplebar
-![Screenshot](https://i.imgur.com/Kxx9Yps.png)
