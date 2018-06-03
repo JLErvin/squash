@@ -2,120 +2,137 @@
     <h1>squash</h1><br>
 </div>
 
-`squash` is a dead simple theme manager for unix systems.
-Themes are defined in pure shell scripts, allowing for squash to be both flexible and increadibly simple. 
-`squash` takes theme information, applies it to active applications,
-and writes files in various formats to be used by other programs. 
+`squash` is a dead-simple bash script that allows users to create custom themes and 
+quickly apply them to terminals, panels, browsers, and window managers. `squash` stores
+themes in pure bash-scripts, allowing it to be extensible and versitile. 
+
+To understand how `squash` interacts with various system applications, check the usage section. 
 
 <img src="https://imgur.com/zmk2y1m.gif" alt="gif" align="center" width="500px">
 
-## Theory
-
-`squash` is a set of themeing utilities designed to be modular and user friendly.
-Creating a cohesive unix-system can be a difficult task, as programs read theme 
-information in different formats and in different locations.
-`squash` provides a collection of scripts to make managing your system easier. 
-
-The program starts with a `squash` file: a pure bash script that defines how a single
-theme will behave (i.e. 16 colors, wallpaper, which bar script to run, what window border color
-to use, etc). `squash` sources these values, and applies them to system applications such as `urxvt`, 
-`xterm`, `dunst`, `lemonbar`, `polybar`, and your respective window manager. 
-In addition, `squash` translates this information into a css file and a xdefaults file to be used
-by `~/.Xresources`. 
-
-However, if you don't want `squash` to manage your system for you, then you can use the included
-scripts to create a unique environment. Each major `squash` function is included in its own
-standalone script, which can be used by any client and does not depend on `squash` variables. 
-
 ## Installation
 
-Installing and setting up squash should be fairly simple. Follow these steps:
-
-1) Clone the repository:
+1) Clone the repository and cd into it
     ```sh
     git clone https://github.com/JLErvin/squash
+    cd squash
     ```
 
-2) Run the install script: 
+2) Run the install script. This creates a `squash` directory located in $HOME/.config/squash
+`squash` will store default behavior and themes here. 
     ```sh
     ./install.sh
     ```
 
-3) Set default behavior. defaults located in ${HOME}/.config/squash/defaults
+3) Finally, add `squash` to your path
 
-4) Add `squash to your path`. This varies between shells, but might look like: 
-    ```zsh
-    export PATH=/home/YOUR_USER/squash:$PATH
-    ```
+## Usage
 
-5) Source `squash` files for xorg. Add the following to the top of your `.Xresources`
-    ```xdefaults
-    #include ".cache/squash/x_colors"
-    ```
+Before running `squash`, it is best to edit the defaults at `$HOME/.config/squash/defaults`
+and set which applications you want to be reloaded.
 
-6) Switch to your first theme!
-    ```bash
-    squash designr
-    ```
+Next, you will want to edit the theme that you are using so it best suits your needs.
+Themes are located in `$HOME/.config/squash/themes`. 
+For example, you might want to set the `BAR_SCRIPT` variable, which determines what bar `squash` will try to reload. 
 
-## Configuration
+Now, switch to your first theme!
 
-### .Xresources
+```sh
+squash designr
+```
 
-For colors to persist on new terminals, and for the colors to be used by `x` applications, 
-add the following to your `$HOME/.Xresources`
+## Application Usage
+
+`squash` is really just a translator, it takes `squash` theme information and writes it in various file formats
+to be used by other applications. 
+
+### urxvt
+For example, `squash` generates a `x_colors` file, which can be sourced by `Xresorces` so colors can be used
+system-wide. 
+
+To make colors persist on new terminals, add the following to `~/.Xresources`
 
 ```xdefaults
 #include ".cache/squash/x_colors"
 ```
 
-### BSPWM
+### lemonbar
 
-For bspwm to use variables define by squash, add the following to your `bspwmrc`
+`squash` colors are copied to pure bash scripts so they can be sourced by lemonbar.
+Add the following at the top of your script: 
 
-```bash
+```sh
+source $HOME/.cache/squsah/colors
+```
+
+### polybar
+
+Because `squash` can be used by `Xresources`, `polybar` will recognize all changes that `squash` makes to these values
+upon restart. To see these values, make sure polybar defines colors from `Xresources`
+
+```
+blk=${xrdb:color0}
+red=${xrdb:color1}
+...
+bwht=${xrdb:color15}
+```
+
+### firefox
+
+`squash` writes a `.css` file. You can source this file and use it to define `firefox` colors
+
+```css
+@import "file:///home/jlervin/.cache/squash/colors.css";
+```
+
+### bspwm
+
+`bspwm` configuration is really just a bash file.
+This means you can source `squash` sh files to get access to all variables
+Add the following to your `bspwmrc`
+
+```sh
 source "${HOME}/.cache/squash/colors"
+
 bspc config normal_border_color "${BSPWM_NORMAL}"
 bspc config focused_border_color "${BSPWM_FOCUSED}"
 ```
 
-### Windowchef
+### windowchef
 
-Windowchef configuration is almost identical to bspwm configruation, 
-simply add the following to `windowchefrc`
+`windowchef` configuration is almost identical to `bspwm` configuration. 
+Add the following to your `windowchefrc`
 
-```bash
+```sh
 source "${HOME}/.cache/squash/colors"
 
 waitron wm_config internal_border_width 5 
 waitron wm_config internal_color_focused "${TWOBWM_FOCUS:1:7}"
 waitron wm_config internal_color_unfocused "${TWOBWM_UNFOCUS:1:7}"
-
-waitron wm_config border_width 10
-waitron wm_config color_focused "${BG:1:7}"
-waitron wm_config color_unfocused "${BG:1:7}" 
 ```
 
-This gives a double border look much like 2bwm.
-Notice that in `windowchefrc` you must use hex colors
-without the #, hence shortening the hex code. 
+### 2bwm
 
-## Using built-in bars
+`squash` will reload `2bwm` automatically. It should be noted that `squash` changes that contents of 
+`config.h` which may cause syntax errors if colors are not sourced correctly. Use are your own risk. 
 
-`squash` comes pre-loaded with two simple lemonbar scripts, `blockbar` and `simplebar`.
-Both scripts change icon colors based on system status (i.e. the battery icon will turn red
-when the battery is below a certain threshold, etc). Many of the themes I have created
-are optimized to work best with these scripts. 
+### dunst
 
-To use these scripts, add them to your path. Which bar is used for which theme is determined 
-in the given theme's configruation file under the `BAR_SCRIPT` variable.
+`squsah` will reload `dunst` automatically with background/foreground colors. 
+It should be noted that `squash` changes the contents of `dunstrc`, which may cause syntax errors
+if colors are not sourced correctly. Use at your own risk. 
 
-To change the scripts general behavior, edit the `bar_defaults` file found in the `bar` directory. 
+### neovim
 
-NOTE: These scripts may require some tweaking to work with your system. Elements like battery/audio levels
-may depend on what backends you use. 
+If you are using `neovim`, `squash` will be able to reload all open instances of `nvim` assuming that you
+have `nvr-remote` installed and always open `nvim` as a server. To open as a server, add the following
+function to your `.zshrc` or equivalent: 
 
-#### blockbar
-![Screenshot](https://i.imgur.com/aic9jPm.png)
-#### simplebar
-![Screenshot](https://i.imgur.com/Kxx9Yps.png)
+```sh
+nvim() {
+    local fn="$(mktemp -u "/tmp/nvimsocket-XXXXXXX")"
+    NVIM_LISTEN_ADDRESS=$fn /usr/bin/nvim $@
+}
+```
+
+`squash` will attempt to edit your `$MYVIMRC`, which may cause problems. Use at your own risk.
