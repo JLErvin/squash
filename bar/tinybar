@@ -10,7 +10,7 @@
 # Bar created by Joshua Ervin @ University of Washington
 # Contact: jlervin@posteo.net
 #
-# NOTE: Requires patched lemonbar to allow for borders
+# NOTE: For borders, use the second OPTIONS var and use the following bar
 #       Can be found here -> https://github.com/dark-yux/bar
 
 source "${HOME}/.cache/squash/colors"
@@ -86,7 +86,8 @@ if [ ! -z ${LMNBAR_DARK} ]; then
 fi
 
 PANEL_FIFO=/tmp/panel-fifo
-OPTIONS="-d ${FONTS} -g ${WIDTH}x${HEIGHT}+${XOFF}+${YOFF} -B ${BBG} -F ${BFG} -r 5 -R ${BRDRC} -u 2" 
+OPTIONS="-d ${FONTS} -g ${WIDTH}x${HEIGHT}+${XOFF}+${YOFF} -B ${BBG} -F ${BFG} -u 2" 
+#OPTIONS="-d ${FONTS} -g ${WIDTH}x${HEIGHT}+${XOFF}+${YOFF} -B ${BBG} -F ${BFG} -r 5 -R ${BRDRC} -u 2" 
 
 [ -e "${PANEL_FIFO}" ] && rm "${PANEL_FIFO}"
 mkfifo "${PANEL_FIFO}"
