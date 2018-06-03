@@ -18,7 +18,7 @@ To understand how `squash` interacts with various system applications, check the
     cd squash
     ```
 
-2) Run the install script. This creates a `squash` directory located in $HOME/.config/squash
+2) Run the install script. This creates a `squash` directory located in `$HOME/.config/squash`.
 `squash` will store default behavior and themes here. 
     ```sh
     ./install.sh
