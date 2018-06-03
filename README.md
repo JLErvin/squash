@@ -32,25 +32,28 @@ standalone script, which can be used by any client and does not depend on `squas
 Installing and setting up squash should be fairly simple. Follow these steps:
 
 1) Clone the repository:
-    ```bash
+    ```sh
     git clone https://github.com/JLErvin/squash
     ```
 
-2) Create the theme directory and move themes there
-    ```bash
-    cd squash
-    mkdir ~/.config/squash
-    cp themes/* ~/.config/squash/
+2) Run the install script: 
+    ```sh
+    ./install.sh
     ```
 
-3) Set the defaults. Change the values in the `defaults` file
+3) Set default behavior. defaults located in ${HOME}/.config/squash/defaults
 
-4) Source `squash` files for xorg. Add the following to the top of your `.Xresources`
+4) Add `squash to your path`. This varies between shells, but might look like: 
+    ```zsh
+    export PATH=/home/YOUR_USER/squash:$PATH
+    ```
+
+5) Source `squash` files for xorg. Add the following to the top of your `.Xresources`
     ```xdefaults
     #include ".cache/squash/x_colors"
     ```
 
-5) Switch to your first theme!
+6) Switch to your first theme!
     ```bash
     squash designr
     ```
