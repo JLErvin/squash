@@ -5,7 +5,7 @@
 # -- Contact: jlervin@posteo.net 
 
 COLOR_SCHEME="${1}"
-SQUASH_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SQUASH_DIR="${HOME}/.config/squash"
 NEWLINE=$'\n'
 
 source "${SQUASH_DIR}/defaults"
