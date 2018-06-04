@@ -14,7 +14,7 @@ To understand how `squash` interacts with various system applications, check the
 
 1) Clone the repository and cd into it
 
-```
+```bash
 git clone https://github.com/JLErvin/squash
 cd squash
 ```
@@ -22,7 +22,7 @@ cd squash
 2) Run the install script. This creates a `squash` directory located in `$HOME/.config/squash`.
 `squash` will store default behavior and themes here. 
 
-```
+```bash
 ./install.sh
 ```
 
@@ -39,7 +39,7 @@ For example, you might want to set the `BAR_SCRIPT` variable, which determines w
 
 Now, switch to your first theme!
 
-```
+```bash
 squash designr
 ```
 
@@ -54,7 +54,7 @@ system-wide.
 
 To make colors persist on new terminals, add the following to `~/.Xresources`
 
-```
+```cpp
 #include ".cache/squash/x_colors"
 ```
 
@@ -63,7 +63,7 @@ To make colors persist on new terminals, add the following to `~/.Xresources`
 `squash` colors are copied to pure bash scripts so they can be sourced by lemonbar.
 Add the following at the top of your script: 
 
-```
+```bash
 source $HOME/.cache/squsah/colors
 ```
 
@@ -83,7 +83,7 @@ bwht=${xrdb:color15}
 
 `squash` writes a `.css` file. You can source this file and use it to define `firefox` colors
 
-```
+```css
 @import "file:///home/jlervin/.cache/squash/colors.css";
 ```
 
@@ -93,7 +93,7 @@ bwht=${xrdb:color15}
 This means you can source `squash` sh files to get access to all variables
 Add the following to your `bspwmrc`
 
-```
+```bash
 source "${HOME}/.cache/squash/colors"
 
 bspc config normal_border_color "${BSPWM_NORMAL}"
@@ -105,7 +105,7 @@ bspc config focused_border_color "${BSPWM_FOCUSED}"
 `windowchef` configuration is almost identical to `bspwm` configuration. 
 Add the following to your `windowchefrc`
 
-```
+```bash
 source "${HOME}/.cache/squash/colors"
 
 waitron wm_config internal_border_width 5 
@@ -130,7 +130,7 @@ If you are using `neovim`, `squash` will be able to reload all open instances of
 have `nvr-remote` installed and always open `nvim` as a server. To open as a server, add the following
 function to your `.zshrc` or equivalent: 
 
-```
+```bash
 nvim() {
     local fn="$(mktemp -u "/tmp/nvimsocket-XXXXXXX")"
     NVIM_LISTEN_ADDRESS=$fn /usr/bin/nvim $@
