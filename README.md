@@ -14,17 +14,17 @@ To understand how `squash` interacts with various system applications, check the
 
 1) Clone the repository and cd into it
 
-    ```
-    git clone https://github.com/JLErvin/squash
-    cd squash
-    ```
+```
+git clone https://github.com/JLErvin/squash
+cd squash
+```
 
 2) Run the install script. This creates a `squash` directory located in `$HOME/.config/squash`.
 `squash` will store default behavior and themes here. 
 
-    ```
-    ./install.sh
-    ```
+```
+./install.sh
+```
 
 3) Finally, add `squash` to your path
 
