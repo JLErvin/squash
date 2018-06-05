@@ -10,11 +10,10 @@ NEWLINE=$'\n'
 
 source "${SQUASH_DIR}/defaults"
 
-function usage() 
+usage() 
 {
     printf "Usage: squash <THEME_NAME>\n"
     printf "Example: squash designr\n"
-    printf "         squash -b -w designr\n"
     printf "\n"
     exit 1
 }
@@ -37,7 +36,7 @@ color_array=($BLK $RED $GRN $YLW $BLU $MAG $CYN $WHT \
 # Uses the sourced color array to create a sequence
 # of escape codes for x terminals, and update their
 # colors without restarting them
-function update_terminals() 
+update_terminals() 
 {
     local sequence=""
 
@@ -65,7 +64,7 @@ function update_terminals()
 # given colors. 
 # Notes:
 #   Requires wmctrl to identify window manager
-function update_wm() 
+update_wm() 
 {
     if [[ ! $(command -v wmctrl) ]]; then
         printf "Error: cmtrl not found, wm will not be reloaded\n"
@@ -90,7 +89,7 @@ function update_wm()
 # Notes:
 #   Requires neovim-remote to function
 #   Will overwrite the current theme in you .vimrc 
-function update_nvim()
+update_nvim()
 {
     if [[ -z ${VIM_SCHEME} ]]; then
         printf "Error: VIM_SCHEME not set: not changing vim colorscheme\n"
@@ -102,7 +101,7 @@ function update_nvim()
 
 # Kills all current instances of lemonbar and starts the current bar in the background
 # Notes:
-function update_bar() 
+update_bar() 
 {
     if [[ $(pgrep lemonbar) ]]; then
         pkill -x lemonbar
@@ -112,16 +111,34 @@ function update_bar()
     ( ${BAR_SCRIPT} &) > /dev/null 2>&1
 }
 
-function update_wall()
+# Updates the current wallpaper
+# Supports the following backends: 
+#   hsetroot
+#   feh 
+#   nitrogen
+update_wall()
 {
     if [[ -z ${WALLPAPER_PATH} ]]; then
         printf "Error: WALLPAPER_PATH not set: not changing wallpaper\n"
-    else
+    elif [[ $(command -v hsetroot) ]]; then
         hsetroot -"${WALLPAPER_STYLE}" "${WALLPAPER_PATH}"
+    elif [[ $(command -v feh) ]]; then
+        if [[ ${WALLPAPER_STYLE} == "tile" ]]; then
+            feh --bg-fill "${WALLAPPER_PATH}"
+        else
+            feh --bg-tile "${WALLPAPER_PATH}"
+        fi
+
+    elif [[ $(command -v nitrogen) ]]; then
+        if [[ ${WALLPAPER_STYLE} == "tile" ]]; then
+            nitrogen --set-tiled "${WALLAPPER_PATH}"
+        else
+            nitrogen --set-zoom "${WALLPAPER_PATH}"
+        fi
     fi
 }
 
-function update_dunst()
+update_dunst()
 {
     if [[ -z ${DUNST_PATH} ]]; then
         printf "Error: Dunst path not set: not reloading dunst\n"
@@ -148,7 +165,7 @@ function update_dunst()
 #   TWOBWM_PATH
 # Notes:
 #   Requires xdotool to reload 2bwm
-function reload_2bwm() 
+reload_2bwm() 
 {
     local dir="${TWOBWM_PATH}"
     local file="${TWOBWM_PATH}/config.h"
@@ -169,7 +186,7 @@ function reload_2bwm()
     xdotool key "super+ctrl+r"
 }
 
-function reload_bspwm()
+reload_bspwm()
 {
     if [[ -z ${BSPWM_PATH} ]]; then
         printf "Error: BSPWM_PATH not found, not reloading bspwm\n"
@@ -178,7 +195,7 @@ function reload_bspwm()
     fi
 }
 
-function reload_chef()
+reload_chef()
 {
     if [[ -z ${CHEF_PATH} ]]; then
         printf "Error: CHEF_PATH not found, not reloading windowchef\n"
@@ -187,7 +204,7 @@ function reload_chef()
     fi
 }
 
-function reload_ob() {
+reload_ob() {
     if [[ -z ${OB_PATH} ]]; then
         printf "Error: OB_PATH not found, not reloading openbox\n"
     else
@@ -201,7 +218,7 @@ function reload_ob() {
 # NOTE: Requires neovim-remote to function
 # Notes:
 #   Requires neovim-remote to function
-function reload_nvim()
+reload_nvim()
 {
     if [[ ! $(command -v nvr) ]]; then
         printf "Error:: neovim-remote not found\n"
@@ -219,7 +236,7 @@ function reload_nvim()
 # Arguments: 
 #   sequence: escape codes for terminals
 # Notes:
-function reload_terminals() 
+reload_terminals() 
 {
     local seq="${1}"
 
@@ -237,7 +254,7 @@ function reload_terminals()
 #   This file is only useful if it is source in ${HOME}/.Xresources
 #   This can be done with the line: 
 #       #include ".cache/squash/x_colors"
-function write_x() 
+write_x() 
 {
    local x_output=""
    local x_output+="*.foreground:   ${FG}${NEWLINE}"
@@ -250,8 +267,6 @@ function write_x()
 
    local rofi_output=""
    local rofi_output+="rofi.color-enaled: true${NEWLINE}"
-   #local rofi_output+="rofi.color-window: ${BG}, ${BG}, ${BLK}${NEWLINE}"
-   #local rofi_output+="rofi.color-normal: ${BG}, ${FG}, ${BG}, ${BLK}, ${ACC}${NEWLINE}"
    #                                        bg      fg     bgalt  hlbg     hlfg
    local rofi_output+="rofi.color-window: ${BLK}, ${BLK}, ${BLK}${NEWLINE}"
    local rofi_output+="rofi.color-normal: ${BLK}, ${FG}, ${BLK}, ${BBLK}, ${ACC}${NEWLINE}"
@@ -277,7 +292,7 @@ function write_x()
 # to the ${CACHE_DIR}. Can be sourced by any number of applicatons. 
 # Globals:
 #   CACHE_DIR
-function write_css() 
+write_css() 
 {
    local css_output=""
    local css_output+=":root {${NEWLINE}"
@@ -296,7 +311,7 @@ function write_css()
 # that want access to the variables in the bash script
 # Globals:
 #   CACHE_DIR
-function write_sh() 
+write_sh() 
 {
     rm -f ${CACHE_DIR}/colors
     cp ${THEME_DIR}/${COLOR_SCHEME} ${CACHE_DIR}/colors
