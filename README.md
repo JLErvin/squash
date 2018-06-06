@@ -2,6 +2,8 @@
     <h1>squash</h1><br>
 </div>
 
+*NOTE* active development has moved to gitlab. Can be found [here](https://gitlab.com/JLErvin/squash)
+
 `squash` is a dead-simple bash script that allows users to create custom themes and 
 quickly apply them to terminals, panels, browsers, and window managers. `squash` stores
 themes in pure bash-scripts, allowing it to be extensible and versitile. 
