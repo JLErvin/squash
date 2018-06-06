@@ -18,10 +18,13 @@ To understand how `squash` interacts with various system applications, check the
     cd squash
     ```
 
-2) Run the install script. This creates a `squash` directory located in `$HOME/.config/squash`.
-`squash` will store default behavior and themes here. 
+2)  Move themes and default configuration file into `$HOME/.config`
     ```sh
-    ./install.sh
+    mkdir $HOME/.config/squash
+    mkdir $HOME/.config/squash/themes
+    cp -r themes/* $HOME/.config/squash/themes/
+    cp defaults $HOME/.config/squash/defaults
+
     ```
 
 3) Finally, add `squash` to your path
