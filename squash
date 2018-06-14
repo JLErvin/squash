@@ -353,20 +353,19 @@ main()
     COLOR_ARRAY=($BLK $RED $GRN $YLW $BLU $MAG $CYN $WHT \
                  $BBLK $BRED $BGRN $BYLW $BBLU $BMAG $BCYN $BWHT)
 
-    [[ ! "${WRITE_ALL}" == "NO" ]] && write_x
-    [[ ! "${WRITE_ALL}" == "NO" ]] && write_sh
-    [[ ! "${WRITE_ALL}" == "NO" ]] && write_css
-    [[ ! "${WRITE_ALL}" == "NO" ]] && write_plain
+    [[ ! "${WRITE_ALL}" = "NO" ]] && write_x
+    [[ ! "${WRITE_ALL}" = "NO" ]] && write_sh
+    [[ ! "${WRITE_ALL}" = "NO" ]] && write_css
+    [[ ! "${WRITE_ALL}" = "NO" ]] && write_plain
 
     xrdb "${HOME}/.Xresources"
 
-    [[ ! "${RELOAD_WALLPAPER}" == "NO" ]] && update_wall 
-    [[ ! "${RELOAD_TERMINALS}" == "NO" ]] && update_terminals
-    [[ ! "${RELOAD_NVIM}" == "NO" ]] && update_nvim
-    [[ ! "${RELOAD_BAR}" == "NO" ]] && update_bar
-    [[ ! "${RELOAD_WM}" == "NO" ]] && update_wm
-    [[ ! "${RELOAD_DUNST}" == "NO" ]] && update_dunst
-    [[ ! "${EXTERNAL_SCRIPT}" == "NO" ]] && update_dunst
+    [[ "${RELOAD_WALLPAPER}" != "NO" ]] && update_wall 
+    [[ "${RELOAD_TERMINALS}" != "NO" ]] && update_terminals
+    [[ "${RELOAD_NVIM}" != "NO" ]] && update_nvim
+    [[ "${RELOAD_BAR}" != "NO" ]] && update_bar
+    [[ "${RELOAD_WM}" != "NO" ]] && update_wm
+    [[ "${RELOAD_DUNST}" != "NO" ]] && update_dunst
     [[ $(command ${EXTERNAL_SCRIPT})  ]] && run_post
 }
 
