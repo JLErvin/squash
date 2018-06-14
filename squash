@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 #
-# squash - simple bash script to manage and apply
-#          colors on unix systems
+# a simple bash script to manage and apply
+# colors to applications on unix systems
 #
 # written by Joshua Ervin
 # jlervin@posteo.net
 
 CACHE_DIR="${HOME}/.cache/squash"
 THEME_DIR="${HOME}/.config/squash/themes"
+CONFIG_DIR="${HOME}/.config/squash"
 NEWLINE=$'\n'
 
 usage()
@@ -81,6 +82,9 @@ update_wm()
             ;;
             $"i3")
                 reload_i3
+            ;;
+            $"herbstluftwm")
+                reload_herbst
             ;;
         esac
     fi
@@ -160,6 +164,16 @@ reload_2bwm()
     cd ${dir} && make && sudo make install && cd
 
     xdotool key "super+ctrl+r"
+}
+
+reload_herbst()
+{
+    if [[ ! $(command -v xdotool) ]]; then
+        printf "Error: xdotool not found\n"
+        printf "Not reloading herbstluftwm\n"
+    else
+        xdotool key "super+shift+r"
+    fi
 }
 
 reload_bspwm()
@@ -273,6 +287,9 @@ write_plain()
         local output+="${COLOR_ARRAY[${i}]}${NEWLINE}"
     done
 
+    local output+="${BG}${NEWLINE}"
+    local output+="${FG}${NEWLINE}"
+
     printf "${output}" > "${CACHE_DIR}/colors.txt"
 }
 
@@ -283,6 +300,15 @@ list_files()
             printf "$(basename "${file}")${NEWLINE}"
         fi
     done
+}
+
+run_post()
+{
+    if [[ ! $(command ${EXTERNAL_SCRIPT}) ]]; then
+        printf "Error, external script not found${NEWLINE}"
+    else
+        ${EXTERNAL_SCRIPT} &
+    fi
 }
 
 get_args()
@@ -321,7 +347,7 @@ get_args()
 main()
 {
     get_args "${@}"
-    source "${HOME}/.config/squash/defaults"
+    source "${CONFIG_DIR}/defaults"
     source "${THEME_DIR}/${COLOR_SCHEME}"
 
     COLOR_ARRAY=($BLK $RED $GRN $YLW $BLU $MAG $CYN $WHT \
@@ -340,6 +366,8 @@ main()
     [[ ! "${RELOAD_BAR}" == "NO" ]] && update_bar
     [[ ! "${RELOAD_WM}" == "NO" ]] && update_wm
     [[ ! "${RELOAD_DUNST}" == "NO" ]] && update_dunst
+    [[ ! "${EXTERNAL_SCRIPT}" == "NO" ]] && update_dunst
+    [[ $(command ${EXTERNAL_SCRIPT})  ]] && run_post
 }
 
 main "${@}"
