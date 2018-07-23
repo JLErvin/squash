@@ -16,19 +16,20 @@ To understand how `squash` interacts with various system applications, check the
 ## Installation
 
 1) Clone the repository and cd into it
-    ```sh
-    git clone https://github.com/JLErvin/squash
-    cd squash
-    ```
+
+```sh
+git clone https://github.com/JLErvin/squash
+cd squash
+```
 
 2)  Move themes and default configuration file into `$HOME/.config`
-    ```sh
-    mkdir $HOME/.config/squash
-    mkdir $HOME/.config/squash/themes
-    cp -r themes/* $HOME/.config/squash/themes/
-    cp defaults $HOME/.config/squash/defaults
 
-    ```
+```sh
+mkdir $HOME/.config/squash
+mkdir $HOME/.config/squash/themes
+cp -r themes/* $HOME/.config/squash/themes/
+cp defaults $HOME/.config/squash/defaults
+```
 
 3) Finally, add `squash` to your path
 
