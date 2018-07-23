@@ -168,11 +168,16 @@ reload_2bwm()
 
 reload_herbst()
 {
-    if [[ ! $(command -v xdotool) ]]; then
-        printf "Error: xdotool not found\n"
-        printf "Not reloading herbstluftwm\n"
+    herbstclient reload &
+}
+
+reload_i3()
+{
+    if [[ ! $(command -v nvr) ]]; then
+        printf "Error: i3-msg not found\n"
     else
-        xdotool key "super+shift+r"
+        i3-msg reload
+        i3-msg restart
     fi
 }
 
