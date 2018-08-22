@@ -86,6 +86,9 @@ update_wm()
             $"herbstluftwm")
                 reload_herbst
             ;;
+            $"berry")
+                reload_berry
+            ;;
         esac
     fi
 }
@@ -169,6 +172,11 @@ reload_2bwm()
 reload_herbst()
 {
     herbstclient reload &
+}
+
+reload_berry()
+{
+    . $HOME/.config/berry/autostart
 }
 
 reload_i3()
