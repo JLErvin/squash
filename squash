@@ -67,7 +67,7 @@ update_terminals()
 update_wm() 
 {
     if [[ ! $(command -v wmctrl) ]]; then
-        printf "Error: cmtrl not found, wm will not be reloaded\n"
+        printf "Error: wmctrl not found, wm will not be reloaded\n"
     else
         wm=$(wmctrl -m | grep Name | cut -d' ' -f2)
         case ${wm} in
