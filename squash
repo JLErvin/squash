@@ -359,6 +359,7 @@ get_args()
 
 main()
 {
+    mkdir -p $HOME/.cache/squash
     get_args "${@}"
     source "${CONFIG_DIR}/defaults"
     source "${THEME_DIR}/${COLOR_SCHEME}"
