@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# DEFINE COLORS
+BG="#263238"
+FG="#eeffff"
+
+BLK="#2e3c43"
+RED="#f07178"
+GRN="#c3e88d"
+YLW="#ffcb6b"
+BLU="#82aaff"
+MAG="#c792ea"
+CYN="#89ddff"
+WHT="#b2ccd6"
+
+BBLK="#546e7a"
+BRED="#f07178"
+BGRN="#c3e88d"
+BYLW="#ffcb6b"
+BBLU="#82aaff"
+BMAG="#c792ea"
+BCYN="#89ddff"
+BWHT="#eeffff"
+
+# ROFI OPTIONS
+ACC="${YLW}"
+
+# BAR OPTIONS
+BAR_SCRIPT="simplebar"
+
+# VIM COLORSCHEME
+VIM_SCHEME="base16-material"
+
+# WALLPAPER OPTIONS
+WALLPAPER_PATH="$HOME/wallpapers/giuseppe-mondi-801289-unsplash.jpg"
+WALLPAPER_STYLE="fill"
+
+# 2BWM OPTIONS
+TWOBWM_FOCUS="${BBLK}"
+TWOBWM_UNFOCUS="${BLK}"
+TWOBWM_FIXED="${RED}"
+TWOBWM_UNKILL="${CYN}"
+TWOBWM_FIXEDUNK="${MAG}"
+TWOBWM_OUTR="${BG}"
+TWOBWM_EMP="${BG}"
+
+# BSPWM OPTIONS
+BSPWM_NORMAL="${BBLK}"
+BSPWM_FOCUSED="${CYN}"
+BSPWM_URGENT="${RED}"
+BSPWM_PRESEL="${GRN}"
+SQUASH_FONT="xft:Dina:pixelsize=12"
+
+# DMENU
+DMENU_FONT="Dina-12"
